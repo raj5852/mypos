@@ -17,6 +17,19 @@
             <li>
                 <a href="index.html"><i class="material-icons-two-tone">dashboard</i>Dashboard</a>
             </li>
+
+            <li class="">
+                <a href="#"><i class="material-icons-two-tone">ad_units</i>
+                    Units<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{{ route('units.create') }}" class="">Add units</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('units.index') }}" class="">Manage units</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
 </div>

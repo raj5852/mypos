@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
+use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Livewire::setUpdateRoute(function ($handle) {
+            return Route::post('/livewire/update', $handle)
+                ->middleware(
+                    'web',
+                    'universal',
+                    InitializeTenancyByDomain::class, // or whatever tenancy middleware you use
+                );
+        });
     }
 }

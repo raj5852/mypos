@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\TestController;
+use App\Models\Unit;
+use Carbon\Carbon;
+use Faker\Core\Number;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,9 +17,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('users.dashboard');
+    //    return Number::forhumans(1000);
+    // return 1;
 });
-
-
-
-Route::post('store',[TestController::class,'store']);

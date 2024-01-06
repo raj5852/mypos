@@ -14,7 +14,6 @@
             <x-button type="submit" class="btn btn-primary">
                 Submit
             </x-button>
-
         </form>
     </x-modal>
 @endsection

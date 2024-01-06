@@ -26,6 +26,8 @@
     <link href="{{ asset('assets/plugins/perfectscroll/perfect-scrollbar.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/pace/pace.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/highlight/styles/github-gist.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <!-- Theme Styles -->
     <link href="{{ asset('assets/css/main.min.css') }}" rel="stylesheet">
@@ -60,6 +62,48 @@
     <script src="{{ asset('assets/plugins/highlight/highlight.pack.js') }}"></script>
     <script src="{{ asset('assets/js/main.min.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script>
+        @if(Session::has('message'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.success("{{ session('message') }}");
+        @endif
+
+        @if(Session::has('error'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.error("{{ session('error') }}");
+        @endif
+
+        @if(Session::has('info'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.info("{{ session('info') }}");
+        @endif
+
+        @if(Session::has('warning'))
+        toastr.options =
+        {
+            "closeButton" : true,
+            "progressBar" : true
+        }
+                toastr.warning("{{ session('warning') }}");
+        @endif
+      </script>
+      @yield('js')
+
+
 </body>
 
 </html>
