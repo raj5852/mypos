@@ -1,6 +1,6 @@
 <div>
     <div class="card">
-        <div class="card-header">Edit Category</div>
+        <div class="card-header"><h3>Edit Category</h3></div>
         <div class="card-body">
             <form wire:submit.prevent="updateCategory" enctype="multipart/form-data">
                 <div class="mb-3">

@@ -1,51 +1,54 @@
 @extends('layouts.inc.user.app')
 @section('content')
     <div class="card">
-        <div class="card-header"><h3>Categories</h3></div>
+        <div class="card-header">
+            <h3>Brands</h3>
+        </div>
         <div class="card-body">
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Image</th>
-                        <th>Category</th>
+                        <th>Brand</th>
+                        <th>Description</th>
+                        <th>Logo</th>
                         <th>Count Products</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
 
-
-                    @forelse ($categories as $category)
+                    @forelse ($brands as $brand)
                         <tr>
-                            <td>{{ $category->id }} </td>
+                            <td>{{ $brand->id }} </td>
+                            <td>{{ $brand->name }} </td>
+                            <td>{{ $brand->description }} </td>
                             <td>
-                                @if ($category->image->image != '')
-                                    <img width="80px" src="{{ asset($category->image->image) }}" alt="">
+                                @if ($brand->image->image != '')
+                                    <img width="80px" src="{{ asset($brand->image->image) }}" alt="">
                                 @endif
                             </td>
-                            <td>{{ $category->name }} </td>
-                            <td>Product count</td>
+                            <td> Product count</td>
                             <td>
                                 <div class="">
-                                    <a class="btn btn-default btn-sm" href="{{ route('category.edit', $category->id) }}">
+                                    <a class="btn btn-default btn-sm" href="{{ route('brand.edit', $brand->id) }}">
                                         <i class="material-icons-two-tone">edit</i>
                                     </a>
                                     <a class="btn btn-default btn-sm delete"
-                                        href="{{ route('category.destroy', $category->id) }}">
+                                        href="{{ route('brand.destroy', $brand->id) }}">
                                         <i class="material-icons-two-tone">delete</i>
                                     </a>
                                 </div>
 
                             </td>
                         </tr>
-                        @empty
-                        <tfoot>
-                            <tr class="text-center">
-                                <td colspan="5">No record found</td>
-                            </tr>
-                        </tfoot>
-                        @endforelse
+                    @empty
+                <tfoot>
+                    <tr class="text-center">
+                        <td colspan="6">No record found!</td>
+                    </tr>
+                </tfoot>
+                @endforelse
 
                 </tbody>
             </table>

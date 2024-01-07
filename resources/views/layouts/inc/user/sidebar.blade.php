@@ -18,31 +18,45 @@
                 <a href="index.html"><i class="material-icons-two-tone">dashboard</i>Dashboard</a>
             </li>
 
-            <li class="">
+            <li class="{{ request()->is('units*') ? 'active-page' : '' }}">
                 <a href="#"><i class="material-icons-two-tone">ad_units</i>
                     Units<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
-                <ul class="sub-menu">
+                <ul class="sub-menu" style="display: none;">
                     <li>
-                        <a href="{{ route('units.create') }}" class="">Add units</a>
+                        <a href="{{ route('units.create') }}" class="{{request()->is('units/create') ? 'active':''}}">Add units</a>
                     </li>
                     <li>
-                        <a href="{{ route('units.index') }}" class="">Manage units</a>
+                        <a href="{{ route('units.index') }}" class="{{request()->is('units') ? 'active':''}}">Manage units</a>
                     </li>
                 </ul>
             </li>
 
-            <li class="">
+            <li class="{{ request()->is('category*') ? 'active-page' : '' }}">
                 <a href="#"><i class="material-icons-two-tone">category</i>
                     Category<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
-                <ul class="sub-menu">
+                <ul class="sub-menu" style="display: none;">
                     <li>
-                        <a href="{{ route('category.create') }}" class="">Add category</a>
+                        <a href="{{ route('category.create') }}" class="{{request()->is('category/create') ? 'active':''}}">Add category</a>
                     </li>
                     <li>
-                        <a href="{{ route('category.index') }}" class="">Manage category</a>
+                        <a href="{{ route('category.index') }}" class="{{request()->is('category') ? 'active':''}}">Manage category</a>
                     </li>
                 </ul>
             </li>
+
+            <li class="{{ request()->is('brand*') ? 'active-page' : '' }}">
+                <a href="#"><i class="material-icons-two-tone">military_tech</i>
+                    Brand<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu" style="display: none;">
+                    <li>
+                        <a href="{{ route('brand.create') }}" class="{{request()->is('brand/create') ? 'active':''}}">Add brand</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('brand.index') }}" class="{{request()->is('brand') ? 'active':''}}">Manage brand</a>
+                    </li>
+                </ul>
+            </li>
+
 
         </ul>
     </div>

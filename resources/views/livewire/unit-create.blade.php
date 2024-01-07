@@ -1,5 +1,5 @@
 <div class="card">
-
+    <div class="card-header"><h3>New unit</h3></div>
     <div class="card-body">
         <form wire:submit.prevent="unitstore">
 

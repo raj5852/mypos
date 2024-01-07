@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UnitController;
 use App\Models\Category;
@@ -33,8 +34,8 @@ Route::middleware([
 
     Route::view('/', 'users.dashboard');
     Route::resource('units', UnitController::class)->only('index', 'create', 'destroy');
-    Route::resource('category', CategoryController::class);
-
+    Route::resource('category', CategoryController::class)->only('index','create','edit','destroy');
+    Route::resource('brand',BrandController::class)->only('index','create','edit','destroy');
 
 
     Route::get('demo', function () {

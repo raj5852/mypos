@@ -1,6 +1,6 @@
 <div>
     <div class="card">
-        <div class="card-header">New Category</div>
+        <div class="card-header"><h3>New Category</h3></div>
         <div class="card-body">
             <form wire:submit.prevent="categorystore" enctype="multipart/form-data">
                 <div class="mb-3">
@@ -24,7 +24,13 @@
                     @endif
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button wire:loading.attr="disabled"  wire:target="categorystore" type="submit" class="btn btn-primary">Submit
+
+                        <div wire:loading wire:target="categorystore" class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+
+                    </button>
                 </div>
             </form>
         </div>
