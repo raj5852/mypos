@@ -30,6 +30,20 @@
                     </li>
                 </ul>
             </li>
+
+            <li class="">
+                <a href="#"><i class="material-icons-two-tone">category</i>
+                    Category<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu">
+                    <li>
+                        <a href="{{ route('category.create') }}" class="">Add category</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('category.index') }}" class="">Manage category</a>
+                    </li>
+                </ul>
+            </li>
+
         </ul>
     </div>
 </div>

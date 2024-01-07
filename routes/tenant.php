@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UnitController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -29,7 +31,13 @@ Route::middleware([
     // });
 
 
-    Route::view('/','users.dashboard');
-    Route::resource('units',UnitController::class)->only('index','create','destroy');
+    Route::view('/', 'users.dashboard');
+    Route::resource('units', UnitController::class)->only('index', 'create', 'destroy');
+    Route::resource('category', CategoryController::class);
 
+
+
+    Route::get('demo', function () {
+        // return storage_path();
+    });
 });

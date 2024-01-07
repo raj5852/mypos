@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Models\Category;
 use App\Models\Unit;
 use Carbon\Carbon;
 use Faker\Core\Number;
@@ -17,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    //    return Number::forhumans(1000);
-    // return 1;
+
 });
+
+// Route::get('categorydadasdf', [CategoryController::class,'create']);

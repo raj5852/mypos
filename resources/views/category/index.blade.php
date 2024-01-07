@@ -1,5 +1,4 @@
 @extends('layouts.inc.user.app')
-
 @section('content')
     <div class="card">
         <div class="card-body">
@@ -7,70 +6,50 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Related To</th>
-                        <th>Related Sign</th>
-                        <th>Related By</th>
-                        <th>Result</th>
+                        <th>Image</th>
+                        <th>Category</th>
+                        <th>Count Products</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
 
 
-
-                    @forelse ($units as $unit)
+                    @forelse ($categories as $category)
                         <tr>
-                            <td>{{ $unit->id }} </td>
-                            <td>{{ $unit->unit_name }} </td>
-                            <td>{{ $unit->relatedtodata->unit_name ?? '-' }} </td>
-                            <td>{{ $unit->operator ?? '-' }} </td>
-                            <td>{{ $unit->related_by_value ?? '-' }} </td>
+                            <td>{{ $category->id }} </td>
                             <td>
-                                @if ($unit->related_by_value != '')
-                                    {{ $unit->unit_name }} = 1 {{ $unit->related_to_unit }} * {{ $unit->related_by_value }}
+                                @if ($category->image->image != '')
+                                    <img width="80px" src="{{ asset($category->image->image) }}" alt="">
                                 @endif
-
                             </td>
+                            <td>{{ $category->name }} </td>
+                            <td>Product count</td>
                             <td>
-                                <!-- Example single danger button -->
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-light dropdown-toggle btn-sm"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="material-icons-two-tone">settings</i>
-                                    </button>
-                                    <ul class="dropdown-menu ">
-                                        <li>
-                                           <div class="d-flex">
-                                            <i class="material-icons-two-tone mt-2">delete</i>
-                                            <a class="dropdown-item delete" href="{{ route('units.destroy', $unit->id) }}">
-
-                                                Delete</a>
-                                           </div>
-                                        </li>
-                                    </ul>
+                                <div class="">
+                                    <a class="btn btn-default btn-sm" href="{{ route('category.edit', $category->id) }}">
+                                        <i class="material-icons-two-tone">edit</i>
+                                    </a>
+                                    <a class="btn btn-default btn-sm delete"
+                                        href="{{ route('category.destroy', $category->id) }}">
+                                        <i class="material-icons-two-tone">delete</i>
+                                    </a>
                                 </div>
-
-
-
 
                             </td>
                         </tr>
                         @empty
                         <tfoot>
                             <tr class="text-center">
-                                <td colspan="7">No record found </td>
+                                <td colspan="5">No record found</td>
                             </tr>
                         </tfoot>
-
                         @endforelse
-                </tbody>
 
+                </tbody>
             </table>
         </div>
     </div>
-
-
 
     <div class="modal fade show" id="confirm-modal" tabindex="-1" aria-modal="true">
         <div class="modal-dialog modal-sm">
