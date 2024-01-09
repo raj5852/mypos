@@ -29,7 +29,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <select wire:model="category_id"
-                                    class="form-control @error('category_id')  is-invalid @enderror" id="category">
+                                    class="form-select @error('category_id')  is-invalid @enderror" id="category">
                                     <option value="">Select category</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->name }} </option>
@@ -42,7 +42,8 @@
                             </div>
 
                             <div class="col-2">
-                                <button type="button" class="btn btn-secondary">Add category</button>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#categoryModal">Add category</button>
                             </div>
                         </div>
                     </div>
@@ -64,7 +65,8 @@
                                 @enderror
                             </div>
                             <div class="col-2">
-                                <button type="button" class="btn btn-secondary">Add Brand</button>
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                data-bs-target="#brandModal">Add Brand</button>
                             </div>
                         </div>
 
@@ -148,8 +150,10 @@
                         @enderror
                     </div>
                     <div class="col-md-8 mb-3">
-                        <label for="code" class="form-label @error('image') is-invalid @enderror ">Product image </label>
-                        <input type="file" wire:model.live="image" class="form-control" accept="image/png, image/gif, image/jpeg">
+                        <label for="code" class="form-label @error('image') is-invalid @enderror ">Product image
+                        </label>
+                        <input type="file" wire:model.live="image" class="form-control"
+                            accept="image/png, image/gif, image/jpeg">
                         @error('image')
                             <span class="invalid-feedback">{{ $message }} </span>
                         @enderror
@@ -173,4 +177,75 @@
             </form>
         </div>
     </div>
+
+    <div wire:ignore.self class="modal fade" id="categoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form wire:submit.prevent="categoryStore">
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Category name</label>
+                            <input wire:model="category_name" type="text" class="form-control @error('category_name') is-invalid @enderror "
+                                placeholder="Category name">
+                            @error('category_name')
+                                <span class="invalid-feedback">{{ $message }} </span>
+                            @enderror
+                        </div>
+                        <button wire:loading.attr="disabled" wire:target="categoryStore" type="submit" class="btn btn-primary">Submit
+
+                            <div wire:loading wire:target="categoryStore" class="spinner-border spinner-border-sm" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+
+
+                        </button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="brandModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Create Brand</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form wire:submit.prevent="brandStore">
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Brand name</label>
+                        <input wire:model="brand_name" type="text" class="form-control @error('brand_name') is-invalid @enderror "
+                            placeholder="Category name">
+                        @error('brand_name')
+                            <span class="invalid-feedback">{{ $message }} </span>
+                        @enderror
+                    </div>
+                    <button wire:loading.attr="disabled" wire:target="brandStore" type="submit" class="btn btn-primary">Submit
+
+                        <div wire:loading wire:target="brandStore" class="spinner-border spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+
+
+                    </button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>

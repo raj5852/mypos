@@ -13,7 +13,40 @@ class Create extends Component
 {
     use WithFileUploads;
     public $name, $code, $category_id, $brand_id, $main_unit, $main_unit_name,  $sub_unit, $sub_unit_value,
-        $stock, $sub_stock, $sale_price, $purchase_cost, $details, $image;
+        $stock, $sub_stock, $sale_price, $purchase_cost, $details, $image, $category_name, $brand_name;
+
+
+    function categoryStore()
+    {
+        $this->validate([
+            'category_name' => ['required', 'unique:categories,name'],
+        ]);
+
+        Category::create([
+            'name' => $this->category_name
+        ]);
+
+        session()->flash('message', 'Category successfully updated.');
+        $this->reset('category_name');
+        $this->dispatch('closeModal', '');
+
+    }
+
+
+    function brandStore()
+    {
+        $this->validate([
+            'brand_name' => ['required', 'unique:brands,name'],
+        ]);
+
+        Brand::create([
+            'name' => $this->brand_name
+        ]);
+        $this->reset('brand_name');
+        $this->dispatch('closeModal');
+        session()->flash('message','Brand created successfully');
+    }
+
 
     function productstore()
     {

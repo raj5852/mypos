@@ -10,4 +10,11 @@ class Product extends Model
 {
     use HasFactory, ModelData;
     protected $guarded = [];
+
+    function category()
+    {
+        return $this->belongsTo(Category::class)->withDefault([
+            'name'=>null
+        ]);
+    }
 }

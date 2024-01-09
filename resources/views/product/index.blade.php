@@ -1,7 +1,9 @@
 @extends('layouts.inc.user.app')
 @section('content')
     <div class="card">
-        <div class="card-header"><h3>All products</h3></div>
+        <div class="card-header">
+            <h3>All products</h3>
+        </div>
         <div class="card-body">
             <table class="table table-bordered">
                 <thead>
@@ -16,8 +18,25 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-
+                <tbody>
+                    @foreach ($products as $product)
+                        <tr>
+                            <td>{{ ++$i }} </td>
+                            <td>
+                                <img src="{{ asset($product->image->image) }}" width="60px" alt="">
+                            </td>
+                            <td>{{ $product->code }} </td>
+                            <td>{{ $product->name }} </td>
+                            <td>{{ $product->category->name }} </td>
+                            <td>{{ $product->sale_price }} </td>
+                            <td>{{ $product->purchase_cost }} </td>
+                            <td></td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
+
+            {{ $products->links() }}
         </div>
     </div>
 @endsection

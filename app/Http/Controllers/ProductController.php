@@ -15,7 +15,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('product.index');
+        $products = Product::query()
+            ->latest()
+            ->with(['category:id,name'])
+            ->paginate(15);
+
+        return view('product.index', compact('products'))
+            ->with('i', (request()->input('page', 1) - 1) * 15);
     }
 
     /**

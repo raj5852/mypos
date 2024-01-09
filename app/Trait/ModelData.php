@@ -9,7 +9,7 @@ trait ModelData
     function image()
     {
         return $this->morphOne(Image::class, 'imageable')->withDefault([
-            'image' => null
+            'image' => 'assets/images/404.png'
         ]);
     }
 }
