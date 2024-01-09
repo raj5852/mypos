@@ -29,7 +29,7 @@
                             <td>{{ $unit->related_by_value ?? '-' }} </td>
                             <td>
                                 @if ($unit->related_by_value != '')
-                                    {{ $unit->unit_name }} = 1 {{ $unit->related_to_unit }} * {{ $unit->related_by_value }}
+                                    {{ $unit->unit_name }} = 1 {{ $unit->relatedtodata->unit_name }} * {{ $unit->related_by_value }}
                                 @endif
 
                             </td>

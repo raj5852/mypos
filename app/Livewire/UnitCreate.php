@@ -39,10 +39,10 @@ class UnitCreate extends Component
         }
 
         Unit::create([
-            'unit_name' => $this->unit_name,
-            'related_to_unit' =>  $this->related_to_unit,
-            'operator' => $this->operator,
-            'related_by_value' => $this->related_by_value,
+            'unit_name' => $this->unit_name ?: null,
+            'related_to_unit' =>  $this->related_to_unit ?: null,
+            'operator' => $this->operator ?: null,
+            'related_by_value' => $this->related_by_value ?: null,
         ]);
 
         return to_route('units.index')->with('message', 'Unit created successfull');
