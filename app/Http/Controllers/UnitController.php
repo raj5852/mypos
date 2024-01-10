@@ -14,6 +14,7 @@ class UnitController extends Controller
     {
         $units = Unit::with('relatedtodata:id,unit_name')->get();
         return view('units.index', compact('units'));
+
     }
 
     /**

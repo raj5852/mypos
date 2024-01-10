@@ -29,7 +29,6 @@ class Create extends Component
         session()->flash('message', 'Category successfully updated.');
         $this->reset('category_name');
         $this->dispatch('closeModal', '');
-
     }
 
 
@@ -44,7 +43,7 @@ class Create extends Component
         ]);
         $this->reset('brand_name');
         $this->dispatch('closeModal');
-        session()->flash('message','Brand created successfully');
+        session()->flash('message', 'Brand created successfully');
     }
 
 
@@ -52,7 +51,7 @@ class Create extends Component
     {
         $this->validate([
             'name' => ['required', 'max:256'],
-            'code' => ['nullable', 'unique:products,code', 'max:30'],
+            'code' => ['nullable','unique:products,code', 'max:30'],
             'category_id' => ['required', 'exists:categories,id'],
             'brand_id' => ['nullable', 'exists:brands,id'],
             'main_unit' => ['required', 'exists:units,id'],
@@ -96,6 +95,11 @@ class Create extends Component
         }
 
         return to_route('product.index')->with('message', 'Product created successfully');
+    }
+
+    function mount()
+    {
+        $this->code = productcode();
     }
 
     public function render()

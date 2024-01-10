@@ -2,15 +2,8 @@
 
 
 @section('content')
-    <div>
-        @if (session()->has('message'))
-            <div class="alert alert-success">
-                {{ session('message') }}
-            </div>
-        @endif
-    </div>
 
-    <livewire:product.create />
+    <livewire:product.create lazy />
 @endsection
 
 @section('js')

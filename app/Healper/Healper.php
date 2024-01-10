@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -30,6 +31,29 @@ function uploadimage($file, $path = 'img/', $width = 500, $height = 500)
 function filedelete($file_link)
 {
     if (File::exists($file_link)) {
-        File::delete($file_link);
+        if ($file_link != 'assets/images/404.png') {
+            File::delete($file_link);
+        }
     }
+}
+
+function productcode()
+{
+
+    $product = Product::latest('id')->first();
+    if (!$product) {
+        $number = 1;
+    } else {
+        $number = ($product->id) + 1;
+    }
+
+    $data = 8 - strlen($number);
+
+    $result = '';
+
+    for ($i = 0; $i < $data; $i++) {
+        $result .= '0';
+    }
+
+    return $result . $number;
 }

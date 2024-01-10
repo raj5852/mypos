@@ -35,11 +35,19 @@ Route::middleware([
 
     Route::view('/', 'users.dashboard');
     Route::resource('units', UnitController::class)->only('index', 'create', 'destroy');
-    Route::resource('category', CategoryController::class)->only('index','create','edit','destroy');
-    Route::resource('brand',BrandController::class)->only('index','create','edit','destroy');
-    Route::resource('product',ProductController::class);
+    Route::resource('category', CategoryController::class)->only('index', 'create', 'edit', 'destroy');
+    Route::resource('brand', BrandController::class)->only('index', 'create', 'edit', 'destroy');
+
+    //product add
+    Route::resource('product', ProductController::class)->only('index', 'create', 'edit', 'destroy','show');
+    Route::get('product/sellhistory/{id}',[ProductController::class,'sellhistory'])->name('product.sellhistory');
+    Route::get('product/barcode/{id}',[ProductController::class,'barcode'])->name('product.barcode');
+    Route::get('product/qrcode/{id}',[ProductController::class,'qrcode'])->name('product.qrcode');
+
+
 
     Route::get('demo', function () {
-        // return storage_path();
+        echo productcode(5);
     });
+
 });

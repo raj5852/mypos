@@ -17,8 +17,8 @@
                     <div class="col-md-8 mb-3">
                         <label for="code" class="form-label">Product Code</label>
                         <input type="text" wire:model="code"
-                            class="form-control @error('code')  is-invalid @enderror" id="code"
-                            placeholder="Product code">
+                            class="form-control @error('code')   is-invalid @enderror" value="{{$code}}" id="code"
+                            placeholder="Product code" readonly >
                         @error('code')
                             <span class="invalid-feedback">{{ $message }} </span>
                         @enderror

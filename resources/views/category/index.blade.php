@@ -1,7 +1,9 @@
 @extends('layouts.inc.user.app')
 @section('content')
     <div class="card">
-        <div class="card-header"><h3>Categories</h3></div>
+        <div class="card-header">
+            <h3>Categories</h3>
+        </div>
         <div class="card-body">
             <table class="table table-bordered">
                 <thead>
@@ -16,16 +18,16 @@
                 <tbody>
 
 
-                    @forelse ($categories as $category)
+                    @forelse ($categories as $key=>$category)
                         <tr>
-                            <td>{{ $category->id }} </td>
+                            <td>{{ $key+1 }} </td>
                             <td>
                                 @if ($category->image->image != '')
-                                    <img width="80px" src="{{ asset($category->image->image) }}" alt="">
+                                    <img width="40px" src="{{ asset($category->image->image) }}" alt="">
                                 @endif
                             </td>
                             <td>{{ $category->name }} </td>
-                            <td>Product count</td>
+                            <td>{{ $category->products_count }} </td>
                             <td>
                                 <div class="">
                                     <a class="btn btn-default btn-sm" href="{{ route('category.edit', $category->id) }}">
@@ -39,13 +41,13 @@
 
                             </td>
                         </tr>
-                        @empty
-                        <tfoot>
-                            <tr class="text-center">
-                                <td colspan="5">No record found</td>
-                            </tr>
-                        </tfoot>
-                        @endforelse
+                    @empty
+                <tfoot>
+                    <tr class="text-center">
+                        <td colspan="5">No record found</td>
+                    </tr>
+                </tfoot>
+                @endforelse
 
                 </tbody>
             </table>

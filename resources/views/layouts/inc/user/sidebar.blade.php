@@ -18,6 +18,11 @@
                 <a href="index.html"><i class="material-icons-two-tone">dashboard</i>Dashboard</a>
             </li>
 
+
+
+            <li class="sidebar-title">
+                PRODUCT INFORMATION
+            </li>
             <li class="{{ request()->is('units*') ? 'active-page' : '' }}">
                 <a href="#"><i class="material-icons-two-tone">ad_units</i>
                     Units<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
@@ -27,6 +32,18 @@
                     </li>
                     <li>
                         <a href="{{ route('units.index') }}" class="{{request()->is('units') ? 'active':''}}">Manage units</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="{{ request()->is('product*') ? 'active-page' : '' }}">
+                <a href="#"><i class="material-icons-two-tone">inventory_2</i>
+                    product<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu" style="display: none;">
+                    <li>
+                        <a href="{{ route('product.create') }}" class="{{request()->is('product/create') ? 'active':''}}">Add product</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('product.index') }}" class="{{request()->is('product') ? 'active':''}}">Manage product</a>
                     </li>
                 </ul>
             </li>
@@ -56,17 +73,8 @@
                     </li>
                 </ul>
             </li>
-            <li class="{{ request()->is('product*') ? 'active-page' : '' }}">
-                <a href="#"><i class="material-icons-two-tone">inventory_2</i>
-                    product<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
-                <ul class="sub-menu" style="display: none;">
-                    <li>
-                        <a href="{{ route('product.create') }}" class="{{request()->is('product/create') ? 'active':''}}">Add product</a>
-                    </li>
-                    <li>
-                        <a href="{{ route('product.index') }}" class="{{request()->is('product') ? 'active':''}}">Manage product</a>
-                    </li>
-                </ul>
+            <li class="sidebar-title">
+                PEOPLES
             </li>
 
 

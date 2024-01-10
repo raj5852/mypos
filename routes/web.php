@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
+    return asset('assets/images/404.png');
 });
 
 // Route::get('categorydadasdf', [CategoryController::class,'create']);

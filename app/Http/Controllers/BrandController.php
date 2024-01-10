@@ -12,7 +12,9 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::with('image')->get();
+         $brands = Brand::with('image')
+            ->withCount('products')
+            ->get();
         return view('brand.index', compact('brands'));
     }
 

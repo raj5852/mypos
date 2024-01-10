@@ -18,17 +18,17 @@
                 </thead>
                 <tbody>
 
-                    @forelse ($brands as $brand)
+                    @forelse ($brands as $key=>$brand)
                         <tr>
-                            <td>{{ $brand->id }} </td>
+                            <td>{{ $key+1 }} </td>
                             <td>{{ $brand->name }} </td>
                             <td>{{ $brand->description }} </td>
                             <td>
                                 @if ($brand->image->image != '')
-                                    <img width="80px" src="{{ asset($brand->image->image) }}" alt="">
+                                    <img width="40px" src="{{ asset($brand->image->image) }}" alt="">
                                 @endif
                             </td>
-                            <td> Product count</td>
+                            <td> {{ $brand->products_count }} </td>
                             <td>
                                 <div class="">
                                     <a class="btn btn-default btn-sm" href="{{ route('brand.edit', $brand->id) }}">

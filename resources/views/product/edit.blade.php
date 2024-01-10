@@ -1,3 +1,4 @@
-<div>
-    <!-- Walk as if you are kissing the Earth with your feet. - Thich Nhat Hanh -->
-</div>
+@extends('layouts.inc.user.app')
+@section('content')
+    <livewire:product.edit :product="$product" />
+@endsection

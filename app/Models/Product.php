@@ -14,7 +14,17 @@ class Product extends Model
     function category()
     {
         return $this->belongsTo(Category::class)->withDefault([
-            'name'=>null
+            'name' => null
         ]);
     }
+    function brand()
+    {
+        return $this->belongsTo(Brand::class)->withDefault([
+            'name' => 'No brand'
+        ]);
+    }
+
+    // protected $searchables = [
+    //     'name',
+    // ];
 }

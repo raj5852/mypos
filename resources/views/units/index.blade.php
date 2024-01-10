@@ -2,7 +2,9 @@
 
 @section('content')
     <div class="card">
-        <div class="card-header"><h3>Units</h3></div>
+        <div class="card-header">
+            <h3>Units</h3>
+        </div>
         <div class="card-body">
             <table class="table table-bordered">
                 <thead>
@@ -18,18 +20,17 @@
                 </thead>
                 <tbody>
 
-
-
-                    @forelse ($units as $unit)
+                    @forelse ($units as $ey=>$unit)
                         <tr>
-                            <td>{{ $unit->id }} </td>
+                            <td>{{ $ey + 1 }} </td>
                             <td>{{ $unit->unit_name }} </td>
                             <td>{{ $unit->relatedtodata->unit_name ?? '-' }} </td>
                             <td>{{ $unit->operator ?? '-' }} </td>
                             <td>{{ $unit->related_by_value ?? '-' }} </td>
                             <td>
                                 @if ($unit->related_by_value != '')
-                                    {{ $unit->unit_name }} = 1 {{ $unit->relatedtodata->unit_name }} * {{ $unit->related_by_value }}
+                                    {{ $unit->unit_name }} = 1 {{ $unit->relatedtodata->unit_name }} *
+                                    {{ $unit->related_by_value }}
                                 @endif
 
                             </td>
@@ -42,29 +43,26 @@
                                     </button>
                                     <ul class="dropdown-menu ">
                                         <li>
-                                           <div class="d-flex">
-                                            <i class="material-icons-two-tone mt-2">delete</i>
-                                            <a class="dropdown-item delete" href="{{ route('units.destroy', $unit->id) }}">
+                                            <div class="d-flex">
+                                                <i class="material-icons-two-tone mt-2">delete</i>
+                                                <a class="dropdown-item delete"
+                                                    href="{{ route('units.destroy', $unit->id) }}">
 
-                                                Delete</a>
-                                           </div>
+                                                    Delete</a>
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
 
-
-
-
                             </td>
                         </tr>
-                        @empty
-                        <tfoot>
-                            <tr class="text-center">
-                                <td colspan="7">No record found </td>
-                            </tr>
-                        </tfoot>
-
-                        @endforelse
+                    @empty
+                <tfoot>
+                    <tr class="text-center">
+                        <td colspan="7">No record found </td>
+                    </tr>
+                </tfoot>
+                @endforelse
                 </tbody>
 
             </table>
