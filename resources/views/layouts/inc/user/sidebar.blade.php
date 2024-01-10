@@ -28,10 +28,12 @@
                     Units<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                 <ul class="sub-menu" style="display: none;">
                     <li>
-                        <a href="{{ route('units.create') }}" class="{{request()->is('units/create') ? 'active':''}}">Add units</a>
+                        <a href="{{ route('units.create') }}"
+                            class="{{ request()->is('units/create') ? 'active' : '' }}">Add units</a>
                     </li>
                     <li>
-                        <a href="{{ route('units.index') }}" class="{{request()->is('units') ? 'active':''}}">Manage units</a>
+                        <a href="{{ route('units.index') }}" class="{{ request()->is('units') ? 'active' : '' }}">Manage
+                            units</a>
                     </li>
                 </ul>
             </li>
@@ -40,10 +42,12 @@
                     product<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                 <ul class="sub-menu" style="display: none;">
                     <li>
-                        <a href="{{ route('product.create') }}" class="{{request()->is('product/create') ? 'active':''}}">Add product</a>
+                        <a href="{{ route('product.create') }}"
+                            class="{{ request()->is('product/create') ? 'active' : '' }}">Add product</a>
                     </li>
                     <li>
-                        <a href="{{ route('product.index') }}" class="{{request()->is('product') ? 'active':''}}">Manage product</a>
+                        <a href="{{ route('product.index') }}"
+                            class="{{ request()->is('product') ? 'active' : '' }}">Manage product</a>
                     </li>
                 </ul>
             </li>
@@ -53,10 +57,12 @@
                     Category<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                 <ul class="sub-menu" style="display: none;">
                     <li>
-                        <a href="{{ route('category.create') }}" class="{{request()->is('category/create') ? 'active':''}}">Add category</a>
+                        <a href="{{ route('category.create') }}"
+                            class="{{ request()->is('category/create') ? 'active' : '' }}">Add category</a>
                     </li>
                     <li>
-                        <a href="{{ route('category.index') }}" class="{{request()->is('category') ? 'active':''}}">Manage category</a>
+                        <a href="{{ route('category.index') }}"
+                            class="{{ request()->is('category') ? 'active' : '' }}">Manage category</a>
                     </li>
                 </ul>
             </li>
@@ -66,10 +72,12 @@
                     Brand<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
                 <ul class="sub-menu" style="display: none;">
                     <li>
-                        <a href="{{ route('brand.create') }}" class="{{request()->is('brand/create') ? 'active':''}}">Add brand</a>
+                        <a href="{{ route('brand.create') }}"
+                            class="{{ request()->is('brand/create') ? 'active' : '' }}">Add brand</a>
                     </li>
                     <li>
-                        <a href="{{ route('brand.index') }}" class="{{request()->is('brand') ? 'active':''}}">Manage brand</a>
+                        <a href="{{ route('brand.index') }}" class="{{ request()->is('brand') ? 'active' : '' }}">Manage
+                            brand</a>
                     </li>
                 </ul>
             </li>
@@ -77,6 +85,20 @@
                 PEOPLES
             </li>
 
+            <li class="{{ request()->is('customer*') ? 'active-page' : '' }}">
+                <a href="#"><i class="material-icons-two-tone">groups</i>
+                    Customers<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu" style="display: none;">
+                    <li>
+                        <a href="{{ route('customer.create') }}"
+                            class="{{ request()->is('customer/create') ? 'active' : '' }}">Add customer</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('customer.index') }}" class="{{ request()->is('customer') ? 'active' : '' }}">Manage
+                            customer</a>
+                    </li>
+                </ul>
+            </li>
 
         </ul>
     </div>

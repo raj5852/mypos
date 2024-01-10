@@ -32,16 +32,17 @@ class ProductController extends Controller
                 $query->where('code', 'like', "%{$code}%");
             })
             ->when($category_id, function ($query) use ($category_id) {
-                $query->where('category_id', 'like', "%{$category_id}%");
+                $query->where('category_id', "{$category_id}");
             })
             ->when($brand_id, function ($query) use ($brand_id) {
-                $query->where('brand_id', 'like', "%{$brand_id}%");
+                $query->where('brand_id', "{$brand_id}");
             })
-            ->paginate(15);
-        $brands = Brand::get(['id','name']);
-        $categories = Category::get(['id','name']);
+            ->paginate(15)
+            ->withQueryString();
+        $brands = Brand::get(['id', 'name']);
+        $categories = Category::get(['id', 'name']);
 
-        return view('product.index', compact('products','brands','categories'))
+        return view('product.index', compact('products', 'brands', 'categories'))
             ->with('i', (request()->input('page', 1) - 1) * 15);
     }
 

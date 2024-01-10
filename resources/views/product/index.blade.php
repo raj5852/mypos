@@ -97,7 +97,7 @@
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-secondary dropdown-toggle btn-sm"
                                         data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="material-icons-two-tone">settings</i>
+                                        <x-setting-icon/>
                                     </button>
                                     <ul class="dropdown-menu ">
                                         <li>
