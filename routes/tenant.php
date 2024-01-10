@@ -6,6 +6,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UnitController;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
@@ -45,8 +46,10 @@ Route::middleware([
     Route::get('product/qrcode/{id}',[ProductController::class,'qrcode'])->name('product.qrcode');
 
 
-    //customer
+    //people
     Route::resource('customer',CustomerController::class);
+    Route::resource('supplier',SupplierController::class);
+
 
     Route::get('demo', function () {
         echo productcode(5);

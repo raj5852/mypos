@@ -27,10 +27,9 @@ class CustomerUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'max:256'],
             'email' => ['nullable', Rule::unique('customers', 'email')->ignore($id)],
-            'phone' => ['nullable', 'max:2000'],
+            'address' => ['nullable', 'max:2000'],
             'phone' => ['required', 'unique:customers,phone,' . $id],
-            'opening_receivable' => ['nullable', 'numeric'],
-            'opening_payable' => ['nullable', 'numeric'],
+
         ];
     }
 }

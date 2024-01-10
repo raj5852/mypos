@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class CustomerStoreRequest extends FormRequest
+class SupplierUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,13 +22,14 @@ class CustomerStoreRequest extends FormRequest
      */
     public function rules(): array
     {
+        $id = $this->route('supplier');
+
         return [
             'name' => ['required', 'max:256'],
-            'email' => ['nullable', 'unique:customers,email'],
+            'email' => ['nullable', Rule::unique('suppliers', 'email')->ignore($id)],
             'address' => ['nullable', 'max:2000'],
-            'phone' => ['required', 'unique:customers,phone'],
-            'opening_receivable' => ['nullable', 'numeric'],
-            'opening_payable' => ['nullable', 'numeric'],
+            'phone' => ['required', 'unique:suppliers,phone,' . $id],
+
         ];
     }
 }

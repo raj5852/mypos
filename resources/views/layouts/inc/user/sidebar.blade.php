@@ -99,6 +99,20 @@
                     </li>
                 </ul>
             </li>
+            <li class="{{ request()->is('supplier*') ? 'active-page' : '' }}">
+                <a href="#"><i class="material-icons-two-tone">manage_accounts</i>
+                    Suppliers<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu" style="display: none;">
+                    <li>
+                        <a href="{{ route('supplier.create') }}"
+                            class="{{ request()->is('supplier/create') ? 'active' : '' }}">Add supplier</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('supplier.index') }}" class="{{ request()->is('supplier') ? 'active' : '' }}">Manage
+                            supplier</a>
+                    </li>
+                </ul>
+            </li>
 
         </ul>
     </div>
