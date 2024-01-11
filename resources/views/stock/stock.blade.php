@@ -1,5 +1,7 @@
 @extends('layouts.inc.user.app')
-
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
+@endsection
 @section('content')
     <div class="card">
         <div class="card-body">
@@ -7,7 +9,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="mb-3">
-                            <input type="text" class="form-control" placeholder="Select product">
+                            <select class="form-control" id="search" name="product_id"></select>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -86,12 +88,12 @@
                                 <td>{{ $product->name }} </td>
                                 <td>{{ $product->category->name }} </td>
                                 <td>{{ $product->sale_price }} </td>
-                                <td>{{ $product->total_purchased }} </td>
+                                <td>{{ formateStock($product->mainunit, $product->subunit, $product->purchased) }} </td>
 
                                 <td>sold </td>
                                 <td>Damaged </td>
                                 <td>Returned </td>
-                                <td>{{ $product->available_stock }} </td>
+                                <td>{{ formateStock($product->mainunit, $product->subunit, $product->stock) }} </td>
                                 <td> {{ formatBalance($product->stock * $product->sale_price) }} TK</td>
                             </tr>
                         @empty
@@ -109,4 +111,34 @@
 
         </div>
     </div>
+@endsection
+@section('js')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <script>
+        $('select').select2({
+            width: '100%'
+        });
+        var path = "{{ route('product-list') }}";
+
+        $('#search').select2({
+            placeholder: 'Select Product',
+            ajax: {
+                url: path,
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: $.map(data, function(item) {
+                            return {
+                                text: item.name,
+                                id: item.id
+                            }
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+    </script>
 @endsection

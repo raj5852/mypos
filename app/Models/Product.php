@@ -10,10 +10,6 @@ class Product extends Model
 {
     use HasFactory, ModelData;
     protected $guarded = [];
-    protected $appends = [
-        'total_purchased',
-        'available_stock'
-    ];
 
     function category()
     {
@@ -36,43 +32,5 @@ class Product extends Model
     function subunit()
     {
         return $this->belongsTo(Unit::class, 'sub_unit');
-    }
-
-
-
-    function getTotalPurchasedAttribute()
-    {
-        if ($this->subunit != '') {
-            $value = $this->purchased;
-            $unitvalue = $this->mainunit->related_by_value;
-
-            $mainunit =  ($value / $unitvalue);
-            $firstUnitvalue = floor($mainunit);
-
-            $maindata  = $unitvalue * $firstUnitvalue;
-            $lastUnitValue   = $value - $maindata;
-
-            return $firstUnitvalue . ' ' . $this->mainunit->unit_name . ' ' . $lastUnitValue . ' ' . $this->subunit->unit_name;
-        } else {
-            return $this->purchased . ' ' . $this->mainunit->unit_name;
-        }
-    }
-
-    function getAvailableStockAttribute()
-    {
-        if ($this->subunit != '') {
-            $value = $this->stock;
-            $unitvalue = $this->mainunit->related_by_value;
-
-            $mainunit =  ($value / $unitvalue);
-            $firstUnitvalue = floor($mainunit);
-
-            $maindata  = $unitvalue * $firstUnitvalue;
-            $lastUnitValue   = $value - $maindata;
-
-            return $firstUnitvalue . ' ' . $this->mainunit->unit_name . ' ' . $lastUnitValue . ' ' . $this->subunit->unit_name;
-        } else {
-            return $this->stock . ' ' . $this->mainunit->unit_name;
-        }
     }
 }

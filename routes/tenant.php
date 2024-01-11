@@ -6,9 +6,12 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductListController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UnitController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -53,20 +56,13 @@ Route::middleware([
 
     //stock
     Route::get('stock', [StockController::class, 'index'])->name('product.stock');
+    Route::get('product-list', ProductListController::class)->name('product-list');
+    //purchase
+    Route::resource('purchase', PurchaseController::class);
+
 
     Route::get('demo', function () {
-        return formatBalance(12.22);
-        // echo productcode(5);
-        // return floor(3.3333212);
-
-        // $value = 500;
-        // $mainunit = 1000;
 
 
-        // $sum =  ($value / $mainunit);
-        // $first = floor($sum);
-
-        // $maindata  = $mainunit * $first;
-        //     $sub_maindata   = $value - $maindata;
     });
 });

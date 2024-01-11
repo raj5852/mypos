@@ -67,3 +67,21 @@ if (!function_exists('formatBalance')) {
         return number_format(floatval($balance), $decimalPlaces, '.', '');
     }
 }
+
+
+if (!function_exists('formateStock')) {
+
+    function formateStock($mainunit, $subunit, $available)
+    {
+        if ($subunit != '') {
+            $relatedvalue = $mainunit->related_by_value;
+            $firstunit = floor($available / $relatedvalue);
+            $lastunit = $available - ($firstunit * $relatedvalue);
+
+            return $firstunit . ' ' . $mainunit->unit_name . ' ' . $lastunit . ' ' . $subunit->unit_name;
+        } else {
+            return $available . ' ' . $mainunit->unit_name;
+        }
+    }
+}
+

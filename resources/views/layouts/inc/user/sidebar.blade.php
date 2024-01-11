@@ -26,6 +26,24 @@
                 <a href="{{ route('product.stock') }}"><i class="material-icons-two-tone">inventory</i>Stock</a>
             </li>
 
+            <li class="{{ request()->is('purchase*') ? 'active-page' : '' }}">
+                <a href="#"><i class="material-icons-two-tone">liquor</i>
+                    Purchase<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu" style="display: none;">
+                    <li>
+                        <a href="{{ route('purchase.create') }}"
+                            class="{{ request()->is('purchase/create') ? 'active' : '' }}">Add purchase</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('purchase.index') }}" class="{{ request()->is('purchase') ? 'active' : '' }}">Manage
+                            purchase</a>
+                    </li>
+                </ul>
+            </li>
+
+
+
+
             <li class="sidebar-title">
                 PRODUCT INFORMATION
             </li>
