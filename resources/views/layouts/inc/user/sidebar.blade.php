@@ -18,7 +18,13 @@
                 <a href="index.html"><i class="material-icons-two-tone">dashboard</i>Dashboard</a>
             </li>
 
+            <li class="sidebar-title">
+                SALE & PURCHASE
+            </li>
 
+            <li  class="{{ request()->is('stock') ? 'active-page' : '' }}">
+                <a href="{{ route('product.stock') }}"><i class="material-icons-two-tone">inventory</i>Stock</a>
+            </li>
 
             <li class="sidebar-title">
                 PRODUCT INFORMATION
@@ -76,7 +82,8 @@
                             class="{{ request()->is('brand/create') ? 'active' : '' }}">Add brand</a>
                     </li>
                     <li>
-                        <a href="{{ route('brand.index') }}" class="{{ request()->is('brand') ? 'active' : '' }}">Manage
+                        <a href="{{ route('brand.index') }}"
+                            class="{{ request()->is('brand') ? 'active' : '' }}">Manage
                             brand</a>
                     </li>
                 </ul>
@@ -94,7 +101,8 @@
                             class="{{ request()->is('customer/create') ? 'active' : '' }}">Add customer</a>
                     </li>
                     <li>
-                        <a href="{{ route('customer.index') }}" class="{{ request()->is('customer') ? 'active' : '' }}">Manage
+                        <a href="{{ route('customer.index') }}"
+                            class="{{ request()->is('customer') ? 'active' : '' }}">Manage
                             customer</a>
                     </li>
                 </ul>
@@ -108,7 +116,8 @@
                             class="{{ request()->is('supplier/create') ? 'active' : '' }}">Add supplier</a>
                     </li>
                     <li>
-                        <a href="{{ route('supplier.index') }}" class="{{ request()->is('supplier') ? 'active' : '' }}">Manage
+                        <a href="{{ route('supplier.index') }}"
+                            class="{{ request()->is('supplier') ? 'active' : '' }}">Manage
                             supplier</a>
                     </li>
                 </ul>

@@ -57,3 +57,13 @@ function productcode()
 
     return $result . $number;
 }
+
+// app/helpers.php
+
+if (!function_exists('formatBalance')) {
+    function formatBalance($balance)
+    {
+        $decimalPlaces = is_float($balance) ? 2 : 0;
+        return number_format(floatval($balance), $decimalPlaces, '.', '');
+    }
+}

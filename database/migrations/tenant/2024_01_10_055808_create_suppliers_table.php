@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->text('address')->nullable();
             $table->string('phone');
-            $table->float('opening_receivable')->nullable();
-            $table->float('opening_payable')->nullable();
+            $table->float('opening_receivable', 20, 2)->nullable();
+            $table->float('opening_payable',20,2)->nullable();
             $table->timestamps();
         });
     }

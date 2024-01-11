@@ -6,6 +6,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UnitController;
 use Illuminate\Support\Facades\Route;
@@ -40,19 +41,32 @@ Route::middleware([
     Route::resource('brand', BrandController::class)->only('index', 'create', 'edit', 'destroy');
 
     //product add
-    Route::resource('product', ProductController::class)->only('index', 'create', 'edit', 'destroy','show');
-    Route::get('product/sellhistory/{id}',[ProductController::class,'sellhistory'])->name('product.sellhistory');
-    Route::get('product/barcode/{id}',[ProductController::class,'barcode'])->name('product.barcode');
-    Route::get('product/qrcode/{id}',[ProductController::class,'qrcode'])->name('product.qrcode');
+    Route::resource('product', ProductController::class)->only('index', 'create', 'edit', 'destroy', 'show');
+    Route::get('product/sellhistory/{id}', [ProductController::class, 'sellhistory'])->name('product.sellhistory');
+    Route::get('product/barcode/{id}', [ProductController::class, 'barcode'])->name('product.barcode');
+    Route::get('product/qrcode/{id}', [ProductController::class, 'qrcode'])->name('product.qrcode');
 
 
     //people
-    Route::resource('customer',CustomerController::class);
-    Route::resource('supplier',SupplierController::class);
+    Route::resource('customer', CustomerController::class);
+    Route::resource('supplier', SupplierController::class);
 
+    //stock
+    Route::get('stock', [StockController::class, 'index'])->name('product.stock');
 
     Route::get('demo', function () {
-        echo productcode(5);
-    });
+        return formatBalance(12.22);
+        // echo productcode(5);
+        // return floor(3.3333212);
 
+        // $value = 500;
+        // $mainunit = 1000;
+
+
+        // $sum =  ($value / $mainunit);
+        // $first = floor($sum);
+
+        // $maindata  = $mainunit * $first;
+        //     $sub_maindata   = $value - $maindata;
+    });
 });

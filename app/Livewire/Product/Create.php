@@ -51,7 +51,7 @@ class Create extends Component
     {
         $this->validate([
             'name' => ['required', 'max:256'],
-            'code' => ['nullable','unique:products,code', 'max:30'],
+            'code' => ['nullable', 'unique:products,code', 'max:30'],
             'category_id' => ['required', 'exists:categories,id'],
             'brand_id' => ['nullable', 'exists:brands,id'],
             'main_unit' => ['required', 'exists:units,id'],
@@ -76,13 +76,14 @@ class Create extends Component
         if ($relatedvalue != '') {
             $mainunit = $this->stock * $relatedvalue;
         } else {
-            $mainunit = $this->stock;
+            $mainunit = $this->stock ?? 0;
         }
 
         if ($this->sub_stock) {
             $mainunit += $this->sub_stock;
         }
         $product->stock = $mainunit;
+        $product->purchased = $mainunit;
         $product->sale_price = $this->sale_price;
         $product->purchase_cost = $this->purchase_cost;
         $product->details = $this->details;

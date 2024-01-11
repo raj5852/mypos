@@ -22,9 +22,10 @@ return new class extends Migration
             $table->foreignId('main_unit');
             $table->foreignId('sub_unit')->nullable();
             $table->float('stock', 20, 2)->nullable();
-            $table->float('sale_price',20,2);
-            $table->float('purchase_cost',20,2);
+            $table->float('sale_price', 20, 2);
+            $table->float('purchase_cost', 20, 2);
             $table->text('details')->nullable();
+            $table->float('purchased', 20, 2)->nullable()->default(0.00);
             $table->timestamps();
         });
     }
