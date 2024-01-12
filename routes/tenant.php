@@ -10,10 +10,12 @@ use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\SupplierListController;
 use App\Http\Controllers\UnitController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
+use Stancl\Tenancy\Middleware\InitializeTenancyBySubdomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 /*
@@ -32,6 +34,7 @@ Route::middleware([
     'web',
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
+
 ])->group(function () {
     // Route::get('/', function () {
     //     return 'This is your multi-tenant application. The id of the current tenant is ' . tenant('id');
@@ -57,11 +60,15 @@ Route::middleware([
     //stock
     Route::get('stock', [StockController::class, 'index'])->name('product.stock');
     Route::get('product-list', ProductListController::class)->name('product-list');
+    Route::get('supplier-list', SupplierListController::class)->name('supplier-list');
+
     //purchase
     Route::resource('purchase', PurchaseController::class);
 
 
     Route::get('demo', function () {
+         return   $getproduct = Product::query()->where('id',9)->with(['mainunit','subunit'])->first();
+
 
 
     });

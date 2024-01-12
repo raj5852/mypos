@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
-class ProductListController extends Controller
+class SupplierListController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -13,12 +13,12 @@ class ProductListController extends Controller
     public function __invoke(Request $request)
     {
         $search = request('q', '');
-        $data = Product::query()
+        $data = Supplier::query()
             ->when($search, function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%");
             })
             ->take(20)
-            ->get(['id','name','code']);
+            ->get(['id', 'name', 'phone']);
 
         return response()->json($data);
     }

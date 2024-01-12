@@ -54,54 +54,50 @@
 
 
     <!-- Javascripts -->
-    <script  src="{{ asset('assets/plugins/jquery/jquery-3.5.1.min.js') }}"></script>
-    <script  src="{{ asset('assets/plugins/bootstrap/js/popper.min.js') }}"></script>
-    <script  src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script  src="{{ asset('assets/plugins/perfectscroll/perfect-scrollbar.min.js') }}"></script>
-    <script  src="{{ asset('assets/plugins/pace/pace.min.js') }}"></script>
-    <script  src="{{ asset('assets/plugins/highlight/highlight.pack.js') }}"></script>
-    <script  src="{{ asset('assets/js/main.min.js') }}"></script>
-    <script  src="{{ asset('assets/js/custom.js') }}"></script>
+    <script src="{{ asset('assets/plugins/jquery/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap/js/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/perfectscroll/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/pace/pace.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/highlight/highlight.pack.js') }}"></script>
+    <script src="{{ asset('assets/js/main.min.js') }}"></script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script>
-        @if(Session::has('message'))
-        toastr.options =
-        {
-            "closeButton" : true,
-            "progressBar" : true
-        }
-                toastr.success("{{ session('message') }}");
+        @if (Session::has('message'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.success("{{ session('message') }}");
         @endif
 
-        @if(Session::has('error'))
-        toastr.options =
-        {
-            "closeButton" : true,
-            "progressBar" : true
-        }
-                toastr.error("{{ session('error') }}");
+        @if (Session::has('error'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.error("{{ session('error') }}");
         @endif
 
-        @if(Session::has('info'))
-        toastr.options =
-        {
-            "closeButton" : true,
-            "progressBar" : true
-        }
-                toastr.info("{{ session('info') }}");
+        @if (Session::has('info'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.info("{{ session('info') }}");
         @endif
 
-        @if(Session::has('warning'))
-        toastr.options =
-        {
-            "closeButton" : true,
-            "progressBar" : true
-        }
-                toastr.warning("{{ session('warning') }}");
+        @if (Session::has('warning'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.warning("{{ session('warning') }}");
         @endif
-      </script>
-      @yield('js')
+    </script>
+    @yield('js')
 
 
 </body>
