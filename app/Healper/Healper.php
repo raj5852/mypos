@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -85,3 +86,37 @@ if (!function_exists('formateStock')) {
     }
 }
 
+if (!function_exists('totalstockvalue')) {
+
+    function totalstockvalue($mainunit, $subunit, $available,$saleprie)
+    {
+        if ($subunit != '') {
+            $relatedvalue = $mainunit->related_by_value;
+            $firstunit = floor($available / $relatedvalue);
+            $lastunit = $available - ($firstunit * $relatedvalue);
+
+            return formatBalance(($firstunit . '.' . $lastunit) * $saleprie);
+        } else {
+            return  formatBalance($available * $saleprie);
+        }
+    }
+}
+
+
+if (!function_exists('totalunit')) {
+    function totalunit($is_subunit, $main_quantity, $sub_quantity, $related_by_value)
+    {
+        if ($is_subunit == true) {
+            return ($main_quantity * $related_by_value) + $sub_quantity;
+        } else {
+            return $main_quantity;
+        }
+    }
+}
+
+if (!function_exists('formatedate')) {
+    function   formatedate($date)
+    {
+        return $formattedDate = Carbon::parse($date)->format('d M, Y');
+    }
+}

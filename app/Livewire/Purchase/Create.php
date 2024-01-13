@@ -3,6 +3,7 @@
 namespace App\Livewire\Purchase;
 
 use App\Models\Product;
+use App\Models\Purchase;
 use App\Models\Supplier;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -12,7 +13,7 @@ class Create extends Component
     public $name, $email, $address, $phone, $opening_receivable, $opening_payable;
 
 
-    public $selectedDate, $grand_total = 0, $paying_item = 0, $due = 0, $pay_amount, $note;
+    public $supplier_id, $selectedDate, $grand_total = 0, $paying_item = 0, $due = 0, $pay_amount, $note;
 
     public $addproducts = [];
 
@@ -125,8 +126,50 @@ class Create extends Component
         $this->due = ($this->grand_total - $this->pay_amount);
     }
 
-    function purchase(){
+    function purchase()
+    {
+        try {
+            DB::beginTransaction();
 
+
+            $purchase = Purchase::query()->create([
+                'supplier_id' => $this->supplier_id,
+                'payable' => $this->grand_total,
+                'paid' => $this->pay_amount,
+                'due' => $this->due,
+                'note' => $this->note,
+                'purchase_date' => $this->selectedDate
+            ]);
+
+            foreach ($this->addproducts as $product) {
+                $totalQty = totalunit($product['is_subunit'], $product['main_quantity'], $product['sub_quantity'], $product['related_by_value']);
+
+                $purchase->productpurchases()->create([
+                    'product_id' => $product['id'],
+                    'qty' => $totalQty,
+                    'price' => $product['purchase_cost'],
+                ]);
+
+                Product::find($product['id'])->increment('stock', $totalQty);
+                Product::find($product['id'])->increment('purchased', $totalQty);
+            }
+
+
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            //throw $th;
+            dd('something wrong');
+        }
+        dd('ok');
+    }
+
+    function paymentModal()
+    {
+
+        $this->pay_amount = 0;
+        $this->due = $this->grand_total;
     }
 
 

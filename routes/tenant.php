@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierListController;
@@ -64,12 +65,13 @@ Route::middleware([
 
     //purchase
     Route::resource('purchase', PurchaseController::class);
+    Route::get('purchase/invoice/{purchaseId}', [PurchaseController::class, 'invoice'])->name('purchase.invoice');
 
+    // setting
+    Route::get('setting',[SettingController::class,'index'])->name('setting.index');
+    Route::post('setting',[SettingController::class,'store'])->name('setting.store');
 
     Route::get('demo', function () {
-         return   $getproduct = Product::query()->where('id',9)->with(['mainunit','subunit'])->first();
-
-
 
     });
 });

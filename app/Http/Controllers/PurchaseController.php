@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Purchase;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class PurchaseController extends Controller
@@ -11,7 +13,12 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        //
+        $purchases = Purchase::query()
+            ->latest()
+            ->with(['supplier:id,name', 'products:id,name,code'])
+            ->paginate(15);
+        return view('purchase.index', compact('purchases'))
+            ->with('i', (request()->input('page', 1) - 1) * 15);
     }
 
     /**
@@ -60,5 +67,13 @@ class PurchaseController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    function invoice(int $purchaseId)
+    {
+
+        $purchase =   Purchase::with(['supplier', 'products:id,name,code'])->where('id', $purchaseId)->firstOrFail();
+        $address = Setting::first();
+        return view('purchase.invoice',compact('address','purchase'));
     }
 }

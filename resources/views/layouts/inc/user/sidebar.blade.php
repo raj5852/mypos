@@ -140,6 +140,13 @@
                     </li>
                 </ul>
             </li>
+            <li class="sidebar-title">
+                SETTING & CUSTOMIZE
+            </li>
+            <li  class="{{ request()->is('setting') ? 'active-page' : '' }}">
+                <a href="{{ route('setting.index') }}"><i class="material-icons-two-tone">settings</i>Setting</a>
+            </li>
+
 
         </ul>
     </div>

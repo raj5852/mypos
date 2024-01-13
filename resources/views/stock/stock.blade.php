@@ -94,7 +94,7 @@
                                 <td>Damaged </td>
                                 <td>Returned </td>
                                 <td>{{ formateStock($product->mainunit, $product->subunit, $product->stock) }} </td>
-                                <td> {{ formatBalance($product->stock * $product->sale_price) }} TK</td>
+                                <td> {{ totalstockvalue($product->mainunit, $product->subunit, $product->stock, $product->sale_price) }} TK</td>
                             </tr>
                         @empty
                     <tfoot>

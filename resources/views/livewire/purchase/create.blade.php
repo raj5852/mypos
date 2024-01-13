@@ -101,7 +101,7 @@
                 @endif
             </table>
             <button {{ $paying_item == 0 ? 'disabled' : '' }} type="button" class="btn btn-primary"
-                data-bs-toggle="modal" data-bs-target="#paymentModal"><x-icon>payments</x-icon> Payment</button>
+                data-bs-toggle="modal" data-bs-target="#paymentModal" wire:click="paymentModal"  ><x-icon>payments</x-icon> Payment</button>
         </form>
     </div>
 
@@ -251,8 +251,13 @@
                             </div>
                         </div>
                         <hr>
-                        <button type="submit" class="btn btn-primary"><x-icon>shopping_cart</x-icon>
-                            Purchase</button>
+                        <button wire:loading.attr="disabled" wire:target="purchase" type="submit" class="btn btn-primary"><x-icon>shopping_cart</x-icon>
+                            Purchase
+                            <div wire:loading wire:target="purchase" class="spinner-border spinner-border-sm"
+                            role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        </button>
 
                     </form>
                 </div>
@@ -271,11 +276,17 @@
     <script>
         $('#product').select2();
 
+        $('#supplierlist').on('change', function(e) {
+            var data = $('#supplierlist').select2("val");
+            @this.set('supplier_id', data);
+
+        });
+
+
         $('#product').on('change', function(e) {
 
             var data = $('#product').select2("val");
             if ($("#product").val() != null) {
-
                 if ($('#supplierlist').val() == null) {
                     toastr.options = {
                         "closeButton": true,
