@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\BankAccountsController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\PurchaseController;
@@ -68,10 +70,28 @@ Route::middleware([
     Route::get('purchase/invoice/{purchaseId}', [PurchaseController::class, 'invoice'])->name('purchase.invoice');
 
     // setting
-    Route::get('setting',[SettingController::class,'index'])->name('setting.index');
-    Route::post('setting',[SettingController::class,'store'])->name('setting.store');
+    Route::get('setting', [SettingController::class, 'index'])->name('setting.index');
+    Route::post('setting', [SettingController::class, 'store'])->name('setting.store');
+
+    //owner
+    Route::resource('owner', OwnerController::class);
+    //bank accounts
+    Route::resource('bank', BankAccountsController::class)->only('index', 'create', 'store');
+
+    Route::prefix('bank')->group(function () {
+        Route::get('add-balance/{id}', [BankAccountsController::class, 'addbalance'])->name('bank.addbalance');
+        Route::post('add-balance/{id}', [BankAccountsController::class, 'addbalanceStore'])->name('bank.addbalancestore');
+
+        Route::get('withdraw/{id}', [BankAccountsController::class, 'withdraw'])->name('bank.withdraw');
+        Route::post('withdraw/{id}', [BankAccountsController::class, 'withdrawStore'])->name('bank.withdrawStore');
+
+        Route::get('transfer/{id}',[BankAccountsController::class,'transfer'])->name('bank.transfer');
+        Route::post('transfer/{id}',[BankAccountsController::class,'transferStore'])->name('bank.transferStore');
+        Route::get('transaction-history/{id}',[BankAccountsController::class,'transaction'])->name('bank.transaction');
+    });
+
+
 
     Route::get('demo', function () {
-
     });
 });

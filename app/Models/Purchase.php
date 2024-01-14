@@ -22,4 +22,8 @@ class Purchase extends Model
     function products(){
         return $this->belongsToMany(Product::class,'product_purchases')->withPivot(['qty','price']);
     }
+
+    function purchasepayments(){
+        return $this->hasMany(PurchasePayment::class,'purchase_id');
+    }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Purchase;
 
+use App\Models\BankAccount;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
+use App\Services\HistoryService;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -16,10 +18,13 @@ class Create extends Component
     public $supplier_id, $selectedDate, $grand_total = 0, $paying_item = 0, $due = 0, $pay_amount, $note;
 
     public $addproducts = [];
+    public $banks, $bank_account_id;
 
     public function mount()
     {
         $this->selectedDate = now()->toDateString();
+        $this->banks = BankAccount::all();
+        $this->bank_account_id = BankAccount::first()?->id;
     }
 
     public function getproductId($id)
@@ -54,7 +59,7 @@ class Create extends Component
     function updateMainQuantity($index, $value)
     {
         if ($value != '') {
-            if (filter_var($value, FILTER_VALIDATE_INT) == false) {
+            if (0 > $value) {
                 $this->dispatch('wrong');
                 return false;
             }
@@ -67,7 +72,7 @@ class Create extends Component
     function updateSubQuantity($index, $value)
     {
         if ($value != '') {
-            if (filter_var($value, FILTER_VALIDATE_INT) == false) {
+            if (0 > $value) {
                 $this->dispatch('wrong');
                 return false;
             }
@@ -79,15 +84,17 @@ class Create extends Component
 
     function subtotalupdate($index)
     {
-        $mainqty = $this->addproducts[$index]['main_quantity'];
+
         $relatedByValue = $this->addproducts[$index]['related_by_value'];
+
         $buyPrice = $this->addproducts[$index]['purchase_cost'];
-        $subqty = $this->addproducts[$index]['sub_quantity'];
+        $mainqty = ($buyPrice * $this->addproducts[$index]['main_quantity']);
 
 
-        $totalQty = ($mainqty * $relatedByValue) + $subqty;
+        $subqty = ($buyPrice / $relatedByValue) * $this->addproducts[$index]['sub_quantity'];
 
-        $this->addproducts[$index]['sub_total'] = $totalQty * $buyPrice;
+
+        $this->addproducts[$index]['sub_total'] = $mainqty + $subqty;
 
         $this->grand_total = collect($this->addproducts)->sum('sub_total');
         $this->due = $this->grand_total;
@@ -122,12 +129,16 @@ class Create extends Component
 
     function payamount($value)
     {
+
         $this->pay_amount = $value ?: 0;
         $this->due = ($this->grand_total - $this->pay_amount);
     }
 
     function purchase()
     {
+        $this->validate([
+            'bank_account_id' => ['required', 'exists:bank_accounts,id']
+        ]);
         try {
             DB::beginTransaction();
 
@@ -154,15 +165,25 @@ class Create extends Component
                 Product::find($product['id'])->increment('purchased', $totalQty);
             }
 
+            if ($this->pay_amount != 0) {
+                $purchase->purchasepayments()->create([
+                    'amount' => $this->pay_amount
+                ]);
+            }
+
+            //history
+            if ($this->pay_amount != 0) {
+                HistoryService::BankHistory($this->bank_account_id, null, $this->pay_amount, '-', $this->note, $this->selectedDate);
+            }
 
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            //throw $th;
-            dd('something wrong');
+            $this->dispatch('wrong');
+            return false;
         }
-        dd('ok');
+        return to_route('purchase.invoice', $purchase->id);
     }
 
     function paymentModal()

@@ -45,11 +45,22 @@
                                     </a>
 
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <li><a class="dropdown-item" href="{{ route('purchase.invoice', $purchase->id) }} ">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('purchase.invoice', $purchase->id) }} ">
+                                              <div class="d-flex">
                                                 <i class="material-icons-two-tone"
-                                                    style="font-size: 25px;margin-top:2px">print</i>
-                                                Invoice</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                style="font-size: 22px;margin-top:2px">print </i>
+                                                <p class="me-2">Invoice</p>
+                                              </div>
+                                            </a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="{{ route('purchase.show',$purchase->id) }}">
+                                            <div class="d-flex">
+                                                <x-icon>desktop_windows</x-icon>
+                                                <p class="me-2">Show</p>
+                                              </div>
+
+
                                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                                     </ul>
                                 </div>

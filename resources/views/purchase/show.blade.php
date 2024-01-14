@@ -100,21 +100,29 @@
                                 </tfoot>
 
                             </table>
-                            <p>Note: {{ $purchase->note }} </p>
-
-                        </div>
-
-                        <button class="col-12 btn btn-secondary btn-block" onclick="print_receipt('print-area')">
-                            <i class="fa fa-print"></i>
-                            Print
-                        </button>
-                        <div class="row mt-3">
-                            <div class="col-6">
-                                <a href="{{ route('purchase.create') }}" class="col-12 btn btn-primary"><x-icon>reply</x-icon> New purchase</a>
+                            <div class="mt-3 mb-3 d-flex justify-content-between">
+                                <h3>Payments</h3>
+                                <button class="btn btn-primary">Add payment</button>
                             </div>
-                            <div class="col-6">
-                                <a href="{{ route('purchase.index') }}" class="col-12 btn btn-primary"><x-icon>reply</x-icon>Purchase list</a>
-                            </div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($purchase->purchasepayments as $purchasepayment)
+                                        <tr>
+                                            <td>{{ formatedate($purchasepayment->created_at) }} </td>
+                                            <td>{{ formatBalance($purchasepayment->amount) }} </td>
+                                            <td> <a href="" class="btn btn-danger btn-sm">Delete</a> </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
                 </div>

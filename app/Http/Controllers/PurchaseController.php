@@ -40,9 +40,11 @@ class PurchaseController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $purchaseId)
     {
-        //
+        $purchase =   Purchase::with(['purchasepayments','supplier', 'products:id,name,code,main_unit,sub_unit' => ['mainunit', 'subunit']])->where('id', $purchaseId)->firstOrFail();
+        $address = Setting::first();
+        return view('purchase.show', compact('address', 'purchase'));
     }
 
     /**
@@ -71,9 +73,8 @@ class PurchaseController extends Controller
 
     function invoice(int $purchaseId)
     {
-
-        $purchase =   Purchase::with(['supplier', 'products:id,name,code'])->where('id', $purchaseId)->firstOrFail();
+        $purchase =   Purchase::with(['supplier', 'products:id,name,code,main_unit,sub_unit' => ['mainunit', 'subunit']])->where('id', $purchaseId)->firstOrFail();
         $address = Setting::first();
-        return view('purchase.invoice',compact('address','purchase'));
+        return view('purchase.invoice', compact('address', 'purchase'));
     }
 }

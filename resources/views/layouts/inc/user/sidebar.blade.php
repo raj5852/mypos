@@ -18,6 +18,14 @@
                 <a href="index.html"><i class="material-icons-two-tone">dashboard</i>Dashboard</a>
             </li>
 
+            <li  class="{{ request()->is('owner*') ? 'active-page' : '' }}">
+                <a href="{{ route('owner.index') }}"><i class="material-icons-two-tone">person</i>Owner</a>
+            </li>
+
+            <li  class="{{ request()->is('bank*') ? 'active-page' : '' }}">
+                <a href="{{ route('bank.index') }}"><i class="material-icons-two-tone">account_balance</i>Bank</a>
+            </li>
+
             <li class="sidebar-title">
                 SALE & PURCHASE
             </li>

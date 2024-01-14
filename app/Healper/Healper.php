@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\BankAccount;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
@@ -88,14 +89,11 @@ if (!function_exists('formateStock')) {
 
 if (!function_exists('totalstockvalue')) {
 
-    function totalstockvalue($mainunit, $subunit, $available,$saleprie)
+    function totalstockvalue($mainunit, $subunit, $available, $saleprie)
     {
         if ($subunit != '') {
             $relatedvalue = $mainunit->related_by_value;
-            $firstunit = floor($available / $relatedvalue);
-            $lastunit = $available - ($firstunit * $relatedvalue);
-
-            return formatBalance(($firstunit . '.' . $lastunit) * $saleprie);
+            return  formatBalance(($saleprie / $relatedvalue) * $available);
         } else {
             return  formatBalance($available * $saleprie);
         }

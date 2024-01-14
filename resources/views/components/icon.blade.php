@@ -1,1 +1,1 @@
-<i class="material-icons-two-tone" style="font-size: 25px">{{ $slot }}</i>
+<i class="material-icons-two-tone" style="font-size: 20px">{{ $slot }}</i>

@@ -231,16 +231,20 @@
                         <div class="row">
                             <div class=" col-md-6">
                                 <label for="">Transaction Account</label>
-                                <select name="bank_account_id" id="" class="form-control" required="">
-                                    <option value="1">
-                                        CASH</option>
+                                <select  wire:model="bank_account_id"  class="form-control" required>
+                                    @foreach ($banks as $key=>$bank)
+                                        <option value="{{$bank->id}}">{{$bank->name}}</option>
+                                    @endforeach
                                 </select>
+                                @error('bank_account_id')
+                                    <span class="text-danger">{{$message}}</span>
+                                @enderror
                             </div>
 
                             <div class="col-md-6">
                                 <label for="pay_amount">Pay Amount</label>
                                 <div class="input-group">
-                                    <input type="number" min="0" class="form-control"
+                                    <input type="number" step="any" min="0" class="form-control"
                                         wire:model="pay_amount" wire:change="payamount($event.target.value)"
                                         id="pay_amount" placeholder="Pay Amount...">
                                     <span class="input-group-btn">
