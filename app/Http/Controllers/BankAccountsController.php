@@ -16,7 +16,16 @@ class BankAccountsController extends Controller
      */
     public function index()
     {
-        $banks = BankAccount::all();
+        $banks = BankAccount::query()
+
+            ->withSum(['histories as current_balance' => function ($query) {
+                $query->where('type', '+');
+            }], 'amount')
+            ->withSum(['histories as withdraw' => function ($query) {
+                $query->where('type', '-');
+            }], 'amount')
+            ->get();
+
         return view('bank.index', compact('banks'));
     }
 
@@ -42,8 +51,8 @@ class BankAccountsController extends Controller
         BankAccount::create([
             'name' => request('name'),
             'opening_balance' => request('opening_balance'),
-            'current_balance' => request('opening_balance'),
         ]);
+
         return back()->with('message', 'Bank account created');
     }
 
@@ -55,7 +64,7 @@ class BankAccountsController extends Controller
         return view('bank.addbalance', compact('owners', 'id'));
     }
 
-    function addbalanceStore(Request $request, $id)
+    function addbalanceStore(Request $request, $bankid)
     {
         $request->validate([
             'amount' => ['required', 'min:0', 'numeric'],
@@ -63,25 +72,22 @@ class BankAccountsController extends Controller
             'note' => ['nullable', 'max:2000'],
         ]);
 
-        try {
-            DB::beginTransaction();
-            Owner::findOrFail(request('owner'))->increment('invested', request('amount'));
-            HistoryService::BankHistory($id, request('owner'), request('amount'), '+', request('note'));
+        BankAccount::findOrFail($bankid);
 
-            DB::commit();
-        } catch (\Throwable $th) {
-            //throw $th;
-            DB::rollBack();
-            // dd('something wrong');
-            return back()->with('error', 'something wrong');
-        }
+        $ownerid = request('owner');
+        $amount = request('amount');
+        $note = $request->note;
 
+        $owner = Owner::findOrFail($ownerid);
+
+        HistoryService::Transition($owner, $bankid, $amount, '+', $note);
 
         return to_route('bank.index')->with('message', 'Balance added successfully');
     }
 
     function withdraw($id)
     {
+
         BankAccount::findOrFail($id);
         $owners = Owner::all();
         return view('bank.withdraw', compact('id', 'owners'));
@@ -95,18 +101,15 @@ class BankAccountsController extends Controller
             'note' => ['nullable', 'max:2000'],
         ]);
 
-        try {
-            DB::beginTransaction();
-            Owner::findOrFail(request('owner'))->increment('withdrawn', request('amount'));
-            HistoryService::BankHistory($id, request('owner'), request('amount'), '-', request('note'));
+        $ownerid = request('owner');
+        $owner = Owner::findOrFail($ownerid);
+        $amount = request('amount');
+        $note = request('note');
 
-            DB::commit();
-        } catch (\Throwable $th) {
-            //throw $th;
-            DB::rollBack();
-            // dd('something wrong');
-            return back()->with('error', 'something wrong');
-        }
+        BankAccount::findOrFail($id);
+
+        HistoryService::Transition($owner, $id, $amount, '-', $note);
+
         return to_route('bank.index')->with('message', 'Balance withdraw successfully');
     }
 
@@ -124,11 +127,32 @@ class BankAccountsController extends Controller
             'bank' => ['required', 'exists:bank_accounts,id'],
             'note' => ['nullable', 'max:2000'],
         ]);
+
+        $transferFrorm = BankAccount::findOrFail($id);
+        $transferTo = BankAccount::findOrFail(request('bank'));
+
+        $amount = request('amount');
+        $note = request('note');
+
         try {
             DB::beginTransaction();
 
-            HistoryService::BankHistory($id, null, request('amount'), '-', request('note'));
-            HistoryService::BankHistory(request('bank'), null, request('amount'), '+', request('note'));
+            // HistoryService::Transition($transferFrorm, $id, $amount, '-', $note);
+            // HistoryService::Transition($transferTo, request('bank'), $amount, '+', $note);
+            $transferFrorm->histories()->create([
+                'amount'=>$amount,
+                'type'=>'-',
+                'note'=>$note,
+                'date'=>now(),
+            ]);
+
+            $transferTo->histories()->create([
+                'amount'=>$amount,
+                'type'=>'+',
+                'note'=>$note,
+                'date'=>now(),
+            ]);
+
 
             DB::commit();
         } catch (\Throwable $th) {

@@ -115,6 +115,12 @@ if (!function_exists('totalunit')) {
 if (!function_exists('formatedate')) {
     function   formatedate($date)
     {
-        return $formattedDate = Carbon::parse($date)->format('d M, Y');
+        return $formattedDate = Carbon::parse($date)->format('Y-m-d');
+
     }
+}
+
+
+function currentdateFormate(){
+   return  \Carbon\Carbon::now()->format('Y-m-d') ;
 }

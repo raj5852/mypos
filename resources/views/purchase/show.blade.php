@@ -102,7 +102,8 @@
                             </table>
                             <div class="mt-3 mb-3 d-flex justify-content-between">
                                 <h3>Payments</h3>
-                                <button class="btn btn-primary">Add payment</button>
+                                <a class="btn btn-primary" href="{{ route('purchase.addpayment', $purchase->id) }}">Add
+                                    payment</a>
                             </div>
                             <table class="table table-bordered">
                                 <thead>
@@ -113,9 +114,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($purchase->purchasepayments as $purchasepayment)
+                                    @foreach ($purchase->histories as $purchasepayment)
                                         <tr>
-                                            <td>{{ formatedate($purchasepayment->created_at) }} </td>
+                                            <td>{{ formatedate($purchasepayment->date) }} </td>
                                             <td>{{ formatBalance($purchasepayment->amount) }} </td>
                                             <td> <a href="" class="btn btn-danger btn-sm">Delete</a> </td>
                                         </tr>
@@ -130,6 +131,25 @@
         </div>
 
     </div>
+    <div class="modal fade show" id="confirm-modal" tabindex="-1" aria-modal="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">You want to delete ?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="delete-form" action="" method="POST">
+                    @csrf
+                    @method('delete')
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">No. Back
+                            !</button>
+                        <button type="submit" class="btn btn-primary">Yes, Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js')
@@ -141,5 +161,13 @@
             window.print();
             $('body').html(originalContents);
         }
+
+        $('.delete').click(function(event) {
+            event.preventDefault();
+            var url = $(this).attr("href");
+
+            $("#delete-form").attr('action', url);
+            $("#confirm-modal").modal('show');
+        });
     </script>
 @endsection

@@ -12,25 +12,25 @@
                     <div class="col-md-6">
                         <div class="mt-3">
                             <label for="">Company name</label>
-                            <input type="text" value="{{$setting->company_name}}" class="form-control" name="company_name" placeholder="Company name">
+                            <input type="text" value="{{$setting?->company_name}}" class="form-control" name="company_name" placeholder="Company name">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mt-3">
                             <label for="">Email address</label>
-                            <input type="email" value="{{$setting->email}}" class="form-control" name="email" placeholder="Email address">
+                            <input type="email" value="{{$setting?->email}}" class="form-control" name="email" placeholder="Email address">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mt-3">
                             <label for="">Phone</label>
-                            <input type="text" value="{{$setting->phone}}" class="form-control" name="phone" placeholder="Phone">
+                            <input type="text" value="{{$setting?->phone}}" class="form-control" name="phone" placeholder="Phone">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mt-3">
                             <label for="">Address</label>
-                            <input type="text" value="{{$setting->address}}" class="form-control" name="address" placeholder="address">
+                            <input type="text" value="{{$setting?->address}}" class="form-control" name="address" placeholder="address">
                         </div>
                     </div>
 

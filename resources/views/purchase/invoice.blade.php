@@ -10,19 +10,19 @@
                         <div id="print-area">
                             <div class="row">
                                 <div class="col-6">
-                                    <h4>{{ $address->company_name }} </h4>
+                                    <h4>{{ $address?->company_name }} </h4>
                                 </div>
                                 <div class="col-6">
-                                    <span>Address: <strong>{{ $address->address }} </strong> </span><br>
-                                    <span>Phone: <strong>{{ $address->phone }}</strong> </span><br>
-                                    <span>Email: <strong>{{ $address->email }} </strong> </span><br>
+                                    <span>Address: <strong>{{ $address?->address }} </strong> </span><br>
+                                    <span>Phone: <strong>{{ $address?->phone }}</strong> </span><br>
+                                    <span>Email: <strong>{{ $address?->email }} </strong> </span><br>
                                 </div>
                             </div>
                             <table class="table table-bordered table-sm">
                                 <tbody style="font-weight: 300">
                                     <tr>
                                         <td style="padding: 6px 20px!important;">Date:
-                                            <strong>{{ formatedate($purchase->created_at) }} </strong>
+                                            <strong>{{ formatedate($purchase->date) }} </strong>
                                         </td>
                                     </tr>
                                     <tr>

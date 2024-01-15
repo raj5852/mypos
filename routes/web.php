@@ -20,7 +20,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    return asset('assets/images/404.png');
+    // return asset('assets/images/404.png');
+    // $tenant1 =App\Models\Tenant::create(['id' => 'demo']);
+    // $tenant1->domains()->create(['domain' => 'demo.localhost']);
 });
 
 // Route::get('categorydadasdf', [CategoryController::class,'create']);

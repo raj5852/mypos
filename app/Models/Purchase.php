@@ -23,7 +23,10 @@ class Purchase extends Model
         return $this->belongsToMany(Product::class,'product_purchases')->withPivot(['qty','price']);
     }
 
-    function purchasepayments(){
-        return $this->hasMany(PurchasePayment::class,'purchase_id');
+    // function purchasepayments(){
+    //     return $this->hasMany(PurchasePayment::class,'purchase_id');
+    // }
+    function histories(){
+        return $this->morphMany(History::class,'historyable');
     }
 }

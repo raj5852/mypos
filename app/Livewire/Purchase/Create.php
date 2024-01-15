@@ -152,6 +152,7 @@ class Create extends Component
                 'purchase_date' => $this->selectedDate
             ]);
 
+
             foreach ($this->addproducts as $product) {
                 $totalQty = totalunit($product['is_subunit'], $product['main_quantity'], $product['sub_quantity'], $product['related_by_value']);
 
@@ -166,14 +167,7 @@ class Create extends Component
             }
 
             if ($this->pay_amount != 0) {
-                $purchase->purchasepayments()->create([
-                    'amount' => $this->pay_amount
-                ]);
-            }
-
-            //history
-            if ($this->pay_amount != 0) {
-                HistoryService::BankHistory($this->bank_account_id, null, $this->pay_amount, '-', $this->note, $this->selectedDate);
+                HistoryService::Transition($purchase,$this->bank_account_id,$this->pay_amount,'-',$this->note,$this->selectedDate);
             }
 
 

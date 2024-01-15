@@ -74,7 +74,7 @@ class Create extends Component
         $relatedvalue = Unit::find($this->main_unit)->related_by_value;
 
         if ($relatedvalue != '') {
-            $mainunit = $this->stock * $relatedvalue;
+            $mainunit = ($this->stock ?: 0 )  * $relatedvalue;
         } else {
             $mainunit = $this->stock ?? 0;
         }

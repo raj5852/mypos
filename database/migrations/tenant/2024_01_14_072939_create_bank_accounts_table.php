@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->float('opening_balance',15,2)->default(0);
-            $table->float('current_balance',15,2)->default(0);
-
             $table->timestamps();
         });
     }

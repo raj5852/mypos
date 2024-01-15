@@ -12,7 +12,18 @@ class OwnerController extends Controller
      */
     public function index()
     {
-        $owners = Owner::all();
+        $owners = Owner::query()
+
+            ->withSum(['histories as invested' => function ($query) {
+                $query->where('type', '+');
+            }], 'amount')
+
+            ->withSum(['histories as withdrawn' => function ($query) {
+                $query->where('type', '-');
+            }], 'amount')
+
+            ->get();
+
         return view('owner.index', compact('owners'));
     }
 
@@ -52,7 +63,7 @@ class OwnerController extends Controller
      */
     public function edit(Owner $owner)
     {
-        return view('owner.edit',compact('owner'));
+        return view('owner.edit', compact('owner'));
     }
 
     /**
@@ -66,7 +77,7 @@ class OwnerController extends Controller
             'address' => ['nullable', 'max:2000'],
         ]);
         $owner->update($request->all());
-        return to_route('owner.index')->with('message','Owner updated successfully');
+        return to_route('owner.index')->with('message', 'Owner updated successfully');
     }
 
     /**
@@ -74,8 +85,8 @@ class OwnerController extends Controller
      */
     public function destroy(Owner $owner)
     {
-         $owner->delete();
+        $owner->delete();
 
-         return back()->with('message','Owner deleted successfully');
+        return back()->with('message', 'Owner deleted successfully');
     }
 }
