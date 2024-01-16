@@ -11,22 +11,37 @@ class Purchase extends Model
     protected $guarded = [];
 
 
-    function productpurchases(){
-        return $this->hasMany(ProductPurchase::class,'purchase_id');
-    }
-
-    function supplier(){
+    function supplier()
+    {
         return $this->belongsTo(Supplier::class);
     }
 
-    function products(){
-        return $this->belongsToMany(Product::class,'product_purchases')->withPivot(['qty','price']);
+    function products()
+    {
+        return $this->belongsToMany(Product::class, 'purchase_details')->withPivot(['qty', 'price']);
     }
 
-    // function purchasepayments(){
-    //     return $this->hasMany(PurchasePayment::class,'purchase_id');
-    // }
-    function histories(){
-        return $this->morphMany(History::class,'historyable');
+    function purchasedetails()
+    {
+        return $this->hasMany(PurchaseDetails::class, 'purchase_id');
+    }
+
+    function histories()
+    {
+        return $this->morphMany(History::class, 'historyable');
+    }
+
+    // payable
+    function scopePayable($query)
+    {
+        $query->withSum(['purchasedetails as payable'], 'total_amount');
+    }
+
+    // paid
+    function scopePaid($query)
+    {
+        $query->withSum(['histories as paid' => function ($query) {
+            $query->where(['type' => '-', 'historyable_type' => 'App\Models\Purchase']);
+        }], 'amount');
     }
 }

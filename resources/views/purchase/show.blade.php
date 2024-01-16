@@ -94,7 +94,7 @@
                                         <td style="padding: 6px 20px!important;" colspan="4" class="text-end">
                                             <strong>Due</strong>:
                                         </td>
-                                        <td style="padding: 6px 20px!important;" colspan="1">{{ $purchase->due }} TK
+                                        <td style="padding: 6px 20px!important;" colspan="1">{{ $purchase->payable - $purchase->paid }} TK
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -118,7 +118,7 @@
                                         <tr>
                                             <td>{{ formatedate($purchasepayment->date) }} </td>
                                             <td>{{ formatBalance($purchasepayment->amount) }} </td>
-                                            <td> <a href="" class="btn btn-danger btn-sm">Delete</a> </td>
+                                            <td> <a href="{{ route('purchase.delete',$purchasepayment->id) }}" class="btn btn-danger delete btn-sm">Delete</a> </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

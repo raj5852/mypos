@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Supplier::class);
-            $table->float('payable',15,2)->nullable();
-            $table->float('paid',15,2)->nullable();
-            $table->float('due',15,2)->nullable();
+            // $table->float('payable',15,2)->nullable();
+            // $table->float('paid',15,2)->nullable();
+            // $table->float('due',15,2)->nullable();
             $table->text('note')->nullable();
             $table->timestamp('purchase_date');
             $table->timestamps();

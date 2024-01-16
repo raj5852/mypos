@@ -91,7 +91,7 @@
                             </td>
                             <td> {{ formatBalance($purchase->payable) }} TK </td>
                             <td> {{ formatBalance($purchase->paid) }} TK </td>
-                            <td> {{ formatBalance($purchase->due) }} TK </td>
+                            <td> {{ formatBalance($purchase->payable - $purchase->paid) }} TK </td>
                             <td>
                                 <div class="dropdown">
                                     <a class="btn btn-primary dropdown-toggle" href="#" role="button"
@@ -125,7 +125,7 @@
 
                     @empty
                 <tfoot>
-                    <tr>
+                    <tr class="text-center">
                         <td colspan="9">No record found</td>
                     </tr>
                 </tfoot>

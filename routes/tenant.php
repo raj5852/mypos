@@ -10,6 +10,7 @@ use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\PurchasePaymentController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\SupplierListController;
 use App\Http\Controllers\UnitController;
 use App\Models\Product;
 use App\Models\Purchase;
+use App\Models\Supplier;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\InitializeTenancyBySubdomain;
@@ -68,11 +70,11 @@ Route::middleware([
 
     //purchase
     Route::resource('purchase', PurchaseController::class);
-    Route::prefix('purchase')->group(function(){
+    Route::prefix('purchase')->group(function () {
         Route::get('invoice/{purchaseId}', [PurchaseController::class, 'invoice'])->name('purchase.invoice');
-        Route::get('add-payment/{id}',[PurchaseController::class,'addpayment'])->name('purchase.addpayment');
-
-        Route::post('add-payment/{id}',[PurchaseController::class,'addpaymentStore'])->name('purchase.addpaymentStore');
+        Route::get('add-payment/{id}', [PurchaseController::class, 'addpayment'])->name('purchase.addpayment');
+        Route::post('add-payment/{id}', [PurchaseController::class, 'addpaymentStore'])->name('purchase.addpaymentStore');
+        Route::delete('paument/{id}',[PurchasePaymentController::class,'delete'])->name('purchase.delete');
 
     });
 
@@ -94,17 +96,18 @@ Route::middleware([
         Route::get('withdraw/{id}', [BankAccountsController::class, 'withdraw'])->name('bank.withdraw');
         Route::post('withdraw/{id}', [BankAccountsController::class, 'withdrawStore'])->name('bank.withdrawStore');
 
-        Route::get('transfer/{id}',[BankAccountsController::class,'transfer'])->name('bank.transfer');
-        Route::post('transfer/{id}',[BankAccountsController::class,'transferStore'])->name('bank.transferStore');
+        Route::get('transfer/{id}', [BankAccountsController::class, 'transfer'])->name('bank.transfer');
+        Route::post('transfer/{id}', [BankAccountsController::class, 'transferStore'])->name('bank.transferStore');
 
-        Route::get('transaction-history/{id}',[BankAccountsController::class,'transaction'])->name('bank.transaction');
+        Route::get('transaction-history/{id}', [BankAccountsController::class, 'transaction'])->name('bank.transaction');
     });
 
 
 
     Route::get('demo', function () {
+
         // return currentdateFormate();
+        // dd(static::class);
+
     });
-
-
 });

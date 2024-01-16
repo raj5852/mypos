@@ -27,6 +27,8 @@ class PurchaseController extends Controller
         $purchases = Purchase::query()
             ->latest()
             ->with(['supplier:id,name', 'products:id,name,code'])
+            ->payable()
+            ->paid()
             ->when($bill, function ($query) use ($bill) {
                 $query->where('id', 'like', "%{$bill}%");
             })
@@ -73,7 +75,13 @@ class PurchaseController extends Controller
      */
     public function show(int $purchaseId)
     {
-        $purchase =   Purchase::with(['histories','supplier', 'products:id,name,code,main_unit,sub_unit' => ['mainunit', 'subunit']])->where('id', $purchaseId)->firstOrFail();
+        $purchase =   Purchase::query()
+            ->with(['histories', 'supplier', 'products:id,name,code,main_unit,sub_unit' => ['mainunit', 'subunit']])
+            ->payable()
+            ->paid()
+            ->where('id', $purchaseId)
+            ->firstOrFail();
+
         $address = Setting::first();
         return view('purchase.show', compact('address', 'purchase'));
     }
@@ -104,7 +112,13 @@ class PurchaseController extends Controller
 
     function invoice(int $purchaseId)
     {
-        $purchase =   Purchase::with(['supplier', 'products:id,name,code,main_unit,sub_unit' => ['mainunit', 'subunit']])->where('id', $purchaseId)->firstOrFail();
+        $purchase =   Purchase::query()
+            ->with(['supplier', 'products:id,name,code,main_unit,sub_unit' => ['mainunit', 'subunit']])
+            ->paid()
+            ->payable()
+            ->where('id', $purchaseId)
+            ->firstOrFail();
+
         $address = Setting::first();
 
         return view('purchase.invoice', compact('address', 'purchase'));
@@ -112,7 +126,12 @@ class PurchaseController extends Controller
 
     function addpayment($id)
     {
-        $purchase = Purchase::findOrFail($id);
+        $purchase = Purchase::query()
+            ->where('id', $id)
+            ->paid()
+            ->payable()
+            ->firstOrFail();
+
         $banks = BankAccount::get(['id', 'name']);
 
         return view('purchase.addpayment', compact('purchase', 'banks'));
@@ -136,7 +155,7 @@ class PurchaseController extends Controller
         try {
             DB::beginTransaction();
 
-            HistoryService::Transition($purchase,$bankId,$amount,'-',$note,$date);
+            HistoryService::Transition($purchase, $bankId, $amount, '-', $note, $date);
 
 
             DB::commit();
@@ -147,6 +166,8 @@ class PurchaseController extends Controller
         }
 
 
-        return  to_route('purchase.show',$purchase->id ) ->with('message', 'Payment added successfully');
+        return  to_route('purchase.show', $purchase->id)->with('message', 'Payment added successfully');
     }
+
+
 }

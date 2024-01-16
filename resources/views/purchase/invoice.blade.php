@@ -94,7 +94,7 @@
                                         <td style="padding: 6px 20px!important;" colspan="4" class="text-end">
                                             <strong>Due</strong>:
                                         </td>
-                                        <td style="padding: 6px 20px!important;" colspan="1">{{ $purchase->due }} TK
+                                        <td style="padding: 6px 20px!important;" colspan="1">{{  $purchase->payable - $purchase->paid }} TK
                                         </td>
                                     </tr>
                                 </tfoot>

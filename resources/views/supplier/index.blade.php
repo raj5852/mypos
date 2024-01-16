@@ -40,9 +40,9 @@
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Address</th>
-                        <th>Receivable</th>
+                        <th>Payable</th>
                         <th>Paid</th>
-                        <th>Sale Due</th>
+                        <th>Purchase Due</th>
                         <th>Wallet Balance</th>
                         <th>Total Due</th>
                         <th>#</th>
@@ -58,9 +58,9 @@
                             <td>{{ $supplier->email }} </td>
                             <td>{{ $supplier->phone }} </td>
                             <td>{{ $supplier->address }} </td>
-                            <td>{{ $supplier->opening_receivable ?? 0 }} TK </td>
-                            <td>{{ $supplier->opening_payable ?? 0 }} TK </td>
-                            <td></td>
+                            <td>{{ $supplier->payable ?? 0 }} TK </td>
+                            <td>{{ $supplier->paid ?? 0 }} TK </td>
+                            <td>{{ $supplier->payable ?? 0 - $supplier->paid ?? 0 }} TK</td>
                             <td></td>
                             <td></td>
                             <td>

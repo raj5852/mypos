@@ -145,21 +145,18 @@ class Create extends Component
 
             $purchase = Purchase::query()->create([
                 'supplier_id' => $this->supplier_id,
-                'payable' => $this->grand_total,
-                'paid' => $this->pay_amount,
-                'due' => $this->due,
                 'note' => $this->note,
                 'purchase_date' => $this->selectedDate
             ]);
 
-
             foreach ($this->addproducts as $product) {
                 $totalQty = totalunit($product['is_subunit'], $product['main_quantity'], $product['sub_quantity'], $product['related_by_value']);
 
-                $purchase->productpurchases()->create([
+                $purchase->purchasedetails()->create([
                     'product_id' => $product['id'],
                     'qty' => $totalQty,
                     'price' => $product['purchase_cost'],
+                    'total_amount'=> $product['sub_total']
                 ]);
 
                 Product::find($product['id'])->increment('stock', $totalQty);
@@ -214,6 +211,7 @@ class Create extends Component
 
     public function render()
     {
+        // dd($this->addproducts);
         return view('livewire.purchase.create');
     }
 }

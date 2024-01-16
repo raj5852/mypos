@@ -28,7 +28,7 @@
                     <div class="col-md-6">
                         <div class="mt-3">
                             <label for="">Amount</label>
-                            <input type="text" name="amount" class="form-control" value="{{$purchase->due}}">
+                            <input type="text" name="amount" class="form-control" value="{{$purchase->payable - $purchase->paid}}">
                         </div>
                     </div>
                     <div class="col-md-6">
