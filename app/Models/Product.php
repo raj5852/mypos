@@ -33,4 +33,12 @@ class Product extends Model
     {
         return $this->belongsTo(Unit::class, 'sub_unit');
     }
+
+    function scopePurchased($query){
+        $query->withSum(['purchasedetails as purchased'],'qty');
+    }
+
+    function purchasedetails(){
+        return $this->hasMany(PurchaseDetails::class);
+    }
 }

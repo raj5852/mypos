@@ -158,9 +158,6 @@ class Create extends Component
                     'price' => $product['purchase_cost'],
                     'total_amount'=> $product['sub_total']
                 ]);
-
-                Product::find($product['id'])->increment('stock', $totalQty);
-                Product::find($product['id'])->increment('purchased', $totalQty);
             }
 
             if ($this->pay_amount != 0) {
@@ -171,11 +168,13 @@ class Create extends Component
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
+              throw $th;
             $this->dispatch('wrong');
             return false;
         }
         return to_route('purchase.invoice', $purchase->id);
     }
+
 
     function paymentModal()
     {

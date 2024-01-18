@@ -67,7 +67,7 @@
                             <th>Image</th>
                             <th>Product</th>
                             <th>Category</th>
-                            <th>Price</th>
+                            <th>Sell Price</th>
                             <th>Purchased</th>
                             <th>Sold</th>
                             <th>Damaged</th>
@@ -88,13 +88,13 @@
                                 <td>{{ $product->name }} </td>
                                 <td>{{ $product->category->name }} </td>
                                 <td>{{ $product->sale_price }} </td>
-                                <td>{{ formateStock($product->mainunit, $product->subunit, $product->purchased) }} </td>
-
+                                <td>{{ getTotalAvailAbleStock($product, $product->purchased) }} </td>
                                 <td>sold </td>
                                 <td>Damaged </td>
                                 <td>Returned </td>
-                                <td>{{ formateStock($product->mainunit, $product->subunit, $product->stock) }} </td>
-                                <td> {{ totalstockvalue($product->mainunit, $product->subunit, $product->stock, $product->sale_price) }} TK</td>
+                                <td class="text-danger"> available stock </td>
+                                <td class="text-danger">total
+                                    TK</td>
                             </tr>
                         @empty
                     <tfoot>

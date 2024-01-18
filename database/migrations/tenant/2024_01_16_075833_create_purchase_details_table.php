@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +14,12 @@ return new class extends Migration
     {
         Schema::create('purchase_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id');
-            $table->foreignId('purchase_id');
-            $table->float('qty',15,2)->nullable();
-            $table->float('price',15,2)->nullable();
-            $table->float('total_amount',15,2)->nullable();
+            $table->foreignIdFor(Product::class)->constrained();
+            $table->foreignId('purchase_id')->nullable();
+            $table->float('qty', 15, 2)->nullable();
+            $table->float('price', 15, 2)->nullable();
+            $table->float('total_amount', 15, 2)->nullable();
+
             $table->timestamps();
         });
     }

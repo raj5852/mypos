@@ -7,6 +7,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OwnerController;
+use App\Http\Controllers\PosController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\PurchaseController;
@@ -103,8 +104,12 @@ Route::middleware([
     });
 
 
+    // POS
+    Route::get('pos',[PosController::class,'index'])->name('pos');
+
 
     Route::get('demo', function () {
+        return Product::first();
 
         // return currentdateFormate();
         // dd(static::class);

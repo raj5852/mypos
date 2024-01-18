@@ -37,7 +37,8 @@
             "Tests\\": "tests/"
         },
         "files": [
-            "app/Healper/Healper.php"
+            "app/Healper/Healper.php",
+            "app/Healper/Product.php"
         ]
     },
     "scripts": {

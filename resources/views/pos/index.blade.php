@@ -1,5 +1,7 @@
 @extends('layouts.inc.user.app')
 
+
 @section('content')
-    <livewire:purchase.create />
+    <livewire:pos.index />
 @endsection
+

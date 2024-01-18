@@ -48,10 +48,25 @@ class BankAccountsController extends Controller
             'opening_balance' => ['required', 'numeric']
         ]);
 
-        BankAccount::create([
-            'name' => request('name'),
-            'opening_balance' => request('opening_balance'),
-        ]);
+        try {
+            DB::beginTransaction();
+
+            $bank =  BankAccount::create([
+                'name' => request('name'),
+            ]);
+
+            $bank->histories()->create([
+                'type' => '+',
+                'amount' => request('opening_balance'),
+                'note' => 'Opening balance',
+                'date' => now()
+            ]);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
 
         return back()->with('message', 'Bank account created');
     }
@@ -140,17 +155,17 @@ class BankAccountsController extends Controller
             // HistoryService::Transition($transferFrorm, $id, $amount, '-', $note);
             // HistoryService::Transition($transferTo, request('bank'), $amount, '+', $note);
             $transferFrorm->histories()->create([
-                'amount'=>$amount,
-                'type'=>'-',
-                'note'=>$note,
-                'date'=>now(),
+                'amount' => $amount,
+                'type' => '-',
+                'note' => $note,
+                'date' => now(),
             ]);
 
             $transferTo->histories()->create([
-                'amount'=>$amount,
-                'type'=>'+',
-                'note'=>$note,
-                'date'=>now(),
+                'amount' => $amount,
+                'type' => '+',
+                'note' => $note,
+                'date' => now(),
             ]);
 
 

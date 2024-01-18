@@ -60,7 +60,7 @@
                             <td>{{ $supplier->address }} </td>
                             <td>{{ $supplier->payable ?? 0 }} TK </td>
                             <td>{{ $supplier->paid ?? 0 }} TK </td>
-                            <td>{{ $supplier->payable ?? 0 - $supplier->paid ?? 0 }} TK</td>
+                            <td>{{ ($supplier->payable ?? 0 )- ($supplier->paid ?? 0) }} TK</td>
                             <td></td>
                             <td></td>
                             <td>

@@ -6,12 +6,14 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Unit;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class Create extends Component
 {
     use WithFileUploads;
+
     public $name, $code, $category_id, $brand_id, $main_unit, $main_unit_name,  $sub_unit, $sub_unit_value,
         $stock, $sub_stock, $sale_price, $purchase_cost, $details, $image, $category_name, $brand_name;
 
@@ -63,36 +65,56 @@ class Create extends Component
             'details' => ['nullable'],
             'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:5000']
         ]);
-        $product = new Product();
-        $product->name = $this->name;
-        $product->code = $this->code;
-        $product->category_id = $this->category_id;
-        $product->brand_id = $this->brand_id;
-        $product->main_unit = $this->main_unit;
-        $product->sub_unit = $this->sub_unit;
 
-        $relatedvalue = Unit::find($this->main_unit)->related_by_value;
+        try {
+            DB::beginTransaction();
 
-        if ($relatedvalue != '') {
-            $mainunit = ($this->stock ?: 0 )  * $relatedvalue;
-        } else {
-            $mainunit = $this->stock ?? 0;
-        }
 
-        if ($this->sub_stock) {
-            $mainunit += $this->sub_stock;
-        }
-        $product->stock = $mainunit;
-        $product->purchased = $mainunit;
-        $product->sale_price = $this->sale_price;
-        $product->purchase_cost = $this->purchase_cost;
-        $product->details = $this->details;
-        $product->save();
+            $mainUnitRelatedValue = Unit::find($this->main_unit)->related_by_value;
 
-        if ($this->image) {
-            $product->image()->create([
-                'image' => uploadimage($this->image, 'product/')
+
+            $product = new Product();
+            $product->name = $this->name;
+            $product->code = $this->code;
+            $product->category_id = $this->category_id;
+            $product->brand_id = $this->brand_id;
+            $product->main_unit = $this->main_unit;
+            $product->sub_unit = $this->sub_unit;
+
+            $product->main_unit_name = $this->main_unit_name;
+            $product->sub_unit_name = $this->sub_unit_value;
+
+            $product->main_unit_related_value = $mainUnitRelatedValue;
+
+
+
+            // $product->stock = $mainunit;
+            // $product->purchased = $mainunit;
+            $product->sale_price = $this->sale_price;
+            $product->purchase_cost = $this->purchase_cost;
+            $product->details = $this->details;
+            $product->save();
+
+            if ($this->image) {
+                $product->image()->create([
+                    'image' => uploadimage($this->image, 'product/')
+                ]);
+            }
+
+            $totalqty = getTotalOpeningStock($product, $this->stock, $this->sub_stock);
+            $totalPurchaseAmount = TotalProductAmount($this->purchase_cost, $this->stock, $this->sub_stock);
+
+            $product->purchasedetails()->create([
+                'qty' => $totalqty,
+                'price' => $this->purchase_cost,
+                'total_amount' => $totalPurchaseAmount
             ]);
+
+            DB::commit();
+        } catch (\Throwable $th) {
+            throw $th;
+            DB::rollBack();
+            return to_route('product.index')->with('error', 'Something wrong');
         }
 
         return to_route('product.index')->with('message', 'Product created successfully');

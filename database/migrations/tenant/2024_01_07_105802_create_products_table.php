@@ -21,11 +21,16 @@ return new class extends Migration
             $table->foreignIdFor(Brand::class)->nullable();
             $table->foreignId('main_unit');
             $table->foreignId('sub_unit')->nullable();
-            $table->float('stock', 20, 2)->nullable();
+            $table->string('main_unit_name')->nullable();
+            $table->string('sub_unit_name')->nullable();
+
+            $table->float('main_unit_related_value')->default(0)->nullable();
+
+            // $table->float('stock', 20, 2)->nullable();
             $table->float('sale_price', 20, 2);
             $table->float('purchase_cost', 20, 2);
             $table->text('details')->nullable();
-            $table->float('purchased', 20, 2)->nullable()->default(0.00);
+            // $table->float('purchased', 20, 2)->nullable()->default(0.00);
             $table->timestamps();
         });
     }

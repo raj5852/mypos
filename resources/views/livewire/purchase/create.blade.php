@@ -208,7 +208,7 @@
                                     </td>
                                     <td>
                                         <strong class="float-start">Total Payable: </strong>
-                                        <strong class="float-end">(<span id="payable">{{ $grand_total }} </span>
+                                        <strong class="float-end"><span id="payable">{{ $grand_total }} </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -278,7 +278,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
     <script>
-        $('#product').select2();
 
         $('#supplierlist').on('change', function(e) {
             var data = $('#supplierlist').select2("val");
@@ -306,6 +305,7 @@
 
         });
 
+        $('#product').select2();
 
         $('select').select2({
             width: '100%'

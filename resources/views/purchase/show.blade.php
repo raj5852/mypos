@@ -81,20 +81,20 @@
                                                 Total</strong> :
                                         </td>
                                         <td style="padding: 6px 20px!important;" colspan="1">
-                                            {{ formatBalance($purchase->payable) }} TK </td>
+                                            {{ formatBalance($purchase->payable ?? 0) }} TK </td>
                                     </tr>
                                     <tr>
                                         <td style="padding: 6px 20px!important;" colspan="4" class="text-end">
                                             <strong>Paid</strong> :
                                         </td>
-                                        <td style="padding: 6px 20px!important;" colspan="1">{{ $purchase->paid }} TK
+                                        <td style="padding: 6px 20px!important;" colspan="1">{{ $purchase->paid ?? 0 }} TK
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="padding: 6px 20px!important;" colspan="4" class="text-end">
                                             <strong>Due</strong>:
                                         </td>
-                                        <td style="padding: 6px 20px!important;" colspan="1">{{ $purchase->payable - $purchase->paid }} TK
+                                        <td style="padding: 6px 20px!important;" colspan="1">{{ $purchase->payable - $purchase->paid  }} TK
                                         </td>
                                     </tr>
                                 </tfoot>

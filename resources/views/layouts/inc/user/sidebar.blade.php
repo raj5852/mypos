@@ -30,6 +30,10 @@
                 SALE & PURCHASE
             </li>
 
+            <li  class="{{ request()->is('pos') ? 'active-page' : '' }}">
+                <a href="{{ route('pos') }}"><i class="material-icons-two-tone">inventory</i>POS</a>
+            </li>
+
             <li  class="{{ request()->is('stock') ? 'active-page' : '' }}">
                 <a href="{{ route('product.stock') }}"><i class="material-icons-two-tone">inventory</i>Stock</a>
             </li>
