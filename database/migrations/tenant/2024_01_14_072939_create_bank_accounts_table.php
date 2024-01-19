@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('bank_accounts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            // $table->float('opening_balance',15,2)->default(0);
+            $table->float('opening_balance',15,2)->default(0);
             $table->timestamps();
         });
     }

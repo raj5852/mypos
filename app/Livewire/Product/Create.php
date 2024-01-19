@@ -102,12 +102,14 @@ class Create extends Component
             }
 
             $totalqty = getTotalOpeningStock($product, $this->stock, $this->sub_stock);
-            $totalPurchaseAmount = TotalProductAmount($this->purchase_cost, $this->stock, $this->sub_stock);
+            $PerproductPrice = $this->purchase_cost / ($mainUnitRelatedValue ?: 1);
+
+            $total_amount = formatBalance($totalqty * $PerproductPrice) ;
 
             $product->purchasedetails()->create([
                 'qty' => $totalqty,
                 'price' => $this->purchase_cost,
-                'total_amount' => $totalPurchaseAmount
+                'total_amount' =>$total_amount
             ]);
 
             DB::commit();

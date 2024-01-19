@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 class PosController extends Controller
 {
-    function index(){
+    function index()
+    {
         return view('pos.index');
     }
 }

@@ -57,8 +57,8 @@
                         <tr>
                             <td>{{ $key + 1 }} </td>
                             <td>{{ $bank->name }} </td>
-                            <td>{{ $bank->opening_balance }} </td>
-                            <td>{{ $bank->opening_balance + ($bank->current_balance-$bank->withdraw)}} </td>
+                            <td>{{ formatBalance($bank->opening_balance) }} </td>
+                            <td>{{ formatBalance ($bank->current_balance - $bank->withdraw)}} </td>
                             <td>
                                 <a href="{{ route('bank.addbalance',$bank->id) }}" class="btn btn-outline-primary "><x-icon>add</x-icon>  Add balance</a><br>
                                 <a href="{{ route('bank.withdraw',$bank->id) }}" class="btn btn-outline-primary"> <x-icon>shopping_cart_checkout</x-icon> Withdraw balance</a><br>

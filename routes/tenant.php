@@ -20,6 +20,7 @@ use App\Http\Controllers\UnitController;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\InitializeTenancyBySubdomain;
@@ -75,8 +76,7 @@ Route::middleware([
         Route::get('invoice/{purchaseId}', [PurchaseController::class, 'invoice'])->name('purchase.invoice');
         Route::get('add-payment/{id}', [PurchaseController::class, 'addpayment'])->name('purchase.addpayment');
         Route::post('add-payment/{id}', [PurchaseController::class, 'addpaymentStore'])->name('purchase.addpaymentStore');
-        Route::delete('paument/{id}',[PurchasePaymentController::class,'delete'])->name('purchase.delete');
-
+        Route::delete('paument/{id}', [PurchasePaymentController::class, 'delete'])->name('purchase.delete');
     });
 
 
@@ -105,14 +105,10 @@ Route::middleware([
 
 
     // POS
-    Route::get('pos',[PosController::class,'index'])->name('pos');
+    Route::get('pos', [PosController::class, 'index'])->name('pos');
 
 
     Route::get('demo', function () {
-        return Product::first();
-
-        // return currentdateFormate();
-        // dd(static::class);
 
     });
 });

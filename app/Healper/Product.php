@@ -27,12 +27,17 @@ function getTotalAvailAbleStock(object $product, $totalstock)
 }
 
 
-// purchaseprice, mainstock, substock
-function TotalProductAmount($price, $mainstock,  $substoct)
+
+
+
+// passing : product, mainstock, substock.
+//output : 24 pc
+function subtotalQty($main_unit_related_value,  $mainstock,  $substoct)
 {
+
+    $relatedvalue =  $main_unit_related_value ?: 1;
     $main_stock =  $mainstock ?: 0;
     $sub_stoct = $substoct ?: 0;
-    $productPrice = $price ?: 0;
 
-    return $productPrice * ($main_stock . '.' . $sub_stoct);
+    return ($relatedvalue * $main_stock) + $sub_stoct;
 }

@@ -3,7 +3,7 @@
 @endsection
 <div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -17,17 +17,23 @@
                                 <select class="form-select" id="product"></select>
                             </div>
                             <div class="mt-3">
-                                <input type="date" wire:model="selectedDate" value="{{$selectedDate}}" class="form-control">
+                                <input type="date" wire:model="selectedDate" value="{{ $selectedDate }}"
+                                    class="form-control">
                             </div>
                             <div class="mt-3">
                                 <div class="row">
-                                    <div class="col-10">
-                                        <select class="form-control" name="" id="">
+                                    <div wire:ignore class="col-10">
+                                        <select class="form-control" name="" id="customer">
                                             <option value="">Select customer</option>
+                                            @foreach ($customers as $customer)
+                                                <option value="{{ $customer->id }}">{{ $customer->name }} -
+                                                    {{ $customer->phone }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="col-2">
-                                        <button class="btn btn-primary ">Add </button>
+                                        <button class="btn btn-primary" type="button" data-bs-toggle="modal"
+                                            data-bs-target="#customerModal">Add </button>
                                     </div>
                                 </div>
                             </div>
@@ -36,51 +42,96 @@
                             <table class="table table-bordered">
                                 <thead class="bg-dark">
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Quantity</th>
+                                        <th style="width:10px">Name</th>
+                                        <th style="width:220px;" class="text-center">Quantity</th>
                                         <th>Price</th>
-                                        <th>Sub T</th>
+                                        <th>SubT</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
+                                <tbody style="font-size: 13px">
+                                    @foreach ($selectProducts as $index => $selectProduct)
+                                        <tr wire:key="{{ $index }}">
+                                            <td style="padding:9px 7px!important">{{ $selectProduct['name'] }}</td>
+                                            <td style="padding:9px 7px!important">
+                                                <div class="d-flex">
+                                                    <p class="mt-2 me-1">{{ $selectProduct['main_unit_name'] }} </p>
+                                                    <input type="text" class="form-control form-control-sm"
+                                                        wire:change="updateMainQuantity({{ $index }}, $event.target.value)">
+                                                    @if ($selectProduct['sub_unit'] != '')
+                                                        <p class="mt-2 me-1">{{ $selectProduct['sub_unit_name'] }} </p>
+                                                        <input type="text" class="form-control form-control-sm"
+                                                            wire:change="updateSubQuantity({{ $index }}, $event.target.value)">
+                                                    @endif
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <input type="text" value="{{ $selectProduct['price'] }}"
+                                                    class="form-control"
+                                                    wire:change="updatePrice({{ $index }}, $event.target.value)">
+                                            </td>
+                                            <td>
+                                                {{ $selectProduct['sub_total'] ?: 0 }}
+                                            </td>
+                                            <td>
+                                                <div style="cursor: pointer;"
+                                                    wire:click="deleteProduct({{ $index }})">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="20"
+                                                        color="red" viewBox="0 -960 960 960" width="20">
+                                                        <path
+                                                            d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
+                                                    </svg>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
                                 <tfoot class="text-center bg-danger">
                                     <tr>
                                         <td colspan="2"></td>
-                                        <td colspan="3">Total : 0</td>
+                                        <td colspan="3">Total : {{ $grandTotal }} </td>
                                     </tr>
                                 </tfoot>
                             </table>
+                            <center>
+                                <button class="btn btn-primary" {{ $totalItem > 0 ? '' : 'disabled' }}
+                                    data-bs-toggle="modal" data-bs-target="#paymentModal">
+                                    <x-icon>payments</x-icon> Payment</button>
+                            </center>
+
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-3">
-                            <h5>Category</h5>
-                            <hr>
-                            hello hello world world
-                        </div>
-                        <div class="col-9">
+                        <div class="col-12">
                             <h5>Product list</h5>
                             <hr>
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="text" class="form-control form-control-sm" placeholder="Search...">
+                                    <input type="text" wire:model="productsearch"
+                                        class="form-control form-control-sm" placeholder="Search..."
+                                        wire:change="search($event.target.value)">
                                 </div>
                                 <div class="col-6">
-                                    <button class="btn btn-primary btn-sm">Search</button>
-                                    <button class="btn btn-secondary btn-sm">Reset</button>
+                                    <button type="button" class="btn btn-primary btn-sm">Search</button>
+                                    <button type="button" class="btn btn-secondary btn-sm"
+                                        wire:click="resetproductsearch">Reset</button>
                                 </div>
                             </div>
                             <div class="row mt-3">
                                 @foreach ($products as $product)
-                                    <div class="col-md-3 border p-1">
-                                        Lorem ipsum, dolor sit amet co amet co amet co
-                                        Lorem ipsum,
+                                    <div wire:click="getproductId({{ $product->id }})"
+                                        class="col-3 border p-1 text-center" style="cursor: pointer; font-size: 13px">
+                                        <img width="80px" src="{{ $product->image->image }}" alt="">
+                                        <p>{{ $product->name }} - {{ $product->code }} </p>
+                                        <p><b>{{ formatBalance($product->sale_price) }}</b> TK</p>
+                                        <P>Stock: {{ getTotalAvailAbleStock($product, $product->stock) }} </P>
                                     </div>
                                 @endforeach
                             </div>
@@ -91,6 +142,181 @@
                         </div>
 
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="customerModal" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add customer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form wire:submit.prevent="customerStore">
+                        <div class="mb-3 ">
+                            <label for="" class="form-label">customer Name <span class="text-danger">*</span>
+                            </label>
+                            <input wire:model="name" type="text"
+                                class="form-control @error('name') is-invalid @enderror "
+                                placeholder="Enter customer name">
+                            @error('name')
+                                <span class="invalid-feedback">{{ $message }} </span>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Email</label>
+                            <input wire:model="email" type="text"
+                                class="form-control @error('email') is-invalid @enderror "
+                                placeholder="Enter customer email">
+                            @error('email')
+                                <span class="invalid-feedback">{{ $message }} </span>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Address</label>
+                            <textarea wire:model="address" class="form-control  @error('address') is-invalid @enderror" id=""
+                                rows="3"></textarea>
+                            @error('address')
+                                <span class="invalid-feedback">{{ $message }} </span>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Phone <span class="text-danger">*</span></label>
+                            <input type="text" wire:model="phone"
+                                class="form-control @error('phone') is-invalid @enderror" placeholder="Phone number">
+                            @error('phone')
+                                <span class="invalid-feedback">{{ $message }} </span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="" class="form-label">Opening Receivable</label>
+                            <input type="text" wire:model="opening_receivable"
+                                class="form-control @error('opening_receivable') is-invalid @enderror"
+                                placeholder="Opening Receivable">
+                            @error('opening_receivable')
+                                <span class="invalid-feedback">{{ $message }} </span>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Opening Payable</label>
+                            <input type="text" wire:model="opening_payable"
+                                class="form-control @error('opening_payable') is-invalid @enderror"
+                                placeholder="Opening Payable">
+                            @error('opening_payable')
+                                <span class="invalid-feedback">{{ $message }} </span>
+                            @enderror
+                        </div>
+
+                        <button wire:loading.attr="disabled" wire:target="customerStore" type="submit"
+                            class="btn btn-primary">Submit
+
+                            <div wire:loading wire:target="customerStore" class="spinner-border spinner-border-sm"
+                                role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div wire:ignore.self class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form wire:submit.prevent="order">
+
+                        <table class="table table-bordered text-left">
+                            <tbody>
+                                <tr>
+                                    <td width="50%">
+                                        <strong class="float-start">Paying Items: </strong>
+                                        <strong class="float-end">(<span id="items">{{ $totalItem }} TK
+                                            </span>)</strong>
+                                    </td>
+                                    <td>
+                                        <strong class="float-start">Total Receivable: </strong>
+                                        <strong class="float-end"><span>{{ $grandTotal }} TK</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <strong class="float-start">After Discount total balance: </strong>
+                                        <strong class="float-end">(<span id="items"> {{ $afterDiscount }} TK
+                                            </span>)</strong>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="">Discount</label>
+                                <input wire:change="discount($event.target.value)" wire:model.live="discountvalue" type="number"
+                                    class="form-control" placeholder="0%">
+                            </div>
+
+                            <div class="col-6">
+                                <label for="">Note</label>
+                                <textarea name="" id="" class="form-control"></textarea>
+                            </div>
+
+                            <div class="col-6">
+                                <label for="">Transaction Account</label>
+
+                                <select class="form-select" id="product">
+                                    <option value="1">Select value</option>
+                                    <option value="2">Select value</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="pay_amount">Pay Amount</label>
+                                <div class="input-group">
+                                    <input type="number" step="any" min="0" class="form-control"
+                                        wire:model="pay_amount" wire:change="payamount($event.target.value)"
+                                        id="pay_amount" placeholder="Pay Amount...">
+                                    <span class="input-group-btn">
+                                        <button wire:click="paid" style="padding-top: 9px;padding-bottom: 8px;"
+                                            class="btn btn-warning" type="button" id="paid_btn">PAID!</button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <center>
+                            <button wire:loading.attr="disabled" wire:target="order" type="submit"
+                                class="btn btn-primary mt-3"><x-icon>shopping_cart</x-icon>
+                                Order
+                                <div wire:loading wire:target="order" class="spinner-border spinner-border-sm"
+                                    role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button>
+                        </center>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -134,5 +360,12 @@
             }
 
         });
+        window.addEventListener('product_already_added', event => {
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.error('Product already added. Update quantity');
+        })
     </script>
 @endsection

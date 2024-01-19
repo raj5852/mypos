@@ -53,6 +53,7 @@ class BankAccountsController extends Controller
 
             $bank =  BankAccount::create([
                 'name' => request('name'),
+                'opening_balance'=>request('opening_balance')
             ]);
 
             $bank->histories()->create([
