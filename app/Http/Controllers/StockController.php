@@ -35,6 +35,7 @@ class StockController extends Controller
             })
             ->with(['category:id,name', 'brand:id,name', 'image:id,image', 'mainunit', 'subunit'])
             ->purchased()
+            ->sell()
             ->paginate(15);
 
         $brands = Brand::get();

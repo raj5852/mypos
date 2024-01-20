@@ -88,7 +88,7 @@
                                 <td>{{ $product->name }} </td>
                                 <td>{{ $product->category->name }} </td>
                                 <td>{{ $product->sale_price }} </td>
-                                <td>{{ getTotalAvailAbleStock($product, $product->purchased) }} </td>
+                                <td>{{ getTotalAvailAbleStock($product, productStock($product->purchased,$product->sell) ) }} </td>
                                 <td>sold </td>
                                 <td>Damaged </td>
                                 <td>Returned </td>

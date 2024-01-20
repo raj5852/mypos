@@ -110,5 +110,7 @@ Route::middleware([
 
     Route::get('demo', function () {
 
+        return SingleProductStock(2);
+
     });
 });

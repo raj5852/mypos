@@ -22,8 +22,8 @@
                             </div>
                             <div class="mt-3">
                                 <div class="row">
-                                    <div wire:ignore class="col-10">
-                                        <select class="form-control" name="" id="customer">
+                                    <div class="col-10">
+                                        <select class="form-control" id="customer">
                                             <option value="">Select customer</option>
                                             @foreach ($customers as $customer)
                                                 <option value="{{ $customer->id }}">{{ $customer->name }} -
@@ -56,17 +56,17 @@
                                             <td style="padding:9px 7px!important">
                                                 <div class="d-flex">
                                                     <p class="mt-2 me-1">{{ $selectProduct['main_unit_name'] }} </p>
-                                                    <input type="text" class="form-control form-control-sm"
+                                                    <input type="number" class="form-control form-control-sm"
                                                         wire:change="updateMainQuantity({{ $index }}, $event.target.value)">
                                                     @if ($selectProduct['sub_unit'] != '')
                                                         <p class="mt-2 me-1">{{ $selectProduct['sub_unit_name'] }} </p>
-                                                        <input type="text" class="form-control form-control-sm"
+                                                        <input type="number" class="form-control form-control-sm"
                                                             wire:change="updateSubQuantity({{ $index }}, $event.target.value)">
                                                     @endif
                                                 </div>
                                             </td>
                                             <td>
-                                                <input type="text" value="{{ $selectProduct['price'] }}"
+                                                <input type="number" value="{{ $selectProduct['price'] }}"
                                                     class="form-control"
                                                     wire:change="updatePrice({{ $index }}, $event.target.value)">
                                             </td>
@@ -94,8 +94,9 @@
                                 </tfoot>
                             </table>
                             <center>
-                                <button class="btn btn-primary" {{ $totalItem > 0 ? '' : 'disabled' }}
-                                    data-bs-toggle="modal" data-bs-target="#paymentModal">
+                                <button wire:click="clickPaymentButton" class="btn btn-primary"
+                                    {{ $totalItem > 0 ? '' : 'disabled' }} data-bs-toggle="modal"
+                                    data-bs-target="#paymentModal">
                                     <x-icon>payments</x-icon> Payment</button>
                             </center>
 
@@ -131,7 +132,7 @@
                                         <img width="80px" src="{{ $product->image->image }}" alt="">
                                         <p>{{ $product->name }} - {{ $product->code }} </p>
                                         <p><b>{{ formatBalance($product->sale_price) }}</b> TK</p>
-                                        <P>Stock: {{ getTotalAvailAbleStock($product, $product->stock) }} </P>
+                                        <P>Stock: {{ getTotalAvailAbleStock($product, productStock($product->purchased,$product->sell) ) }} </P>
                                     </div>
                                 @endforeach
                             </div>
@@ -156,9 +157,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form wire:submit.prevent="customerStore">
+                    <form wire:submit.prevent="storeCustomer">
                         <div class="mb-3 ">
-                            <label for="" class="form-label">customer Name <span class="text-danger">*</span>
+                            <label for="" class="form-label">Customer Name <span class="text-danger">*</span>
                             </label>
                             <input wire:model="name" type="text"
                                 class="form-control @error('name') is-invalid @enderror "
@@ -239,6 +240,9 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    @error('customer_id')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
                     <form wire:submit.prevent="order">
 
                         <table class="table table-bordered text-left">
@@ -269,22 +273,29 @@
                         <div class="row">
                             <div class="col-6">
                                 <label for="">Discount</label>
-                                <input wire:change="discount($event.target.value)" wire:model.live="discountvalue" type="number"
-                                    class="form-control" placeholder="0%">
+                                <input wire:change="discount($event.target.value)" wire:model.live="discountvalue"
+                                    type="number" class="form-control" placeholder="0%">
+                                @error('discountvalue')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="col-6">
                                 <label for="">Note</label>
-                                <textarea name="" id="" class="form-control"></textarea>
+                                <textarea wire:model="note" class="form-control"></textarea>
                             </div>
 
                             <div class="col-6">
                                 <label for="">Transaction Account</label>
 
-                                <select class="form-select" id="product">
-                                    <option value="1">Select value</option>
-                                    <option value="2">Select value</option>
+                                <select wire:model="selectedBank_id" class="form-select" id="product">
+                                    @foreach ($banks as $bank)
+                                        <option value="{{ $bank->id }}">{{ $bank->name }}</option>
+                                    @endforeach
                                 </select>
+                                @error('selectedBank_id')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
 
                             <div class="col-md-6">
@@ -293,6 +304,9 @@
                                     <input type="number" step="any" min="0" class="form-control"
                                         wire:model="pay_amount" wire:change="payamount($event.target.value)"
                                         id="pay_amount" placeholder="Pay Amount...">
+                                    @error('discountvalue')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                     <span class="input-group-btn">
                                         <button wire:click="paid" style="padding-top: 9px;padding-bottom: 8px;"
                                             class="btn btn-warning" type="button" id="paid_btn">PAID!</button>
@@ -358,14 +372,42 @@
             if ($("#product").val() != null) {
                 @this.call('getproductId', data);
             }
-
         });
+
+        $('#customer').on('change', function(e) {
+
+            var data = $('#customer').select2("val");
+            if ($("#customer").val() != null) {
+                @this.call('setCustomer', data);
+            }
+        });
+
+
         window.addEventListener('product_already_added', event => {
             toastr.options = {
                 "closeButton": true,
                 "progressBar": true
             }
             toastr.error('Product already added. Update quantity');
+        })
+
+        window.addEventListener('closeModal', event => {
+            $('#customerModal').modal('hide');
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.success("Successfully created");
+
+        })
+
+        window.addEventListener('stock_not_available', event => {
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.error("Stock not available");
+
         })
     </script>
 @endsection

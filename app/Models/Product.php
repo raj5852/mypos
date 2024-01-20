@@ -11,7 +11,7 @@ class Product extends Model
     use HasFactory, ModelData;
     protected $guarded = [];
 
-    protected $searchables = ['name','code'];
+    protected $searchables = ['name', 'code'];
 
     function category()
     {
@@ -36,15 +36,26 @@ class Product extends Model
         return $this->belongsTo(Unit::class, 'sub_unit');
     }
 
-    function scopePurchased($query){
-        $query->withSum(['purchasedetails as purchased'],'qty');
-    }
 
-    function scopeStock($query){
-        $query->withSum(['purchasedetails as stock'],'qty');
-    }
 
-    function purchasedetails(){
+    function purchasedetails()
+    {
         return $this->hasMany(PurchaseDetails::class);
+    }
+
+
+    function orderdetails()
+    {
+        return $this->hasMany(OrderDetails::class);
+    }
+
+    function scopePurchased($query)
+    {
+        $query->withSum(['purchasedetails as purchased'], 'qty');
+    }
+
+    function scopeSell($query)
+    {
+        $query->withSum(['orderdetails as sell'], 'qty');
     }
 }

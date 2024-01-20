@@ -3,6 +3,9 @@
 
 // passing : product, mainstock, substock.
 //output : 24 pc
+
+use App\Models\Product;
+
 function getTotalOpeningStock(object $product,  $mainstock,  $substoct)
 {
 
@@ -14,13 +17,14 @@ function getTotalOpeningStock(object $product,  $mainstock,  $substoct)
 }
 
 
-
+// 2 dozon 2 pc
 function getTotalAvailAbleStock(object $product, $totalstock)
 {
-    if ($product->main_unit_related_value == '') {
-        return  $totalstock . ' ' . $product->main_unit_name;
+    $firstunit = floor($totalstock / ($product->main_unit_related_value ?: 1));
+
+    if ($product->sub_unit_name == null) {
+        return $firstunit . ' ' . $product->main_unit_name;
     } else {
-        $firstunit = floor($totalstock / $product->main_unit_related_value);
         $lastunit = $totalstock - ($firstunit * $product->main_unit_related_value);
         return $firstunit . ' ' . $product->main_unit_name . ' ' . $lastunit . ' ' . $product->sub_unit_name;
     }
@@ -29,8 +33,7 @@ function getTotalAvailAbleStock(object $product, $totalstock)
 
 
 
-
-// passing : product, mainstock, substock.
+// passing : main_unit_related_value, mainstock, substock.
 //output : 24 pc
 function subtotalQty($main_unit_related_value,  $mainstock,  $substoct)
 {
@@ -40,4 +43,31 @@ function subtotalQty($main_unit_related_value,  $mainstock,  $substoct)
     $sub_stoct = $substoct ?: 0;
 
     return ($relatedvalue * $main_stock) + $sub_stoct;
+}
+
+//
+function  stockQtyValue($total_stock_qty, $main_unit_related_value, $price)
+{
+    $amount = ($total_stock_qty / ($main_unit_related_value ?: 1)) * ($price ?: 0);
+
+    return formatBalance($amount);
+}
+
+// 10-4 = 6
+function productStock($purchased, $sellStock)
+{
+    return formatBalance(($purchased ?: 0) - ($sellStock ?: 0));
+}
+
+
+
+function SingleProductStock($id)
+{
+    $product = Product::query()
+        ->where('id', $id)
+        ->purchased()
+        ->sell()
+        ->firstOrFail();
+
+    return ($product->purchased - $product->sell);
 }

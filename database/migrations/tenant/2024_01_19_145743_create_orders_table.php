@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignIdFor(Customer::class);
             $table->timestamp('date');
             $table->integer('discount')->nullable();
-            $table->float('tota_purchase_cost',15,2)->nullable();
             $table->timestamps();
         });
     }

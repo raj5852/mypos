@@ -88,6 +88,7 @@ if (!function_exists('formateStock')) {
 }
 
 if (!function_exists('totalstockvalue')) {
+
     function totalstockvalue($mainunit, $subunit, $available, $saleprie)
     {
         if ($subunit != '') {

@@ -19,8 +19,9 @@ return new class extends Migration
             $table->foreignIdFor(Product::class);
             $table->integer('qty')->default(0);
             $table->float('purchase_cost')->default(0);
-            $table->float('amount',15,2);
-            $table->float('total_cost',15,2)->nullable();
+            $table->float('total_purchase_cost', 15, 2)->nullable();
+            $table->float('sell_price', 15, 2);
+            $table->float('total_sell_price', 15, 2);
             $table->timestamps();
         });
     }
