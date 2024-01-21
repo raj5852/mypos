@@ -34,7 +34,7 @@ function getTotalAvailAbleStock(object $product, $totalstock)
 
 
 // passing : main_unit_related_value, mainstock, substock.
-//output : 24 pc
+//output : 24
 function subtotalQty($main_unit_related_value,  $mainstock,  $substoct)
 {
 
@@ -46,6 +46,8 @@ function subtotalQty($main_unit_related_value,  $mainstock,  $substoct)
 }
 
 // stockQtyValue
+// 25
+// 30 TK
 function  stockQtyValue($total_stock_qty, $main_unit_related_value, $price)
 {
     $amount = ($total_stock_qty / ($main_unit_related_value ?: 1)) * ($price ?: 0);

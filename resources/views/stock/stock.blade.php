@@ -76,7 +76,7 @@
                             <th>Sell Value</th>
                         </tr>
                     </thead>
-                    <tbody style="font-weight: 500">
+                    <tbody style="font-weight: 300">
 
 
                         @forelse ($products as $product)

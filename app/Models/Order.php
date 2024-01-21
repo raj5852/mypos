@@ -35,8 +35,16 @@ class Order extends Model
 
     function scopePurcheCost($query)
     {
-        return $query->withSum('orderDetails as purchecost','total_purchase_cost');
+        return $query->withSum('orderDetails as purchecost', 'total_purchase_cost');
     }
 
+    function products()
+    {
+        return $this->belongsToMany(Product::class, 'order_details')->withPivot('qty');
+    }
 
+    function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }
