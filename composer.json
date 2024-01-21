@@ -38,7 +38,8 @@
         },
         "files": [
             "app/Healper/Healper.php",
-            "app/Healper/Product.php"
+            "app/Healper/Product.php",
+            "app/Healper/Report.php"
         ]
     },
     "scripts": {

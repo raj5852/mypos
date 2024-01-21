@@ -34,7 +34,7 @@
                 <a href="{{ route('pos') }}"><i class="material-icons-two-tone">shopping_cart</i>POS</a>
             </li>
 
-            <li  class="{{ request()->is('sale') ? 'active-page' : '' }}">
+            <li  class="{{ request()->is('sale*') ? 'active-page' : '' }}">
                 <a href="{{ route('sale') }}"><i class="material-icons-two-tone">local_mall</i>Sales</a>
             </li>
 

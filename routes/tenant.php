@@ -12,7 +12,14 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\PurchasePaymentController;
-use App\Http\Controllers\SaleController;
+use App\Http\Controllers\Sale\AddPayment;
+use App\Http\Controllers\Sale\ChalanPrintController;
+use App\Http\Controllers\Sale\DeleteController;
+use App\Http\Controllers\Sale\PrintController;
+use App\Http\Controllers\Sale\ReturnController;
+use App\Http\Controllers\Sale\ReturnListController;
+use App\Http\Controllers\Sale\SaleController;
+use App\Http\Controllers\Sale\ShowController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
@@ -110,6 +117,13 @@ Route::middleware([
     //sales
     Route::prefix('sale')->group(function(){
         Route::get('/',[SaleController::class,'index'])->name('sale');
+        Route::get('/print/{id}',[PrintController::class,'index'])->name('sale.print');
+        Route::get('/chalan-print/{id}',[ChalanPrintController::class,'index'])->name('sale.chalanprint');
+        Route::get('/show/{id}',[ShowController::class,'index'])->name('sale.show');
+        Route::get('return/{id}',[ReturnController::class,'index'])->name('sale.return');
+        Route::get('returnlist/{id}',[ReturnListController::class,'index'])->name('sale.returnlist');
+        Route::get('addpayment/{id}',[AddPayment::class,'index'])->name('sale.addpayment');
+        Route::delete('delete',[DeleteController::class,'delete'])->name('sale.delete');
     });
 
     Route::get('demo', function () {

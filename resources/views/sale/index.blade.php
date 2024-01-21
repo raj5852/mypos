@@ -2,27 +2,50 @@
 
 @section('content')
     <div class="card">
+        <div class="card-header">
+            <h2>Sales</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered top-summary">
+                <tbody>
+                    <tr>
+                        <td class="bg-danger">Sold Today:</td>
+                        <td class="bg-success">100.00 Tk</td>
+                        <td class="bg-warning">Today Received:</td>
+                        <td class="bg-success">0 Tk</td>
+                        <td class="bg-danger">Today Profit:</td>
+                        <td class="bg-success">20.00 Tk</td>
+                        <td class="bg-warning">Total Sold:</td>
+
+                        <td class="bg-success">2683035.30 Tk</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card">
         <div class="card-body">
             <form action="{{ route('sale') }}">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="mt-3">
                             <label for="">Bill number</label>
-                            <input type="text" name="bill" value="" placeholder="Bill number" class="form-control">
+                            <input type="text" name="bill" value="{{ request('bill') }}" placeholder="Bill number"
+                                class="form-control">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mt-3">
                             <label for="">Start date</label>
-                            <input type="date" value="" name="start_date" placeholder="Bill number"
-                                class="form-control">
+                            <input type="date" value="{{ request('start_date') }}" name="start_date"
+                                placeholder="Bill number" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mt-3">
                             <label for="">End date</label>
-                            <input type="date" value="" name="end_date" placeholder="Bill number"
-                                class="form-control">
+                            <input type="date" value="{{ request('end_date') }}" name="end_date"
+                                placeholder="Bill number" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -31,7 +54,8 @@
                             <select name="customer_id" class="form-select" id="">
                                 <option value="">Select supplier</option>
                                 @foreach ($sales as $sale)
-                                    <option value="{{ $sale->id }}">{{ $sale->name }}</option>
+                                    <option {{ request('customer_id') == $sale->id ? 'selected' : '' }}
+                                        value="{{ $sale->id }}">{{ $sale->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -42,7 +66,8 @@
                             <select name="product_id" class="form-select" id="">
                                 <option value="">Select product</option>
                                 @foreach ($products as $product)
-                                    <option value="{{ $product->id }}">{{ $product->name }} </option>
+                                    <option {{ request('product_id') == $product->id ? 'selected' : '' }}
+                                        value="{{ $product->id }}">{{ $product->name }} </option>
                                 @endforeach
                             </select>
                         </div>
@@ -96,7 +121,8 @@
                                 <td>
                                     <ul style="padding: 0px 5px">
                                         @foreach ($order->products as $product)
-                                            <li>{{ $product->name }} : {{ $product->code }} * {{ getTotalAvailAbleStock($product,$product->pivot->qty) }} </li>
+                                            <li>{{ $product->name }} : {{ $product->code }} *
+                                                {{ getTotalAvailAbleStock($product, $product->pivot->qty) }} </li>
                                         @endforeach
                                     </ul>
                                 </td>
@@ -116,11 +142,23 @@
                                             Manage
                                         </a>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <li><a class="dropdown-item" href="#">Print</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('sale.print', $order->id) }}">Print</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('sale.print', $order->id) }}">Chalan
+                                                    print</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('sale.show', $order->id) }}">Show</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('sale.return', $order->id) }}">Return</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('sale.returnlist', $order->id) }}">Return list</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('sale.addpayment', $order->id) }}">Add Payment</a></li>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('sale.delete', $order->id) }}">Delete</a></li>
                                         </ul>
                                     </div>
                                 </td>
-
                             </tr>
                         @empty
                     <tfoot>
