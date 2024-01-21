@@ -12,6 +12,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductListController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\PurchasePaymentController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
@@ -106,11 +107,18 @@ Route::middleware([
 
     // POS
     Route::get('pos', [PosController::class, 'index'])->name('pos');
-
+    //sales
+    Route::prefix('sale')->group(function(){
+        Route::get('/',[SaleController::class,'index'])->name('sale');
+    });
 
     Route::get('demo', function () {
 
-        return SingleProductStock(2);
+        // return SingleProductStock(2);
+        // return discountOfAmount(100,10);
+        // return (500%20000) ;
 
+        // return calculateDiscountedAmount(500,1);
+        return formatBalance(11);
     });
 });

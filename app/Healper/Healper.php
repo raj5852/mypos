@@ -65,7 +65,8 @@ function productcode()
 if (!function_exists('formatBalance')) {
     function formatBalance($balance)
     {
-        $decimalPlaces = is_float($balance) ? 2 : 0;
+        // Force decimal places to 2
+        $decimalPlaces = 2;
         return number_format(floatval($balance), $decimalPlaces, '.', '');
     }
 }
@@ -116,11 +117,11 @@ if (!function_exists('formatedate')) {
     function   formatedate($date)
     {
         return $formattedDate = Carbon::parse($date)->format('Y-m-d');
-
     }
 }
 
 
-function currentdateFormate(){
-   return  \Carbon\Carbon::now()->format('Y-m-d') ;
+function currentdateFormate()
+{
+    return  \Carbon\Carbon::now()->format('Y-m-d');
 }

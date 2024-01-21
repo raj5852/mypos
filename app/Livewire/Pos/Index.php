@@ -183,8 +183,7 @@ class Index extends Component
         $total = $this->grandTotal ?: 0;
         $perPercent =  $total / 100;
         $this->afterDiscount = $total - ($perPercent * ($this->discountvalue ?: 0));
-
-        $this->afterDiscount = ($this->afterDiscount - ($this->pay_amount ?: 0));
+        $this->afterDiscount =  formatBalance($this->afterDiscount - ($this->pay_amount ?: 0));
     }
 
 
@@ -201,7 +200,7 @@ class Index extends Component
         $total = $this->grandTotal ?: 0;
         $perPercent =  $total / 100;
         $discountAmount  = $total - ($perPercent * ($this->discountvalue ?: 0));
-        $this->pay_amount = $discountAmount;
+        $this->pay_amount = formatBalance($discountAmount);
         $this->discountSum();
     }
 
@@ -223,11 +222,12 @@ class Index extends Component
 
         try {
             DB::beginTransaction();
-
+            $discount =   calculateDiscountedAmount($this->grandTotal, $this->discountvalue);
             $order =  Order::create([
                 'customer_id' => $this->customer_id,
                 'date' => $this->selectedDate,
-                'discount' => $this->discountvalue
+                'discount' => $discount,
+                'receivable' => calculateReceivedAmount($this->grandTotal, $discount)
             ]);
 
             foreach ($this->selectProducts as  $product) {

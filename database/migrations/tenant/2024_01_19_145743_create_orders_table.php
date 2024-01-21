@@ -16,7 +16,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Customer::class);
             $table->timestamp('date');
-            $table->integer('discount')->nullable();
+            $table->float('discount',15,2)->nullable();
+            $table->float('receivable',15,2)->nullable();
             $table->timestamps();
         });
     }

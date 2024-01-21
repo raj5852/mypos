@@ -45,7 +45,7 @@ function subtotalQty($main_unit_related_value,  $mainstock,  $substoct)
     return ($relatedvalue * $main_stock) + $sub_stoct;
 }
 
-//
+// stockQtyValue
 function  stockQtyValue($total_stock_qty, $main_unit_related_value, $price)
 {
     $amount = ($total_stock_qty / ($main_unit_related_value ?: 1)) * ($price ?: 0);
@@ -70,4 +70,23 @@ function SingleProductStock($id)
         ->firstOrFail();
 
     return ($product->purchased - $product->sell);
+}
+
+
+function calculateDiscountedAmount($amount, $percentage)
+{
+    // Ensure $percentage is a valid number between 0 and 100
+    $percentage = max(0, min(100, $percentage));
+
+    // Calculate the discount amount
+    $discount = (($amount * $percentage) / 100);
+    return formatBalance($discount);
+}
+
+function calculateReceivedAmount($amount, $discount)
+{
+    // Subtract the discount from the original amount
+    $discountedAmount = ($amount ?: 0) - ($discount ?: 0);
+
+    return formatBalance($discountedAmount);
 }

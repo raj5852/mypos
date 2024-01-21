@@ -20,12 +20,23 @@ class Order extends Model
         return $this->morphMany(History::class, 'historyable');
     }
 
-      // paid
-      function scopePaid($query)
-      {
-          $query->withSum(['histories as paid' => function ($query) {
-              $query->where(['type' => '+', 'historyable_type' => 'App\Models\Order']);
-          }], 'amount');
-      }
+    // paid
+    function scopePaid($query)
+    {
+        $query->withSum(['histories as paid' => function ($query) {
+            $query->where(['type' => '+', 'historyable_type' => 'App\Models\Order']);
+        }], 'amount');
+    }
+
+    function scopeTotalsellprice()
+    {
+        return $this->hasMany(OrderDetails::class, 'total_sell_price');
+    }
+
+    function scopePurcheCost($query)
+    {
+        return $query->withSum('orderDetails as purchecost','total_purchase_cost');
+    }
+
 
 }

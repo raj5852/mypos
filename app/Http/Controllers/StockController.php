@@ -33,7 +33,8 @@ class StockController extends Controller
             ->when($product_id, function ($query) use ($product_id) {
                 $query->where('id', "{$product_id}");
             })
-            ->with(['category:id,name', 'brand:id,name', 'image:id,image', 'mainunit', 'subunit'])
+            ->with(['category:id,name', 'brand:id,name','mainunit', 'subunit'])
+            ->with('image')
             ->purchased()
             ->sell()
             ->paginate(15);

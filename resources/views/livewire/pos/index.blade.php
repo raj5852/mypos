@@ -42,11 +42,11 @@
                             <table class="table table-bordered">
                                 <thead class="bg-dark">
                                     <tr>
-                                        <th style="width:10px">Name</th>
-                                        <th style="width:220px;" class="text-center">Quantity</th>
-                                        <th>Price</th>
-                                        <th>SubT</th>
-                                        <th>Action</th>
+                                        <th style="width:80px">Name</th>
+                                        <th style="min-width:220px;" class="text-center">Quantity</th>
+                                        <th style="min-width:120px;">Price</th>
+                                        <th style="max-width:90px;">SubT</th>
+                                        <th style="max-width:90px;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody style="font-size: 13px">
@@ -132,7 +132,9 @@
                                         <img width="80px" src="{{ $product->image->image }}" alt="">
                                         <p>{{ $product->name }} - {{ $product->code }} </p>
                                         <p><b>{{ formatBalance($product->sale_price) }}</b> TK</p>
-                                        <P>Stock: {{ getTotalAvailAbleStock($product, productStock($product->purchased,$product->sell) ) }} </P>
+                                        <P>Stock:
+                                            {{ getTotalAvailAbleStock($product, productStock($product->purchased, $product->sell)) }}
+                                        </P>
                                     </div>
                                 @endforeach
                             </div>
@@ -260,7 +262,7 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2">
-                                        <strong class="float-start">After Discount total balance: </strong>
+                                        <strong class="float-start">After Discount total due: </strong>
                                         <strong class="float-end">(<span id="items"> {{ $afterDiscount }} TK
                                             </span>)</strong>
                                     </td>
