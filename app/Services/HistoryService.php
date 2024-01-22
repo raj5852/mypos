@@ -12,7 +12,7 @@ class HistoryService
     {
         return   $medel->histories()->create([
             'bank_account_id' => $bankid,
-            'amount' => $amount,
+            'amount' => $amount ?: 0,
             'type' => $type,
             'note' => $note,
             'date' => $date ?: now()

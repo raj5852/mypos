@@ -32,7 +32,8 @@
             <h3>All customer list</h3>
         </div>
         <div class="card-body">
-            <table class="table table-bordered">
+            <div class="table-responsive">
+                 <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -100,6 +101,8 @@
                 @endforelse
                 </tbody>
             </table>
+            </div>
+
             {{ $customers->links() }}
         </div>
     </div>

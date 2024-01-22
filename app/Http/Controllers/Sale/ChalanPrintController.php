@@ -3,11 +3,21 @@
 namespace App\Http\Controllers\Sale;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class ChalanPrintController extends Controller
 {
-    function index(){
-        return view('sale.chalanprint');
+    function index(int $id)
+    {
+        $order = Order::query()
+            ->where('id', $id)
+            ->with(['products:id,name,code,main_unit_related_value,main_unit_name,sub_unit_name', 'customer:id,name,phone,address'])
+            ->firstOrFail();
+
+        $address = Setting::first();
+
+        return view('sale.chalanprint', compact('address', 'order'));
     }
 }

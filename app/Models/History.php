@@ -10,4 +10,9 @@ class History extends Model
     use HasFactory;
     protected $guarded = [];
 
+
+    function order(){
+        return $this->belongsTo(Order::class,'historyable_id');
+    }
+
 }

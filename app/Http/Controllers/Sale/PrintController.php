@@ -3,12 +3,22 @@
 namespace App\Http\Controllers\Sale;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class PrintController extends Controller
 {
     function index(int $id)
     {
-        return view('sale.print');
+        $order = Order::query()
+            ->where('id', $id)
+            ->with(['history', 'products:id,name,code,main_unit_related_value,main_unit_name,sub_unit_name', 'customer:id,name,phone,address'])
+            ->totalsellprice()
+            ->paid()
+            ->firstOrFail();
+
+        $address = Setting::first();
+        return view('sale.print', compact('address', 'order'));
     }
 }

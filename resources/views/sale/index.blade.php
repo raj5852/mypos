@@ -10,14 +10,13 @@
                 <tbody>
                     <tr>
                         <td class="bg-danger">Sold Today:</td>
-                        <td class="bg-success">100.00 Tk</td>
+                        <td class="bg-success">{{SoldToday()}} Tk</td>
                         <td class="bg-warning">Today Received:</td>
-                        <td class="bg-success">0 Tk</td>
+                        <td class="bg-success">{{TodayReceived()}} Tk</td>
                         <td class="bg-danger">Today Profit:</td>
-                        <td class="bg-success">20.00 Tk</td>
+                        <td class="bg-success">{{TodayProfit()}} Tk</td>
                         <td class="bg-warning">Total Sold:</td>
-
-                        <td class="bg-success">2683035.30 Tk</td>
+                        <td class="bg-success">{{totalSold()}} Tk</td>
                     </tr>
                 </tbody>
             </table>
@@ -144,7 +143,7 @@
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                             <li><a class="dropdown-item"
                                                     href="{{ route('sale.print', $order->id) }}">Print</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('sale.print', $order->id) }}">Chalan
+                                            <li><a class="dropdown-item" href="{{ route('sale.chalanprint', $order->id) }}">Chalan
                                                     print</a></li>
                                             <li><a class="dropdown-item"
                                                     href="{{ route('sale.show', $order->id) }}">Show</a></li>

@@ -20,6 +20,22 @@ class Order extends Model
         return $this->morphMany(History::class, 'historyable');
     }
 
+    function history()
+    {
+        return $this->morphOne(History::class, 'historyable');
+    }
+
+
+    function products()
+    {
+        return $this->belongsToMany(Product::class, 'order_details')->withPivot('qty', 'sell_price', 'total_sell_price');
+    }
+
+    function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
     // paid
     function scopePaid($query)
     {
@@ -28,23 +44,13 @@ class Order extends Model
         }], 'amount');
     }
 
-    function scopeTotalsellprice()
+    function scopeTotalsellprice($query)
     {
-        return $this->hasMany(OrderDetails::class, 'total_sell_price');
+        return $query->withSum('orderDetails as totalsellprice', 'total_sell_price');
     }
 
     function scopePurcheCost($query)
     {
         return $query->withSum('orderDetails as purchecost', 'total_purchase_cost');
-    }
-
-    function products()
-    {
-        return $this->belongsToMany(Product::class, 'order_details')->withPivot('qty');
-    }
-
-    function customer()
-    {
-        return $this->belongsTo(Customer::class);
     }
 }

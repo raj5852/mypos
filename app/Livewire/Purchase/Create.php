@@ -156,7 +156,7 @@ class Create extends Component
                     'product_id' => $product['id'],
                     'qty' => $totalQty,
                     'price' => $product['purchase_cost'],
-                    'total_amount'=> $product['sub_total']
+                    'total_amount'=> $product['sub_total'],
                 ]);
             }
 

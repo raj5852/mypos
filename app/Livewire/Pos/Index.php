@@ -187,8 +187,6 @@ class Index extends Component
     }
 
 
-
-
     function payamount($value)
     {
         $this->discountSum();
@@ -208,7 +206,7 @@ class Index extends Component
     {
         $this->validate([
             'discountvalue' => ['nullable', 'numeric'],
-            'pay_amount' => ['nullable', 'numeric'],
+            'pay_amount' => ['nullable', 'numeric', 'min:0'],
             'selectedBank_id' => ['required', 'exists:bank_accounts,id'],
             'customer_id' => ['required', 'exists:customers,id'],
             'selectedDate' => ['date'],
@@ -248,10 +246,13 @@ class Index extends Component
                     'total_purchase_cost' => $total_purchase_cost,
                     'sell_price' => $sellprice,
                     'total_sell_price' => $total_sell_price,
+                    'date' => $this->selectedDate
                 ]);
             }
 
-            HistoryService::Transition($order, $bankid, $pay_amount, '+', $note, $date);
+            if ($pay_amount != null && $pay_amount > 0) {
+                HistoryService::Transition($order, $bankid, $pay_amount, '+', $note, $date);
+            }
 
             DB::commit();
         } catch (\Throwable $th) {

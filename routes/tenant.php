@@ -123,7 +123,10 @@ Route::middleware([
         Route::get('return/{id}',[ReturnController::class,'index'])->name('sale.return');
         Route::get('returnlist/{id}',[ReturnListController::class,'index'])->name('sale.returnlist');
         Route::get('addpayment/{id}',[AddPayment::class,'index'])->name('sale.addpayment');
-        Route::delete('delete',[DeleteController::class,'delete'])->name('sale.delete');
+        Route::post('addpayment/store',[AddPayment::class,'store'])->name('sale.store');
+
+        Route::delete('addpayment/delete/{id}',[DeleteController::class,'addpaymentdelete'])->name('sale.addpayment.delete');
+        Route::delete('order/delete/{id}',[DeleteController::class,'delete'])->name('sale.delete');
     });
 
     Route::get('demo', function () {
@@ -133,6 +136,7 @@ Route::middleware([
         // return (500%20000) ;
 
         // return calculateDiscountedAmount(500,1);
-        return formatBalance(11);
+        // return formatBalance(11);
+        return TodayReceived();
     });
 });
