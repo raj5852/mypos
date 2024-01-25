@@ -62,7 +62,13 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::with(['category', 'brand', 'image'])->findOrFail($id);
+        $product = Product::query()
+            ->where('id', $id)
+            ->with(['category', 'brand', 'image'])
+            ->purchased()
+            ->sell()
+            ->damage()
+            ->firstOrFail();
         return view('product.show', compact('product'));
     }
 
@@ -79,8 +85,21 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(int $id)
     {
+        $product = Product::query()
+            ->where('id', $id)
+            ->sell()
+            ->withCount(['purchasedetails as purchased' => function ($query) {
+                $query->where('purchase_id', '!=', '');
+            }])
+            ->withCount(['damages as damage'])
+            ->firstOrFail();
+
+        if ($product->sell  != '' || $product->purchased > 0 || $product->damage > 0) {
+            return back()->with('error', 'You can not delete');
+        }
+
         filedelete($product->image->image);
         $product->image()->delete();
         $product->delete();
@@ -89,9 +108,14 @@ class ProductController extends Controller
 
     function sellhistory($productid)
     {
-        Product::findOrFail($productid);
+        $orderDetails = Product::findOrFail($productid)
+            ->orderdetails()
+            ->with('product')
+            ->latest()
+            ->paginate(15);
 
-        return view('product.sellhistory');
+        return view('product.sellhistory', compact('orderDetails'))
+            ->with('i', (request()->input('page', 1) - 1) * 15);
     }
 
     function barcode($productid)

@@ -29,9 +29,9 @@
                             <td>{{ $owner->name }} </td>
                             <td>{{ $owner->phone }} </td>
                             <td>{{ $owner->address }} </td>
-                            <td>{{ $owner->invested }} </td>
-                            <td>{{ $owner->withdrawn }} </td>
-                            <td>{{ $owner->invested - $owner->withdrawn  }} </td>
+                            <td> <a href="{{ route('owner.invested',$owner->id) }}">{{ formatBalance($owner->invested ?: 0) }}</a>  </td>
+                            <td>  <a href="{{ route('owner.withdraw',$owner->id) }}">{{ formatBalance($owner->withdrawn ?: 0) }} </a>  </td>
+                            <td>{{ formatBalance($owner->invested - $owner->withdrawn)  }} </td>
                             <td>
                                 <a href="{{ route('owner.edit',$owner->id) }}" class="btn btn-primary btn-sm">Edit</a>
                                 <a href="{{ route('owner.destroy',$owner->id) }}" class="btn btn-danger delete btn-sm">Delete</a>

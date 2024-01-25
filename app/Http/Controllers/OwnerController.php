@@ -83,10 +83,42 @@ class OwnerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Owner $owner)
+    public function destroy($ownerid)
     {
+        $owner = Owner::query()
+            ->where('id', $ownerid)
+            ->withCount('histories')
+            ->firstOrFail();
+
+        if ($owner->histories_count > 0) {
+            return back()->with('error', 'You can not delete');
+        }
+
         $owner->delete();
 
         return back()->with('message', 'Owner deleted successfully');
+    }
+
+    function invested(int $id)
+    {
+        $owner = Owner::query()->findOrFail($id);
+        $investhistories = $owner->invest()
+            ->latest()
+            ->with('bank:id,name')
+            ->paginate(15);
+
+        return view('owner.investhistory', compact('investhistories'))
+            ->with('i', (request()->input('page', 1) - 1) * 15);
+    }
+    function withdraw(int $id)
+    {
+        $owner = Owner::query()->findOrFail($id);
+        $withdrawhistories = $owner->withdraw()
+            ->latest()
+            ->with('bank:id,name')
+            ->paginate(15);
+
+        return view('owner.withdrawhistory', compact('withdrawhistories'))
+            ->with('i', (request()->input('page', 1) - 1) * 15);
     }
 }

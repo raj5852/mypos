@@ -13,4 +13,13 @@ class Owner extends Model
     function histories(){
         return $this->morphMany(History::class,'historyable');
     }
+
+
+    function invest(){
+        return $this->morphMany(History::class,'historyable')->where('type','+');
+    }
+
+    function withdraw(){
+        return $this->morphMany(History::class,'historyable')->where('type','-');
+    }
 }

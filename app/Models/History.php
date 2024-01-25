@@ -15,4 +15,8 @@ class History extends Model
         return $this->belongsTo(Order::class,'historyable_id');
     }
 
+    function bank(){
+        return $this->belongsTo(BankAccount::class,'bank_account_id');
+    }
+
 }

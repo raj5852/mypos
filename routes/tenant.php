@@ -24,13 +24,8 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\SupplierListController;
 use App\Http\Controllers\UnitController;
-use App\Models\Product;
-use App\Models\Purchase;
-use App\Models\Supplier;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
-use Stancl\Tenancy\Middleware\InitializeTenancyBySubdomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 
 /*
@@ -84,7 +79,7 @@ Route::middleware([
         Route::get('add-payment/{id}', [PurchaseController::class, 'addpayment'])->name('purchase.addpayment');
         Route::post('add-payment/{id}', [PurchaseController::class, 'addpaymentStore'])->name('purchase.addpaymentStore');
         Route::delete('paument/{id}', [PurchasePaymentController::class, 'delete'])->name('purchase.payment.delete');
-        Route::delete('delete/{id}',[PurchasePaymentController::class, 'deletePurchase'])->name('purchase.delete');
+        Route::delete('delete/{id}', [PurchasePaymentController::class, 'deletePurchase'])->name('purchase.delete');
     });
 
 
@@ -95,6 +90,10 @@ Route::middleware([
 
     //owner
     Route::resource('owner', OwnerController::class);
+    Route::prefix('owner')->group(function(){
+        Route::get('invested/{id}',[OwnerController::class,'invested'])->name('owner.invested');
+        Route::get('withdraw/{id}',[OwnerController::class,'withdraw'])->name('owner.withdraw');
+    });
     //bank accounts
     Route::resource('bank', BankAccountsController::class)->only('index', 'create', 'store');
 
@@ -115,32 +114,21 @@ Route::middleware([
     // POS
     Route::get('pos', [PosController::class, 'index'])->name('pos');
     //sales
-    Route::prefix('sale')->group(function(){
-        Route::get('/',[SaleController::class,'index'])->name('sale');
-        Route::get('/print/{id}',[PrintController::class,'index'])->name('sale.print');
-        Route::get('/chalan-print/{id}',[ChalanPrintController::class,'index'])->name('sale.chalanprint');
-        Route::get('/show/{id}',[ShowController::class,'index'])->name('sale.show');
-        Route::get('addpayment/{id}',[AddPayment::class,'index'])->name('sale.addpayment');
-        Route::post('addpayment/store',[AddPayment::class,'store'])->name('sale.store');
+    Route::prefix('sale')->group(function () {
+        Route::get('/', [SaleController::class, 'index'])->name('sale');
+        Route::get('/print/{id}', [PrintController::class, 'index'])->name('sale.print');
+        Route::get('/chalan-print/{id}', [ChalanPrintController::class, 'index'])->name('sale.chalanprint');
+        Route::get('/show/{id}', [ShowController::class, 'index'])->name('sale.show');
+        Route::get('addpayment/{id}', [AddPayment::class, 'index'])->name('sale.addpayment');
+        Route::post('addpayment/store', [AddPayment::class, 'store'])->name('sale.store');
 
-        Route::delete('addpayment/delete/{id}',[DeleteController::class,'addpaymentdelete'])->name('sale.addpayment.delete');
-        Route::delete('order/delete/{id}',[DeleteController::class,'delete'])->name('sale.delete');
+        Route::delete('addpayment/delete/{id}', [DeleteController::class, 'addpaymentdelete'])->name('sale.addpayment.delete');
+        Route::delete('order/delete/{id}', [DeleteController::class, 'delete'])->name('sale.delete');
     });
     // damage
 
-    Route::resource('damage',DamageController::class);
+    Route::resource('damage', DamageController::class);
 
     Route::get('demo', function () {
-
-        // return SingleProductStock(2);
-        // return discountOfAmount(100,10);
-        // return (500%20000) ;
-
-        // return calculateDiscountedAmount(500,1);
-        // return formatBalance(11);
-        // return TodayReceived();
-
-        // return Product::query()->OrderDetails();
-
     });
 });

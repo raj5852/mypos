@@ -36,7 +36,7 @@
                                 </tr>
                                 <tr>
                                     <td>Stock</td>
-                                    <td id="stock">{{ $product->stock }}</td>
+                                    <td id="stock">{{ getTotalAvailAbleStock($product, productStock($product->purchased,$product->damage, $product->sell)) }}</td>
                                 </tr>
                                 <tr>
                                     <td>Details</td>
