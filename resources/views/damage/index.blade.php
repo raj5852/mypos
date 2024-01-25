@@ -2,6 +2,32 @@
 
 @section('content')
     <div class="card">
+        <div class="card-body">
+            <form action="">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="">Select Product</label>
+                        <select name="product_id" id="product" class="form-select">
+                            <option value="">Select Prodcut</option>
+                            @foreach ($products as $product)
+                                <option value="{{ $product->id }}">{{ $product->name }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Product code</label>
+                        <input type="text" name="code" class="form-control">
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <a href="{{ route('damage.index') }}" class="btn btn-secondary">Rest</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
         <div class="card-header">
             <h3>Damages</h3>
         </div>
@@ -10,6 +36,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Product Code</th>
                         <th>Date</th>
                         <th>Product</th>
                         <th>Quantity</th>
@@ -20,6 +47,7 @@
                 @forelse ($damages as $damage)
                     <tr>
                         <td>{{ ++$i }} </td>
+                        <td>{{ $damage->product->code }} </td>
                         <td>{{ formatedate($damage->date) }} </td>
                         <td>{{ $damage->product?->name }} </td>
                         <td>{{ getTotalAvailAbleStock($damage->product, $damage->qty) }} </td>
