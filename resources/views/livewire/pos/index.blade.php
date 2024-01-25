@@ -133,7 +133,7 @@
                                         <p>{{ $product->name }} - {{ $product->code }} </p>
                                         <p><b>{{ formatBalance($product->sale_price) }}</b> TK</p>
                                         <P>Stock:
-                                            {{ getTotalAvailAbleStock($product, productStock($product->purchased, $product->sell)) }}
+                                            {{ getTotalAvailAbleStock($product, productStock($product->purchased, $product->damage, $product->sell)) }}
                                         </P>
                                     </div>
                                 @endforeach

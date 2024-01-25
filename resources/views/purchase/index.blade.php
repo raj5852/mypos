@@ -8,19 +8,22 @@
                     <div class="col-md-3">
                         <div class="mt-3">
                             <label for="">Bill number</label>
-                            <input type="text" name="bill" value="{{ request('bill') }}" placeholder="Bill number" class="form-control">
+                            <input type="text" name="bill" value="{{ request('bill') }}" placeholder="Bill number"
+                                class="form-control">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mt-3">
                             <label for="">Start date</label>
-                            <input type="date" value="{{ request('start_date') }}" name="start_date" placeholder="Bill number" class="form-control">
+                            <input type="date" value="{{ request('start_date') }}" name="start_date"
+                                placeholder="Bill number" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="mt-3">
                             <label for="">End date</label>
-                            <input type="date" value="{{ request('end_date') }}" name="end_date" placeholder="Bill number" class="form-control">
+                            <input type="date" value="{{ request('end_date') }}" name="end_date"
+                                placeholder="Bill number" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -29,7 +32,8 @@
                             <select name="supplier_id" class="form-select" id="">
                                 <option value="">Select supplier</option>
                                 @foreach ($suppliers as $supplier)
-                                    <option {{ request('supplier_id') == $supplier->id ?'selected':'' }}  value="{{$supplier->id}}">{{$supplier->name}}</option>
+                                    <option {{ request('supplier_id') == $supplier->id ? 'selected' : '' }}
+                                        value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -40,7 +44,8 @@
                             <select name="product_id" class="form-select" id="">
                                 <option value="">Select product</option>
                                 @foreach ($products as $product)
-                                    <option {{ request('product_id') == $product->id ?'selected':'' }} value="{{ $product->id }}">{{$product->name}}</option>
+                                    <option {{ request('product_id') == $product->id ? 'selected' : '' }}
+                                        value="{{ $product->id }}">{{ $product->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -116,8 +121,12 @@
                                                     <p class="me-2">Show</p>
                                                 </div>
 
-
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                        <li><a class="dropdown-item"
+                                                href="{{ route('purchase.addpayment', $purchase->id) }}">Add Payment</a>
+                                        </li>
+                                        <li><a class="dropdown-item delete"
+                                                href="{{ route('purchase.delete', $purchase->id) }}">Delete</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </td>
@@ -136,5 +145,35 @@
         </div>
     </div>
 
+    <div class="modal fade show" id="confirm-modal" tabindex="-1" aria-modal="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">You want to delete ?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="delete-form" action="" method="POST">
+                    @csrf
+                    @method('delete')
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">No. Back
+                            !</button>
+                        <button type="submit" class="btn btn-primary">Yes, Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
 
+@section('js')
+<script>
+    $('.delete').click(function(event) {
+        event.preventDefault();
+        var url = $(this).attr("href");
+
+        $("#delete-form").attr('action', url);
+        $("#confirm-modal").modal('show');
+    });
+</script>
 @endsection

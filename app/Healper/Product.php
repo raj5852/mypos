@@ -56,9 +56,9 @@ function  stockQtyValue($total_stock_qty, $main_unit_related_value, $price)
 }
 
 // 10-4 = 6
-function productStock($purchased, $sellStock)
+function productStock($purchased, $damage, $sellStock)
 {
-    return formatBalance(($purchased ?: 0) - ($sellStock ?: 0));
+    return formatBalance((($purchased ?: 0) - ($damage ?: 0)) - ($sellStock ?: 0));
 }
 
 
@@ -69,9 +69,10 @@ function SingleProductStock($id)
         ->where('id', $id)
         ->purchased()
         ->sell()
+        ->damage()
         ->firstOrFail();
 
-    return ($product->purchased - $product->sell);
+    return (($product->purchased - $product->damage) - $product->sell);
 }
 
 

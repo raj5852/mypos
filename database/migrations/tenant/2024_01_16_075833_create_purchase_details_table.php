@@ -15,7 +15,9 @@ return new class extends Migration
         Schema::create('purchase_details', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Product::class)->constrained();
-            $table->foreignId('purchase_id')->nullable();
+            $table->foreignId('purchase_id')->nullable()
+                ->constrained()
+                ->onDelete('cascade');
             $table->float('qty', 15, 2)->nullable();
             $table->float('price', 15, 2)->nullable();
             $table->float('total_amount', 15, 2)->nullable();

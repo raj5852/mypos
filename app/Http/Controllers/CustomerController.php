@@ -24,6 +24,8 @@ class CustomerController extends Controller
             ->when($phone, function ($query) use ($phone) {
                 $query->where('phone', 'like', "%{$phone}%");
             })
+            ->receivable()
+            ->paid()
             ->paginate(15)
             ->withQueryString();
 

@@ -71,7 +71,6 @@
                             <th>Purchased</th>
                             <th>Sold</th>
                             <th>Damaged</th>
-                            <th>Returned</th>
                             <th>Available Stock</th>
                             <th>Sell Value</th>
                         </tr>
@@ -88,13 +87,14 @@
                                 <td>{{ $product->name }} </td>
                                 <td>{{ $product->category->name }} </td>
                                 <td>{{ $product->sale_price }} </td>
-                                <td>{{ getTotalAvailAbleStock($product, $product->purchased ) }} </td>
-                                <td>{{getTotalAvailAbleStock($product, $product->sell )}} </td>
-                                <td>Damaged </td>
-                                <td>Returned </td>
-                                <td> {{getTotalAvailAbleStock($product, productStock($product->purchased, $product->sell) )}} </td>
+                                <td>{{ getTotalAvailAbleStock($product, $product->purchased) }} </td>
+                                <td>{{ getTotalAvailAbleStock($product, $product->sell) }} </td>
+                                <td>{{ getTotalAvailAbleStock($product, $product->damage) }}  </td>
+                                <td> {{ getTotalAvailAbleStock($product, productStock($product->purchased,$product->damage, $product->sell)) }}
+                                </td>
 
-                                <td style="font-weight: bold">{{stockQtyValue(productStock($product->purchased, $product->sell) , $product->main_unit_related_value, $product->sale_price )}}
+                                <td style="font-weight: bold">
+                                    {{ stockQtyValue(productStock($product->purchased, $product->damage, $product->sell), $product->main_unit_related_value, $product->sale_price) }}
                                     TK</td>
 
                             </tr>

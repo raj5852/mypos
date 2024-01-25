@@ -38,9 +38,7 @@
                 <a href="{{ route('sale') }}"><i class="material-icons-two-tone">local_mall</i>Sales</a>
             </li>
 
-            <li  class="{{ request()->is('stock') ? 'active-page' : '' }}">
-                <a href="{{ route('product.stock') }}"><i class="material-icons-two-tone">inventory</i>Stock</a>
-            </li>
+
 
             <li class="{{ request()->is('purchase*') ? 'active-page' : '' }}">
                 <a href="#"><i class="material-icons-two-tone">liquor</i>
@@ -57,7 +55,24 @@
                 </ul>
             </li>
 
+            <li  class="{{ request()->is('stock') ? 'active-page' : '' }}">
+                <a href="{{ route('product.stock') }}"><i class="material-icons-two-tone">inventory</i>Stock</a>
+            </li>
 
+            <li class="{{ request()->is('damage*') ? 'active-page' : '' }}">
+                <a href="#"><i class="material-icons-two-tone">broken_image</i>
+                    Damages<i class="material-icons has-sub-menu">keyboard_arrow_right</i></a>
+                <ul class="sub-menu" style="display: none;">
+                    <li>
+                        <a href="{{ route('damage.create') }}"
+                            class="{{ request()->is('damage/create') ? 'active' : '' }}">Add damage</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('damage.index') }}" class="{{ request()->is('damage') ? 'active' : '' }}">Manage
+                            damages</a>
+                    </li>
+                </ul>
+            </li>
 
 
             <li class="sidebar-title">

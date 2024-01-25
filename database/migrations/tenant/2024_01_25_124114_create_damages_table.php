@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Customer;
+use App\Models\Product;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,13 +12,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('damages', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Customer::class)
-                ->constrained();
+            $table->foreignIdFor(Product::class)->constrained()->onDelete('cascade');
+            $table->float('qty',15,8)->nullable();
             $table->timestamp('date');
-            $table->float('discount', 15, 2)->nullable();
-            $table->float('receivable', 15, 2)->nullable();
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('damages');
     }
 };

@@ -33,74 +33,80 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                 <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>Receivable</th>
-                        <th>Paid</th>
-                        <th>Sale Due</th>
-                        <th>Wallet Balance</th>
-                        <th>Total Due</th>
-                        <th>#</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-
-                    @forelse ($customers as $customer)
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{ ++$i }} </td>
-                            <td>{{ $customer->name }} </td>
-                            <td>{{ $customer->email }} </td>
-                            <td>{{ $customer->phone }} </td>
-                            <td>{{ $customer->address }} </td>
-                            <td>{{ $customer->opening_receivable ?? 0 }} TK </td>
-                            <td>{{ $customer->opening_payable ?? 0 }} TK </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-secondary dropdown-toggle btn-sm"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        <x-setting-icon />
-                                    </button>
-                                    <ul class="dropdown-menu ">
-                                        <li>
-                                            <div class="d-flex">
-                                                <i class="material-icons-two-tone mt-2">edit</i>
-                                                <a class="dropdown-item "
-                                                    href="{{ route('customer.edit', $customer->id) }}">Edit</a>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="d-flex">
-                                                <i class="material-icons-two-tone mt-2">delete</i>
-                                                <a class="dropdown-item delete"
-                                                    href="{{ route('customer.destroy', $customer->id) }}">Delete</a>
-                                            </div>
-                                        </li>
-
-                                    </ul>
-                                </div>
-
-                            </td>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>Receivable</th>
+                            <th>Paid</th>
+                            <th>Sale Due</th>
+                            <th>Wallet Balance</th>
+                            <th>Total Due</th>
+                            <th>#</th>
                         </tr>
-                    @empty
-                <tfoot>
-                    <tr class="text-center">
-                        <td colspan="11">No record found!</td>
-                    </tr>
-                </tfoot>
-                @endforelse
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+
+
+                        @forelse ($customers as $customer)
+                            @php
+                                $receivable = $customer->receivable ?: 0;
+                                $paid = $customer->paid ?: 0;
+                                $saleDue = $receivable - $paid;
+                            @endphp
+
+                            <tr>
+                                <td>{{ ++$i }} </td>
+                                <td>{{ $customer->name }} </td>
+                                <td>{{ $customer->email }} </td>
+                                <td>{{ $customer->phone }} </td>
+                                <td>{{ $customer->address }} </td>
+                                <td>{{ formatBalance($receivable) }} TK </td>
+                                <td>{{ formatBalance($paid) }} TK </td>
+                                <td>{{ formatBalance($saleDue) }} TK </td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-secondary dropdown-toggle btn-sm"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <x-setting-icon />
+                                        </button>
+                                        <ul class="dropdown-menu ">
+                                            <li>
+                                                <div class="d-flex">
+                                                    <i class="material-icons-two-tone mt-2">edit</i>
+                                                    <a class="dropdown-item "
+                                                        href="{{ route('customer.edit', $customer->id) }}">Edit</a>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="d-flex">
+                                                    <i class="material-icons-two-tone mt-2">delete</i>
+                                                    <a class="dropdown-item delete"
+                                                        href="{{ route('customer.destroy', $customer->id) }}">Delete</a>
+                                                </div>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        @empty
+                    <tfoot>
+                        <tr class="text-center">
+                            <td colspan="11">No record found!</td>
+                        </tr>
+                    </tfoot>
+                    @endforelse
+                    </tbody>
+                </table>
             </div>
 
             {{ $customers->links() }}

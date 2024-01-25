@@ -36,6 +36,19 @@ class Order extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($order) {
+            $order->histories()->delete();
+        });
+    }
+
+
+    #####################
+    // scope
+    #####################
+
     // paid
     function scopePaid($query)
     {

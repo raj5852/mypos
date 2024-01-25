@@ -6,6 +6,7 @@ use App\Http\Controllers\BankAccountsController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DamageController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\ProductController;
@@ -16,8 +17,6 @@ use App\Http\Controllers\Sale\AddPayment;
 use App\Http\Controllers\Sale\ChalanPrintController;
 use App\Http\Controllers\Sale\DeleteController;
 use App\Http\Controllers\Sale\PrintController;
-use App\Http\Controllers\Sale\ReturnController;
-use App\Http\Controllers\Sale\ReturnListController;
 use App\Http\Controllers\Sale\SaleController;
 use App\Http\Controllers\Sale\ShowController;
 use App\Http\Controllers\SettingController;
@@ -84,7 +83,8 @@ Route::middleware([
         Route::get('invoice/{purchaseId}', [PurchaseController::class, 'invoice'])->name('purchase.invoice');
         Route::get('add-payment/{id}', [PurchaseController::class, 'addpayment'])->name('purchase.addpayment');
         Route::post('add-payment/{id}', [PurchaseController::class, 'addpaymentStore'])->name('purchase.addpaymentStore');
-        Route::delete('paument/{id}', [PurchasePaymentController::class, 'delete'])->name('purchase.delete');
+        Route::delete('paument/{id}', [PurchasePaymentController::class, 'delete'])->name('purchase.payment.delete');
+        Route::delete('delete/{id}',[PurchasePaymentController::class, 'deletePurchase'])->name('purchase.delete');
     });
 
 
@@ -120,14 +120,15 @@ Route::middleware([
         Route::get('/print/{id}',[PrintController::class,'index'])->name('sale.print');
         Route::get('/chalan-print/{id}',[ChalanPrintController::class,'index'])->name('sale.chalanprint');
         Route::get('/show/{id}',[ShowController::class,'index'])->name('sale.show');
-        Route::get('return/{id}',[ReturnController::class,'index'])->name('sale.return');
-        Route::get('returnlist/{id}',[ReturnListController::class,'index'])->name('sale.returnlist');
         Route::get('addpayment/{id}',[AddPayment::class,'index'])->name('sale.addpayment');
         Route::post('addpayment/store',[AddPayment::class,'store'])->name('sale.store');
 
         Route::delete('addpayment/delete/{id}',[DeleteController::class,'addpaymentdelete'])->name('sale.addpayment.delete');
         Route::delete('order/delete/{id}',[DeleteController::class,'delete'])->name('sale.delete');
     });
+    // damage
+
+    Route::resource('damage',DamageController::class);
 
     Route::get('demo', function () {
 
@@ -137,6 +138,9 @@ Route::middleware([
 
         // return calculateDiscountedAmount(500,1);
         // return formatBalance(11);
-        return TodayReceived();
+        // return TodayReceived();
+
+        // return Product::query()->OrderDetails();
+
     });
 });

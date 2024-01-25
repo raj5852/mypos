@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Order::class);
-            $table->foreignIdFor(Product::class);
+            $table->foreignIdFor(Order::class)
+                ->constrained()
+                ->onDelete('cascade');
+            $table->foreignIdFor(Product::class)->constrained();
             $table->integer('qty')->default(0);
             $table->float('purchase_cost')->default(0);
             $table->float('total_purchase_cost', 15, 2)->nullable();

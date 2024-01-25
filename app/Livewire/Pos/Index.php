@@ -286,6 +286,7 @@ class Index extends Component
                 ->with('image')
                 ->purchased()
                 ->sell()
+                ->damage()
                 ->paginate(12)
         ]);
     }

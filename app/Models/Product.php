@@ -49,6 +49,11 @@ class Product extends Model
         return $this->hasMany(OrderDetails::class);
     }
 
+    function damages(){
+        return $this->hasMany(Damage::class,'product_id');
+    }
+
+
     function scopePurchased($query)
     {
         $query->withSum(['purchasedetails as purchased'], 'qty');
@@ -58,4 +63,11 @@ class Product extends Model
     {
         $query->withSum(['orderdetails as sell'], 'qty');
     }
+
+    function scopeDamage($query)
+    {
+        $query->withSum(['damages as damage'], 'qty');
+    }
+
+
 }

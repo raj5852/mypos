@@ -37,6 +37,7 @@ class StockController extends Controller
             ->with('image')
             ->purchased()
             ->sell()
+            ->damage()
             ->paginate(15);
 
         $brands = Brand::get();

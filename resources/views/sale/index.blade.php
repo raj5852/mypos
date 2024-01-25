@@ -10,13 +10,13 @@
                 <tbody>
                     <tr>
                         <td class="bg-danger">Sold Today:</td>
-                        <td class="bg-success">{{SoldToday()}} Tk</td>
+                        <td class="bg-success">{{ SoldToday() }} Tk</td>
                         <td class="bg-warning">Today Received:</td>
-                        <td class="bg-success">{{TodayReceived()}} Tk</td>
+                        <td class="bg-success">{{ TodayReceived() }} Tk</td>
                         <td class="bg-danger">Today Profit:</td>
-                        <td class="bg-success">{{TodayProfit()}} Tk</td>
+                        <td class="bg-success">{{ TodayProfit() }} Tk</td>
                         <td class="bg-warning">Total Sold:</td>
-                        <td class="bg-success">{{totalSold()}} Tk</td>
+                        <td class="bg-success">{{ totalSold() }} Tk</td>
                     </tr>
                 </tbody>
             </table>
@@ -100,7 +100,6 @@
                             <th>Discount</th>
                             <th>Receivable</th>
                             <th>Paid</th>
-                            <th>Product Returned</th>
                             <th>Due</th>
                             <th>Purchase Cost</th>
                             <th>Profit</th>
@@ -129,7 +128,6 @@
                                 <td>{{ formatBalance($order->discount ?: 0) }} TK </td>
                                 <td>{{ formatBalance($order->receivable ?: 0) }} TK</td>
                                 <td>{{ formatBalance($order->paid ?: 0) }} TK</td>
-                                <td class="text-danger"> retrun </td>
                                 <td>{{ $due }} TK</td>
                                 <td>{{ formatBalance($order->purchecost) }} TK</td>
                                 <td>{{ formatBalance(($order->receivable ?: 0) - ($order->purchecost ?: 0)) }} TK</td>
@@ -143,17 +141,14 @@
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                             <li><a class="dropdown-item"
                                                     href="{{ route('sale.print', $order->id) }}">Print</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('sale.chalanprint', $order->id) }}">Chalan
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('sale.chalanprint', $order->id) }}">Chalan
                                                     print</a></li>
                                             <li><a class="dropdown-item"
                                                     href="{{ route('sale.show', $order->id) }}">Show</a></li>
                                             <li><a class="dropdown-item"
-                                                    href="{{ route('sale.return', $order->id) }}">Return</a></li>
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route('sale.returnlist', $order->id) }}">Return list</a></li>
-                                            <li><a class="dropdown-item"
                                                     href="{{ route('sale.addpayment', $order->id) }}">Add Payment</a></li>
-                                            <li><a class="dropdown-item"
+                                            <li><a class="dropdown-item delete"
                                                     href="{{ route('sale.delete', $order->id) }}">Delete</a></li>
                                         </ul>
                                     </div>
@@ -174,4 +169,36 @@
 
         </div>
     </div>
+    <div class="modal fade show" id="confirm-modal" tabindex="-1" aria-modal="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">You want to delete ?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="delete-form" action="" method="POST">
+                    @csrf
+                    @method('delete')
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">No.
+                            Back
+                            !</button>
+                        <button type="submit" class="btn btn-primary">Yes, Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('js')
+    <script>
+        $('.delete').click(function(event) {
+            event.preventDefault();
+            var url = $(this).attr("href");
+
+            $("#delete-form").attr('action', url);
+            $("#confirm-modal").modal('show');
+        });
+    </script>
 @endsection

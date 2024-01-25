@@ -31,6 +31,17 @@ class Purchase extends Model
         return $this->morphMany(History::class, 'historyable');
     }
 
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::deleting(function ($order) {
+            $order->histories()->delete();
+        });
+    }
+
+
+
     // payable
     function scopePayable($query)
     {
