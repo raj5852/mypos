@@ -25,3 +25,4 @@ Route::get('/', function () {
 });
 
 // Route::get('categorydadasdf', [CategoryController::class,'create']);
+// test
