@@ -37,6 +37,6 @@ class PurchasePaymentController extends Controller
             }
         }
         $purchase->delete();
-        return back()->with('Success', 'Purchase deleted successfully');
+        return back()->with('success', 'Purchase deleted successfully');
     }
 }

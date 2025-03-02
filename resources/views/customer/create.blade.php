@@ -49,7 +49,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <div class="mt-3">
                             <label for="">Opening Receivable</label>
                             <input type="text" name="opening_receivable"
@@ -70,7 +70,7 @@
                                 <span class="invalid-feedback">{{ $message }} </span>
                             @enderror
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-6">
                         <div class="mt-3">
                             <button class="btn btn-primary">Submit</button>

@@ -11,6 +11,9 @@ class StockController extends Controller
 {
     function index()
     {
+        if (!rolecheck(['stock'])) {
+            return abort(404);
+        }
         $code = request('code', '');
         $name = request('name', '');
         $category_id = request('category_id', '');

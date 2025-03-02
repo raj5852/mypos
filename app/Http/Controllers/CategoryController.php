@@ -13,6 +13,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        if (!rolecheck(['category'])) {
+            return abort(404);
+        }
         $categories = Category::with('image')
             ->withCount('products')
             ->get();
@@ -25,6 +28,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        if (!rolecheck(['category'])) {
+            return abort(404);
+        }
         return view('category.create');
     }
 
@@ -35,6 +41,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        if (!rolecheck(['category'])) {
+            return abort(404);
+        }
         $category = Category::with('image')->findOrFail($id);
         return view('category.edit', compact('category'));
     }
@@ -46,6 +55,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        $productExists = $category->products()->exists();
+        if($productExists){
+            return back()->with('error', 'You can not delete');
+        }
         filedelete($category->image->image);
         $category->image()->delete();
         $category->delete();

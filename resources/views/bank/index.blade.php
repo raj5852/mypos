@@ -42,43 +42,46 @@
             </div>
         </div>
         <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Opening Balance </th>
-                        <th>Current Balance </th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($banks as $key=>$bank)
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{ $key + 1 }} </td>
-                            <td>{{ $bank->name }} </td>
-                            <td>{{ formatBalance($bank->opening_balance) }} </td>
-                            <td>{{ formatBalance ($bank->current_balance - $bank->withdraw)}} </td>
-                            <td>
-                                <a href="{{ route('bank.addbalance',$bank->id) }}" class="btn btn-outline-primary "><x-icon>add</x-icon>  Add balance</a><br>
-                                <a href="{{ route('bank.withdraw',$bank->id) }}" class="btn btn-outline-primary"> <x-icon>shopping_cart_checkout</x-icon> Withdraw balance</a><br>
-                                <div class="d-flex">
-                                    <a href="{{ route('bank.transfer',$bank->id) }}" class="btn btn-outline-primary me-1"> <x-icon>move_up</x-icon> Transfer</a>
-                                <a href="{{ route('bank.transaction',$bank->id) }}" class="btn btn-primary"> <x-icon>history</x-icon> History</a>
-                                </div>
-                            </td>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Opening Balance </th>
+                            <th>Current Balance </th>
+                            <th>Actions</th>
                         </tr>
-                    @empty
-                <tfoot>
-                    <tr class="text-center">
-                        <td colspan="5">No record found</td>
-                    </tr>
-                </tfoot>
-                @endforelse
-                </tbody>
+                    </thead>
+                    <tbody>
+                        @forelse ($banks as $key=>$bank)
+                            <tr>
+                                <td>{{ $key + 1 }} </td>
+                                <td>{{ $bank->name }} </td>
+                                <td>{{ formatBalance($bank->opening_balance) }} </td>
+                                <td>{{ formatBalance ($bank->current_balance - $bank->withdraw)}} </td>
+                                <td>
+                                    <a href="{{ route('bank.addbalance',$bank->id) }}" class="btn btn-outline-primary "><x-icon>add</x-icon>  Add balance</a><br>
+                                    <a href="{{ route('bank.withdraw',$bank->id) }}" class="btn btn-outline-primary"> <x-icon>shopping_cart_checkout</x-icon> Withdraw balance</a><br>
+                                    <div class="d-flex">
+                                        <a href="{{ route('bank.transfer',$bank->id) }}" class="btn btn-outline-primary me-1"> <x-icon>move_up</x-icon> Transfer</a>
+                                    <a href="{{ route('bank.transaction',$bank->id) }}" class="btn btn-primary"> <x-icon>history</x-icon> History</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                    <tfoot>
+                        <tr class="text-center">
+                            <td colspan="5">No record found</td>
+                        </tr>
+                    </tfoot>
+                    @endforelse
+                    </tbody>
 
 
-            </table>
+                </table>
+            </div>
+
         </div>
     </div>
     <div class="modal fade show" id="confirm-modal" tabindex="-1" aria-modal="true">

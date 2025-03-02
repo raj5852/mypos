@@ -12,6 +12,9 @@ class AddPayment extends Controller
 {
     function index(int $orderid)
     {
+        if (!rolecheck(['sales'])) {
+            return abort(404);
+        }
         Order::findOrFail($orderid);
         $banks = BankAccount::get(['id', 'name']);
         return view('sale.addpayment', compact('banks', 'orderid'));

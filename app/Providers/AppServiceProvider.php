@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Livewire\Features\SupportFileUploads\FilePreviewController;
 use Livewire\Livewire;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 
@@ -32,5 +33,9 @@ class AppServiceProvider extends ServiceProvider
                     InitializeTenancyByDomain::class, // or whatever tenancy middleware you use
                 );
         });
+        FilePreviewController::$middleware = ['web', 'universal', InitializeTenancyByDomain::class];
+
     }
+
+
 }

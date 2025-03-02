@@ -6,20 +6,23 @@
             <h2>Sales</h2>
         </div>
         <div class="card-body">
-            <table class="table table-bordered top-summary">
-                <tbody>
-                    <tr>
-                        <td class="bg-danger">Sold Today:</td>
-                        <td class="bg-success">{{ SoldToday() }} Tk</td>
-                        <td class="bg-warning">Today Received:</td>
-                        <td class="bg-success">{{ TodayReceived() }} Tk</td>
-                        <td class="bg-danger">Today Profit:</td>
-                        <td class="bg-success">{{ TodayProfit() }} Tk</td>
-                        <td class="bg-warning">Total Sold:</td>
-                        <td class="bg-success">{{ totalSold() }} Tk</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered top-summary ">
+                    <tbody>
+                        <tr>
+                            <td class="bg-danger">Sold Today:</td>
+                            <td class="bg-success">{{ SoldToday() }} Tk</td>
+                            <td class="bg-warning">Today Received:</td>
+                            <td class="bg-success">{{ TodayReceived() }} Tk</td>
+                            <td class="bg-danger">Today Profit:</td>
+                            <td class="bg-success">{{ TodayProfit() }} Tk</td>
+                            <td class="bg-warning">Total Sold:</td>
+                            <td class="bg-success">{{ totalSold() }} Tk</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
     <div class="card">
@@ -89,7 +92,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered tableBottomGap">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -180,10 +183,12 @@
                     @csrf
                     @method('delete')
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">No.
-                            Back
-                            !</button>
-                        <button type="submit" class="btn btn-primary">Yes, Delete</button>
+                       <div class="d-flex">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">No.
+                                Back
+                                !</button>
+                            <button type="submit" class="btn btn-primary" style="margin-left: 3px">Yes, Delete</button>
+                       </div>
                     </div>
                 </form>
             </div>

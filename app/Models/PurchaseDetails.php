@@ -14,4 +14,9 @@ class PurchaseDetails extends Model
         return $this->belongsTo(Product::class);
     }
 
+
+    function purchase(){
+        return $this->belongsTo(Purchase::class);
+    }
+
 }

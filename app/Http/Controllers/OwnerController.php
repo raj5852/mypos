@@ -3,24 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\Owner;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OwnerController extends Controller
 {
+
+    function __construct()
+    {
+
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if (!rolecheck(['owner'])) {
+            return abort(404);
+        }
         $owners = Owner::query()
 
-            ->withSum(['histories as invested' => function ($query) {
-                $query->where('type', '+');
-            }], 'amount')
+            ->withSum(
+                [
+                    'histories as invested' => function ($query) {
+                        $query->where('type', '+');
+                    },
+                ],
+                'amount',
+            )
 
-            ->withSum(['histories as withdrawn' => function ($query) {
-                $query->where('type', '-');
-            }], 'amount')
+            ->withSum(
+                [
+                    'histories as withdrawn' => function ($query) {
+                        $query->where('type', '-');
+                    },
+                ],
+                'amount',
+            )
 
             ->get();
 
@@ -32,6 +53,9 @@ class OwnerController extends Controller
      */
     public function create()
     {
+        if (!rolecheck(['owner'])) {
+            return abort(404);
+        }
         return view('owner.create');
     }
 
@@ -63,6 +87,9 @@ class OwnerController extends Controller
      */
     public function edit(Owner $owner)
     {
+        if (!rolecheck(['owner'])) {
+            return abort(404);
+        }
         return view('owner.edit', compact('owner'));
     }
 
@@ -85,10 +112,7 @@ class OwnerController extends Controller
      */
     public function destroy($ownerid)
     {
-        $owner = Owner::query()
-            ->where('id', $ownerid)
-            ->withCount('histories')
-            ->firstOrFail();
+        $owner = Owner::query()->where('id', $ownerid)->withCount('histories')->firstOrFail();
 
         if ($owner->histories_count > 0) {
             return back()->with('error', 'You can not delete');
@@ -101,24 +125,22 @@ class OwnerController extends Controller
 
     function invested(int $id)
     {
+        if (!rolecheck(['owner'])) {
+            return abort(404);
+        }
         $owner = Owner::query()->findOrFail($id);
-        $investhistories = $owner->invest()
-            ->latest()
-            ->with('bank:id,name')
-            ->paginate(15);
+        $investhistories = $owner->invest()->latest()->with('bank:id,name')->paginate(15);
 
-        return view('owner.investhistory', compact('investhistories'))
-            ->with('i', (request()->input('page', 1) - 1) * 15);
+        return view('owner.investhistory', compact('investhistories'))->with('i', (request()->input('page', 1) - 1) * 15);
     }
     function withdraw(int $id)
     {
+        if (!rolecheck(['owner'])) {
+            return abort(404);
+        }
         $owner = Owner::query()->findOrFail($id);
-        $withdrawhistories = $owner->withdraw()
-            ->latest()
-            ->with('bank:id,name')
-            ->paginate(15);
+        $withdrawhistories = $owner->withdraw()->latest()->with('bank:id,name')->paginate(15);
 
-        return view('owner.withdrawhistory', compact('withdrawhistories'))
-            ->with('i', (request()->input('page', 1) - 1) * 15);
+        return view('owner.withdrawhistory', compact('withdrawhistories'))->with('i', (request()->input('page', 1) - 1) * 15);
     }
 }

@@ -130,10 +130,13 @@
                                 <a href="{{ route('pos') }}"
                                     class="col-12 btn btn-primary"><x-icon>reply</x-icon> New sale</a>
                             </div>
-                            <div class="col-6">
-                                <a href="{{ route('sale') }}"
-                                    class="col-12 btn btn-primary"><x-icon>reply</x-icon>Sale list</a>
-                            </div>
+                            @if (rolecheck(['sales']))
+                                <div class="col-6">
+                                    <a href="{{ route('sale') }}"
+                                        class="col-12 btn btn-primary"><x-icon>reply</x-icon>Sale list</a>
+                                </div>
+                            @endif
+
                         </div>
                     </div>
                 </div>

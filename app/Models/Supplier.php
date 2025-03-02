@@ -30,4 +30,8 @@ class Supplier extends Model
             $query->where(['type' => '-', 'historyable_type' => 'App\\Models\\Purchase']);
         }], 'amount');
     }
+
+    function purchases(){
+        return $this->hasMany(Purchase::class);
+    }
 }

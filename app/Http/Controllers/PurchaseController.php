@@ -18,6 +18,9 @@ class PurchaseController extends Controller
      */
     public function index()
     {
+        if (!rolecheck(['purchase'])) {
+            return abort(404);
+        }
         $bill = request('bill');
         $start_date = request('start_date');
         $end_date = request('end_date');
@@ -59,6 +62,9 @@ class PurchaseController extends Controller
      */
     public function create()
     {
+        if (!rolecheck(['purchase'])) {
+            return abort(404);
+        }
         return view('purchase.create');
     }
 
@@ -75,6 +81,9 @@ class PurchaseController extends Controller
      */
     public function show(int $purchaseId)
     {
+        if (!rolecheck(['purchase'])) {
+            return abort(404);
+        }
         $purchase =   Purchase::query()
             ->with(['histories', 'supplier', 'products:id,name,code,main_unit,sub_unit' => ['mainunit', 'subunit']])
             ->payable()
@@ -112,6 +121,9 @@ class PurchaseController extends Controller
 
     function invoice(int $purchaseId)
     {
+        if (!rolecheck(['purchase'])) {
+            return abort(404);
+        }
         $purchase =   Purchase::query()
             ->with(['supplier', 'products:id,name,code,main_unit,sub_unit' => ['mainunit', 'subunit']])
             ->paid()
@@ -126,6 +138,9 @@ class PurchaseController extends Controller
 
     function addpayment($id)
     {
+        if (!rolecheck(['purchase'])) {
+            return abort(404);
+        }
         $purchase = Purchase::query()
             ->where('id', $id)
             ->paid()

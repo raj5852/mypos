@@ -6,66 +6,70 @@
             <h3>Units</h3>
         </div>
         <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Related To</th>
-                        <th>Related Sign</th>
-                        <th>Related By</th>
-                        <th>Result</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    @forelse ($units as $ey=>$unit)
+            <div class="table-responsive" >
+                <table class="table table-bordered tableBottomGap">
+                    <thead>
                         <tr>
-                            <td>{{ $ey + 1 }} </td>
-                            <td>{{ $unit->unit_name }} </td>
-                            <td>{{ $unit->relatedtodata->unit_name ?? '-' }} </td>
-                            <td>{{ $unit->operator ?? '-' }} </td>
-                            <td>{{ $unit->related_by_value ?? '-' }} </td>
-                            <td>
-                                @if ($unit->related_by_value != '')
-                                    {{ $unit->unit_name }} = 1 {{ $unit->relatedtodata->unit_name }} *
-                                    {{ $unit->related_by_value }}
-                                @endif
-
-                            </td>
-                            <td>
-                                <!-- Example single danger button -->
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-light dropdown-toggle btn-sm"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="material-icons-two-tone">settings</i>
-                                    </button>
-                                    <ul class="dropdown-menu ">
-                                        <li>
-                                            <div class="d-flex">
-                                                <i class="material-icons-two-tone mt-2">delete</i>
-                                                <a class="dropdown-item delete"
-                                                    href="{{ route('units.destroy', $unit->id) }}">
-
-                                                    Delete</a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                            </td>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Related To</th>
+                            <th>Related Sign</th>
+                            <th>Related By</th>
+                            <th>Result</th>
+                            <th>Action</th>
                         </tr>
-                    @empty
-                <tfoot>
-                    <tr class="text-center">
-                        <td colspan="7">No record found </td>
-                    </tr>
-                </tfoot>
-                @endforelse
-                </tbody>
+                    </thead>
+                    <tbody>
 
-            </table>
+                        @forelse ($units as $ey=>$unit)
+                            <tr>
+                                <td>{{ $ey + 1 }} </td>
+                                <td>{{ $unit->unit_name }} </td>
+                                <td>{{ $unit->relatedtodata->unit_name ?? '-' }} </td>
+                                <td>{{ $unit->operator ?? '-' }} </td>
+                                <td>{{ $unit->related_by_value ?? '-' }} </td>
+                                <td>
+                                    @if ($unit->related_by_value != '')
+                                        {{ $unit->unit_name }} = 1 {{ $unit->relatedtodata->unit_name }} *
+                                        {{ $unit->related_by_value }}
+                                    @endif
+
+                                </td>
+                                <td>
+                                    <!-- Example single danger button -->
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-light dropdown-toggle btn-sm"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="material-icons-two-tone">settings</i>
+                                        </button>
+                                        <ul class="dropdown-menu ">
+                                            <li>
+                                                <div class="d-flex">
+                                                    <i class="material-icons-two-tone mt-2">delete</i>
+                                                    <a class="dropdown-item delete"
+                                                        href="{{ route('units.destroy', $unit->id) }}">
+
+                                                        Delete</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        @empty
+                    <tfoot>
+                        <tr class="text-center">
+                            <td colspan="7">No record found </td>
+                        </tr>
+                    </tfoot>
+                    @endforelse
+
+
+                    </tbody>
+
+                </table>
+            </div>
         </div>
     </div>
 
@@ -82,9 +86,12 @@
                     @csrf
                     @method('delete')
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">No. Back
-                            !</button>
-                        <button type="submit" class="btn btn-primary">Yes, Delete</button>
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">No. Back
+                                !</button>
+                            <button type="submit" class="btn btn-primary" style="margin-left: 3px">Yes, Delete</button>
+                        </div>
+
                     </div>
                 </form>
             </div>

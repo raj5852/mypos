@@ -14,10 +14,13 @@ class SupplierController extends Controller
      */
     public function index()
     {
+        if (!rolecheck(['supplier'])) {
+            return abort(404);
+        }
         $name = request('name', '');
         $phone = request('phone', '');
         $suppliers = Supplier::query()
-            ->latest()
+            // ->latest()
             ->when($name, function ($query) use ($name) {
                 $query->where('name', 'like', "%{$name}%");
             })
@@ -39,6 +42,9 @@ class SupplierController extends Controller
      */
     public function create()
     {
+        if (!rolecheck(['supplier'])) {
+            return abort(404);
+        }
         return view('supplier.create');
     }
 
@@ -66,6 +72,9 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
+        if (!rolecheck(['supplier'])) {
+            return abort(404);
+        }
         return view('supplier.edit', compact('supplier'));
     }
 
@@ -86,6 +95,11 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
+        $data = $supplier->purchases()->exists();
+        if($data){
+            return back()->with('error', 'You can not delete');
+        }
+
         $supplier->delete();
         return back()->with('message', 'Supplier deleted successfully');
     }

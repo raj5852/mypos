@@ -5,6 +5,7 @@
             <h3>Brands</h3>
         </div>
         <div class="card-body">
+           <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -52,6 +53,7 @@
 
                 </tbody>
             </table>
+           </div>
         </div>
     </div>
 
@@ -66,9 +68,12 @@
                     @csrf
                     @method('delete')
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">No. Back
-                            !</button>
-                        <button type="submit" class="btn btn-primary">Yes, Delete</button>
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">No. Back
+                                !</button>
+                            <button type="submit" class="btn btn-primary" style="margin-left: 3px">Yes, Delete</button>
+                        </div>
+
                     </div>
                 </form>
             </div>

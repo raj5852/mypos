@@ -16,6 +16,10 @@ class BankAccountsController extends Controller
      */
     public function index()
     {
+        if (!rolecheck(['bank'])) {
+            return abort(404);
+        }
+
         $banks = BankAccount::query()
 
             ->withSum(['histories as current_balance' => function ($query) {
@@ -75,6 +79,9 @@ class BankAccountsController extends Controller
 
     function addbalance($id)
     {
+        if (!rolecheck(['bank'])) {
+            return abort(404);
+        }
         $owners = Owner::all();
         BankAccount::findOrfail($id);
         return view('bank.addbalance', compact('owners', 'id'));
@@ -103,7 +110,9 @@ class BankAccountsController extends Controller
 
     function withdraw($id)
     {
-
+        if (!rolecheck(['bank'])) {
+            return abort(404);
+        }
         BankAccount::findOrFail($id);
         $owners = Owner::all();
         return view('bank.withdraw', compact('id', 'owners'));
@@ -131,6 +140,9 @@ class BankAccountsController extends Controller
 
     function transfer($id)
     {
+        if (!rolecheck(['bank'])) {
+            return abort(404);
+        }
         BankAccount::findOrFail($id);
         $banks = BankAccount::query()->where('id', '!=', $id)->get();
         return view('bank.transfer', compact('id', 'banks'));
@@ -182,6 +194,9 @@ class BankAccountsController extends Controller
     }
     function transaction($id)
     {
+        if (!rolecheck(['bank'])) {
+            return abort(404);
+        }
         $bank =  BankAccount::findOrFail($id);
         $histories = $bank->histories()
             ->latest()

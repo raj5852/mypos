@@ -14,7 +14,7 @@
                     <div class="col-md-6">
                         <div class="mt-3">
                             <label for="">Customer name <span class="text-danger">*</span> </label>
-                            <input type="text" name="name" placeholder="Name" value="{{$customer->name }}"
+                            <input type="text" name="name" placeholder="Name" value="{{$customer->name }}" {{ $customer->is_default == 1 ? 'readonly' : '' }}
                                 class="form-control @error('name')   is-invalid @enderror">
                             @error('name')
                                 <span class="invalid-feedback">{{ $message }} </span>

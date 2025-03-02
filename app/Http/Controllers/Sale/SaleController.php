@@ -12,6 +12,9 @@ class SaleController extends Controller
 {
     function index()
     {
+        if (!rolecheck(['sales'])) {
+            return abort(404);
+        }
         $bill = request('bill');
         $start_date = request('start_date');
         $end_date = request('end_date');

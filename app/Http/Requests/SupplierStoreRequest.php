@@ -26,8 +26,8 @@ class SupplierStoreRequest extends FormRequest
             'email' => ['nullable', 'unique:suppliers,email'],
             'address' => ['nullable', 'max:2000'],
             'phone' => ['required', 'unique:suppliers,phone'],
-            'opening_receivable' => ['nullable', 'numeric'],
-            'opening_payable' => ['nullable', 'numeric'],
+            // 'opening_receivable' => ['nullable', 'numeric'],
+            // 'opening_payable' => ['nullable', 'numeric'],
         ];
     }
 }

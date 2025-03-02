@@ -140,7 +140,6 @@ class Create extends Component
             $subunits = Unit::where('id', $mainunit?->related_to_unit)->get();
             if ($mainunit?->related_to_unit == null) {
                 $this->sub_unit = null;
-                $this->stock = null;
                 $this->sub_stock = null;
             }
         } else {
@@ -150,19 +149,6 @@ class Create extends Component
         if ($this->sub_unit) {
             $subunit =  Unit::find($this->sub_unit);
             $this->sub_unit_value = $subunit?->unit_name;
-        }
-
-        if ($this->main_unit == '') {
-            $this->main_unit_name =  null;
-            $this->sub_unit =  null;
-            $this->sub_unit_value =  null;
-        }
-
-        if ($this->sub_unit == '') {
-            $this->sub_unit =  null;
-            $this->sub_unit_value =  null;
-            $this->stock = null;
-            $this->sub_stock = null;
         }
 
 

@@ -23,6 +23,12 @@ class Index extends Component
     public $banks, $selectedBank_id, $customer_id;
 
 
+    function __construct()
+    {
+        $this->customer_id = Customer::first()?->id;
+    }
+
+
     function storeCustomer()
     {
         $validatedData = $this->validate([
@@ -30,8 +36,7 @@ class Index extends Component
             'email' => ['nullable', 'unique:customers,email'],
             'address' => ['nullable', 'max:2000'],
             'phone' => ['required', 'unique:customers,phone'],
-            'opening_receivable' => ['nullable', 'numeric'],
-            'opening_payable' => ['nullable', 'numeric'],
+
         ]);
         Customer::create($validatedData);
         $this->reset('name', 'email', 'address', 'phone', 'opening_receivable', 'opening_payable');
@@ -177,6 +182,7 @@ class Index extends Component
     }
 
 
+
     function discountSum()
     {
 
@@ -259,7 +265,7 @@ class Index extends Component
             DB::rollBack();
             throw $th;
         }
-        return to_route('pos')->with('message', 'Order successfull');
+        return to_route('sale.print',$order->id);
     }
 
     function clickPaymentButton()

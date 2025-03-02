@@ -14,10 +14,13 @@ class CustomerController extends Controller
      */
     public function index()
     {
+        if (!rolecheck(['customer'])) {
+            return abort(404);
+        }
         $name = request('name', '');
         $phone = request('phone', '');
         $customers = Customer::query()
-            ->latest()
+            // ->latest()
             ->when($name, function ($query) use ($name) {
                 $query->where('name', 'like', "%{$name}%");
             })
@@ -38,6 +41,9 @@ class CustomerController extends Controller
      */
     public function create()
     {
+        if (!rolecheck(['customer'])) {
+            return abort(404);
+        }
         return view('customer.create');
     }
 
@@ -65,6 +71,9 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
+        if (!rolecheck(['customer'])) {
+            return abort(404);
+        }
         return view('customer.edit', ['customer' => $customer]);
     }
 
@@ -85,6 +94,11 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
+         $orderExists = $customer->orders()->exists();
+         if($orderExists){
+            return back()->with('error', 'You can not delete');
+         }
+
         $customer->delete();
         return back()->with('message', 'Customer Deleted successfully');
     }

@@ -11,7 +11,8 @@
     <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title -->
-    <title>Neptune - Responsive Admin Dashboard Template</title>
+    <title>Digital POS</title>
+
 
     <!-- Styles -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -33,8 +34,14 @@
     <link href="{{ asset('assets/css/main.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
     @yield('css')
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/images/neptune.png') }}" />
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/neptune.png') }}" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/images/logo.webp') }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/logo.webp') }}" />
+    <style>
+        .tableBottomGap{
+            margin-bottom: 100px !important;
+        }
+
+    </style>
 </head>
 
 <body>

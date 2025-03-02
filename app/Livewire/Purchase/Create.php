@@ -191,8 +191,8 @@ class Create extends Component
             'email' => ['nullable', 'unique:suppliers,email'],
             'address' => ['nullable', 'max:2000'],
             'phone' => ['required', 'unique:suppliers,phone'],
-            'opening_receivable' => ['nullable', 'numeric'],
-            'opening_payable' => ['nullable', 'numeric'],
+            // 'opening_receivable' => ['nullable', 'numeric'],
+            // 'opening_payable' => ['nullable', 'numeric'],
         ]);
 
         Supplier::create([
@@ -200,8 +200,8 @@ class Create extends Component
             'email' => $this->email,
             'address' => $this->address,
             'phone' => $this->phone,
-            'opening_receivable' => $this->opening_receivable ?: 0,
-            'opening_payable' => $this->opening_payable ?: 0,
+            // 'opening_receivable' => $this->opening_receivable ?: 0,
+            // 'opening_payable' => $this->opening_payable ?: 0,
         ]);
 
         $this->reset('name', 'email', 'address', 'phone', 'opening_receivable', 'opening_payable');

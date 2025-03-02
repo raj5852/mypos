@@ -4,7 +4,7 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h3>Withdraw balance</h3>
+            <h3>Transfer balance</h3>
         </div>
         <div class="card-body">
             <form action="{{ route('bank.transferStore',$id) }}" method="POST">

@@ -41,65 +41,67 @@
             <hr>
 
 
-            <table class="table table-bordered ">
-                <thead class="bg-dark">
-                    <tr>
-                        <th>#SL</th>
-                        <th>Product</th>
-                        <th>Rate</th>
-                        <th>Qty</th>
-                        <th>Sub Total</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-
-
-                @forelse ($addproducts as $index=>$products)
-                    <tr wire:key="{{ $index }}">
-                        <td>{{ $index + 1 }} </td>
-                        <td>{{ $products['name'] }} </td>
-                        <td style="width:15%"><input type="number" class="form-control"
-                                value="{{ $products['purchase_cost'] }}"
-                                wire:change="updateRate({{ $index }}, $event.target.value)"> </td>
-                        <td style="width:33%">
-                            <div class="d-flex">
-                                <p class="mt-2 me-2">{{ $products['main_unit_name'] }}:</p> <input type="number"
-                                    class="form-control"
-                                    wire:change="updateMainQuantity({{ $index }}, $event.target.value)">
-                                @if ($products['is_subunit'] != null)
-                                    <p class="mt-2 me-2 ms-2">{{ $products['sub_unit_name'] }}: </p> <input
-                                        type="number" class="form-control"
-                                        wire:change="updateSubQuantity({{ $index }}, $event.target.value)">
-                                @endif
-                            </div>
-                        </td>
-                        <td style="font-weight: 500"> {{ $products['sub_total'] }} TK
-                        </td>
-                        <td>
-                            <button wire:click="deleteProduct({{ $index }})" type="button"
-                                class="btn btn-danger btn-sm bg-light">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
-                            </button>
-                        </td>
-                    </tr>
-                @empty
-                    <tfoot>
+            <div class="table-responsive">
+                <table class="table table-bordered ">
+                    <thead class="bg-dark">
                         <tr>
-                            <td colspan="4"></td>
-                            <td colspan="2">Grand Total:0 TK </td>
+                            <th>#SL</th>
+                            <th>Product</th>
+                            <th>Rate</th>
+                            <th>Qty</th>
+                            <th>Sub Total</th>
+                            <th>Action</th>
                         </tr>
-                    </tfoot>
-                @endforelse
+                    </thead>
 
-                @if (count($addproducts) > 0)
-                    <tfoot>
-                        <tr>
-                            <td colspan="4"></td>
-                            <td style="font-weight: 500" colspan="2">Grand Total: {{ $grand_total }} TK </td>
+
+                    @forelse ($addproducts as $index=>$products)
+                        <tr wire:key="{{ $index }}">
+                            <td>{{ $index + 1 }} </td>
+                            <td>{{ $products['name'] }} </td>
+                            <td style="width:15%"><input type="number" min="0" class="form-control"
+                                    value="{{ $products['purchase_cost'] }}"
+                                    wire:change="updateRate({{ $index }}, $event.target.value)"> </td>
+                            <td style="width:33%">
+                                <div class="d-flex">
+                                    <p class="mt-2 me-2">{{ $products['main_unit_name'] }}:</p> <input min="0" type="number"
+                                        class="form-control"
+                                        wire:change="updateMainQuantity({{ $index }}, $event.target.value)">
+                                    @if ($products['is_subunit'] != null)
+                                        <p class="mt-2 me-2 ms-2">{{ $products['sub_unit_name'] }}: </p> <input
+                                            type="number" class="form-control"
+                                            wire:change="updateSubQuantity({{ $index }}, $event.target.value)">
+                                    @endif
+                                </div>
+                            </td>
+                            <td style="font-weight: 500"> {{ $products['sub_total'] }} TK
+                            </td>
+                            <td>
+                                <button wire:click="deleteProduct({{ $index }})" type="button"
+                                    class="btn btn-danger btn-sm bg-light">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+                                </button>
+                            </td>
                         </tr>
-                    </tfoot>
-                @endif
-            </table>
+                    @empty
+                        <tfoot>
+                            <tr>
+                                <td colspan="4"></td>
+                                <td colspan="2">Grand Total:0 TK </td>
+                            </tr>
+                        </tfoot>
+                    @endforelse
+
+                    @if (count($addproducts) > 0)
+                        <tfoot>
+                            <tr>
+                                <td colspan="4"></td>
+                                <td style="font-weight: 500" colspan="2">Grand Total: {{ $grand_total }} TK </td>
+                            </tr>
+                        </tfoot>
+                    @endif
+                </table>
+            </div>
             <button {{ $paying_item == 0 ? 'disabled' : '' }} type="button" class="btn btn-primary"
                 data-bs-toggle="modal" data-bs-target="#paymentModal" wire:click="paymentModal"  ><x-icon>payments</x-icon> Payment</button>
         </form>
@@ -151,24 +153,7 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3">
-                            <label for="" class="form-label">Opening Receivable</label>
-                            <input type="text" wire:model="opening_receivable"
-                                class="form-control @error('opening_receivable') is-invalid @enderror"
-                                placeholder="Opening Receivable">
-                            @error('opening_receivable')
-                                <span class="invalid-feedback">{{ $message }} </span>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Opening Payable</label>
-                            <input type="text" wire:model="opening_payable"
-                                class="form-control @error('opening_payable') is-invalid @enderror"
-                                placeholder="Opening Payable">
-                            @error('opening_payable')
-                                <span class="invalid-feedback">{{ $message }} </span>
-                            @enderror
-                        </div>
+
 
                         <button wire:loading.attr="disabled" wire:target="supplierStore" type="submit"
                             class="btn btn-primary">Submit

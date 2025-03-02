@@ -17,6 +17,10 @@ class ProductController extends Controller
      */
     public function index()
     {
+
+        if (!rolecheck(['product'])) {
+            return abort(404);
+        }
         $name = request('name', '');
         $code = request('code', '');
         $category_id = request('category_id', '');
@@ -51,7 +55,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-
+        if (!rolecheck(['product'])) {
+            return abort(404);
+        }
         return view('product.create');
     }
 
@@ -62,6 +68,9 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        if (!rolecheck(['product'])) {
+            return abort(404);
+        }
         $product = Product::query()
             ->where('id', $id)
             ->with(['category', 'brand', 'image'])
@@ -77,6 +86,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        if (!rolecheck(['product'])) {
+            return abort(404);
+        }
         return view('product.edit', compact('product'));
     }
 
@@ -108,6 +120,9 @@ class ProductController extends Controller
 
     function sellhistory($productid)
     {
+        if (!rolecheck(['product'])) {
+            return abort(404);
+        }
         $orderDetails = Product::findOrFail($productid)
             ->orderdetails()
             ->with('product')

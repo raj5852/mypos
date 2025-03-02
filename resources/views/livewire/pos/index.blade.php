@@ -13,8 +13,10 @@
                                 <input type="text" class="form-control" >
                             </div> --}}
 
-                            <div class="mt-3" wire:ignore>
-                                <select class="form-select" id="product"></select>
+                            <div class="col">
+                                <div class="mt-3" wire:ignore>
+                                    <select class="form-select" id="product"></select>
+                                </div>
                             </div>
                             <div class="mt-3">
                                 <input type="date" wire:model="selectedDate" value="{{ $selectedDate }}"
@@ -24,7 +26,6 @@
                                 <div class="row">
                                     <div class="col-10">
                                         <select class="form-control" id="customer">
-                                            <option value="">Select customer</option>
                                             @foreach ($customers as $customer)
                                                 <option value="{{ $customer->id }}">{{ $customer->name }} -
                                                     {{ $customer->phone }}</option>
@@ -39,60 +40,62 @@
                             </div>
                         </div>
                         <div class="mt-4">
-                            <table class="table table-bordered">
-                                <thead class="bg-dark">
-                                    <tr>
-                                        <th style="width:80px">Name</th>
-                                        <th style="min-width:220px;" class="text-center">Quantity</th>
-                                        <th style="min-width:120px;">Price</th>
-                                        <th style="max-width:90px;">SubT</th>
-                                        <th style="max-width:90px;">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="font-size: 13px">
-                                    @foreach ($selectProducts as $index => $selectProduct)
-                                        <tr wire:key="{{ $index }}">
-                                            <td style="padding:9px 7px!important">{{ $selectProduct['name'] }}</td>
-                                            <td style="padding:9px 7px!important">
-                                                <div class="d-flex">
-                                                    <p class="mt-2 me-1">{{ $selectProduct['main_unit_name'] }} </p>
-                                                    <input type="number" class="form-control form-control-sm"
-                                                        wire:change="updateMainQuantity({{ $index }}, $event.target.value)">
-                                                    @if ($selectProduct['sub_unit'] != '')
-                                                        <p class="mt-2 me-1">{{ $selectProduct['sub_unit_name'] }} </p>
-                                                        <input type="number" class="form-control form-control-sm"
-                                                            wire:change="updateSubQuantity({{ $index }}, $event.target.value)">
-                                                    @endif
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <input type="number" value="{{ $selectProduct['price'] }}"
-                                                    class="form-control"
-                                                    wire:change="updatePrice({{ $index }}, $event.target.value)">
-                                            </td>
-                                            <td>
-                                                {{ $selectProduct['sub_total'] ?: 0 }}
-                                            </td>
-                                            <td>
-                                                <div style="cursor: pointer;"
-                                                    wire:click="deleteProduct({{ $index }})">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" height="20"
-                                                        color="red" viewBox="0 -960 960 960" width="20">
-                                                        <path
-                                                            d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
-                                                    </svg>
-                                                </div>
-                                            </td>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="bg-dark">
+                                        <tr>
+                                            <th style="width:80px">Name</th>
+                                            <th style="min-width:220px;" class="text-center">Quantity</th>
+                                            <th style="min-width:120px;">Price</th>
+                                            <th style="max-width:90px;">SubT</th>
+                                            <th style="max-width:90px;">Action</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot class="text-center bg-danger">
-                                    <tr>
-                                        <td colspan="2"></td>
-                                        <td colspan="3">Total : {{ $grandTotal }} </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                    </thead>
+                                    <tbody style="font-size: 13px">
+                                        @foreach ($selectProducts as $index => $selectProduct)
+                                            <tr wire:key="{{ $index }}">
+                                                <td style="padding:9px 7px!important">{{ $selectProduct['name'] }}</td>
+                                                <td style="padding:9px 7px!important">
+                                                    <div class="d-flex">
+                                                        <p class="mt-2 me-1">{{ $selectProduct['main_unit_name'] }} </p>
+                                                        <input min="0" type="number" class="form-control form-control-sm"
+                                                            wire:change="updateMainQuantity({{ $index }}, $event.target.value)">
+                                                        @if ($selectProduct['sub_unit'] != '')
+                                                            <p class="mt-2 me-1">{{ $selectProduct['sub_unit_name'] }} </p>
+                                                            <input min="0" type="number" class="form-control form-control-sm"
+                                                                wire:change="updateSubQuantity({{ $index }}, $event.target.value)">
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input min="0" type="number" value="{{ $selectProduct['price'] }}"
+                                                        class="form-control"
+                                                        wire:change="updatePrice({{ $index }}, $event.target.value)">
+                                                </td>
+                                                <td>
+                                                    {{ $selectProduct['sub_total'] ?: 0 }}
+                                                </td>
+                                                <td>
+                                                    <div style="cursor: pointer;"
+                                                        wire:click="deleteProduct({{ $index }})">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="20"
+                                                            color="red" viewBox="0 -960 960 960" width="20">
+                                                            <path
+                                                                d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z" />
+                                                        </svg>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tfoot class="text-center bg-danger">
+                                        <tr>
+                                            <td colspan="2"></td>
+                                            <td colspan="3">Total : {{ $grandTotal }} </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                             <center>
                                 <button wire:click="clickPaymentButton" class="btn btn-primary"
                                     {{ $totalItem > 0 ? '' : 'disabled' }} data-bs-toggle="modal"
@@ -196,24 +199,6 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3">
-                            <label for="" class="form-label">Opening Receivable</label>
-                            <input type="text" wire:model="opening_receivable"
-                                class="form-control @error('opening_receivable') is-invalid @enderror"
-                                placeholder="Opening Receivable">
-                            @error('opening_receivable')
-                                <span class="invalid-feedback">{{ $message }} </span>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Opening Payable</label>
-                            <input type="text" wire:model="opening_payable"
-                                class="form-control @error('opening_payable') is-invalid @enderror"
-                                placeholder="Opening Payable">
-                            @error('opening_payable')
-                                <span class="invalid-feedback">{{ $message }} </span>
-                            @enderror
-                        </div>
 
                         <button wire:loading.attr="disabled" wire:target="customerStore" type="submit"
                             class="btn btn-primary">Submit
@@ -252,8 +237,7 @@
                                 <tr>
                                     <td width="50%">
                                         <strong class="float-start">Paying Items: </strong>
-                                        <strong class="float-end">(<span id="items">{{ $totalItem }} TK
-                                            </span>)</strong>
+                                        <strong class="float-end">(<span id="items">{{ $totalItem }}</span>)</strong>
                                     </td>
                                     <td>
                                         <strong class="float-start">Total Receivable: </strong>

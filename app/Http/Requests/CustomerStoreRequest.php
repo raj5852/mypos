@@ -26,8 +26,8 @@ class CustomerStoreRequest extends FormRequest
             'email' => ['nullable', 'unique:customers,email'],
             'address' => ['nullable', 'max:2000'],
             'phone' => ['required', 'unique:customers,phone'],
-            'opening_receivable' => ['nullable', 'numeric'],
-            'opening_payable' => ['nullable', 'numeric'],
+            // 'opening_receivable' => ['nullable', 'numeric'],
+            // 'opening_payable' => ['nullable', 'numeric'],
         ];
     }
 }

@@ -66,81 +66,83 @@
             <h3>Purchases</h3>
         </div>
         <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Bill NO</th>
-                        <th>Supplier</th>
-                        <th>Purchase Date</th>
-                        <th>Items</th>
-                        <th>Payable</th>
-                        <th>Paid</th>
-                        <th>Due</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody style="font-weight: 300">
-                    @forelse ($purchases as $purchase)
+            <div class="table-responsive">
+                <table class="table table-bordered tableBottomGap">
+                    <thead>
                         <tr>
-                            <td>{{ ++$i }} </td>
-                            <td>{{ $purchase->id }} </td>
-                            <td>{{ $purchase->supplier->name }} </td>
-                            <td>{{ formatedate($purchase->purchase_date) }} </td>
-                            <td style="width: 200px">
-                                <ul>
-                                    @foreach ($purchase->products as $product)
-                                        <li>{{ $product->name }} | {{ $product->code }} </li>
-                                    @endforeach
-                                </ul>
-                            </td>
-                            <td> {{ formatBalance($purchase->payable) }} TK </td>
-                            <td> {{ formatBalance($purchase->paid) }} TK </td>
-                            <td> {{ formatBalance($purchase->payable - $purchase->paid) }} TK </td>
-                            <td>
-                                <div class="dropdown">
-                                    <a class="btn btn-primary dropdown-toggle" href="#" role="button"
-                                        id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Manage
-                                    </a>
-
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <li>
-                                            <a class="dropdown-item"
-                                                href="{{ route('purchase.invoice', $purchase->id) }} ">
-                                                <div class="d-flex">
-                                                    <i class="material-icons-two-tone"
-                                                        style="font-size: 22px;margin-top:2px">print </i>
-                                                    <p class="me-2">Invoice</p>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li><a class="dropdown-item" href="{{ route('purchase.show', $purchase->id) }}">
-                                                <div class="d-flex">
-                                                    <x-icon>desktop_windows</x-icon>
-                                                    <p class="me-2">Show</p>
-                                                </div>
-
-                                        <li><a class="dropdown-item"
-                                                href="{{ route('purchase.addpayment', $purchase->id) }}">Add Payment</a>
-                                        </li>
-                                        <li><a class="dropdown-item delete"
-                                                href="{{ route('purchase.delete', $purchase->id) }}">Delete</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
+                            <th>#</th>
+                            <th>Bill NO</th>
+                            <th>Supplier</th>
+                            <th>Purchase Date</th>
+                            <th>Items</th>
+                            <th>Payable</th>
+                            <th>Paid</th>
+                            <th>Due</th>
+                            <th>Actions</th>
                         </tr>
+                    </thead>
+                    <tbody style="font-weight: 300">
+                        @forelse ($purchases as $purchase)
+                            <tr>
+                                <td>{{ ++$i }} </td>
+                                <td>{{ $purchase->id }} </td>
+                                <td>{{ $purchase->supplier->name }} </td>
+                                <td>{{ formatedate($purchase->purchase_date) }} </td>
+                                <td style="width: 200px">
+                                    <ul>
+                                        @foreach ($purchase->products as $product)
+                                            <li>{{ $product->name }} | {{ $product->code }} </li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                                <td> {{ formatBalance($purchase->payable) }} TK </td>
+                                <td> {{ formatBalance($purchase->paid) }} TK </td>
+                                <td> {{ formatBalance($purchase->payable - $purchase->paid) }} TK </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a class="btn btn-primary dropdown-toggle" href="#" role="button"
+                                            id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Manage
+                                        </a>
 
-                    @empty
-                <tfoot>
-                    <tr class="text-center">
-                        <td colspan="9">No record found</td>
-                    </tr>
-                </tfoot>
-                @endforelse
-                </tbody>
-            </table>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('purchase.invoice', $purchase->id) }} ">
+                                                    <div class="d-flex">
+                                                        {{-- <i class="material-icons-two-tone"
+                                                            style="font-size: 22px;margin-top:2px">print </i> --}}
+                                                        <p class="me-2">Invoice</p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li><a class="dropdown-item" href="{{ route('purchase.show', $purchase->id) }}">
+                                                    <div class="d-flex">
+                                                        {{-- <x-icon>desktop_windows</x-icon> --}}
+                                                        <p class="me-2">Show</p>
+                                                    </div>
+
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('purchase.addpayment', $purchase->id) }}">Add Payment</a>
+                                            </li>
+                                            <li><a class="dropdown-item delete"
+                                                    href="{{ route('purchase.delete', $purchase->id) }}">Delete</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        @empty
+                    <tfoot>
+                        <tr class="text-center">
+                            <td colspan="9">No record found</td>
+                        </tr>
+                    </tfoot>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
             {{ $purchases->links() }}
         </div>
     </div>
@@ -156,9 +158,11 @@
                     @csrf
                     @method('delete')
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">No. Back
-                            !</button>
-                        <button type="submit" class="btn btn-primary">Yes, Delete</button>
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">No. Back
+                                !</button>
+                            <button type="submit" class="btn btn-primary" style="margin-left: 3px">Yes, Delete</button>
+                        </div>
                     </div>
                 </form>
             </div>

@@ -13,7 +13,9 @@ class DamageController extends Controller
      */
     public function index()
     {
-
+        if (!rolecheck(['damage'])) {
+            return abort(404);
+        }
         $product = request('product_id');
         $code = request('code');
 
@@ -44,6 +46,9 @@ class DamageController extends Controller
      */
     public function create()
     {
+        if (!rolecheck(['damage'])) {
+            return abort(404);
+        }
         return view('damage.create');
     }
 

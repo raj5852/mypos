@@ -1,4 +1,3 @@
-<div class="form-floating mb-3">
-    <input type="{{ $type }}" class="form-control" id="{{$id}}" name="{{$name}}" placeholder="" >
-    <label for="{{$id}}">{{ $title }}</label>
-</div>
+@props(['disabled' => false])
+
+<input {{ $disabled ? 'disabled' : '' }} {!! $attributes->merge(['class' => 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm']) !!}>

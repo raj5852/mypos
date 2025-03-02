@@ -12,6 +12,9 @@ class UnitController extends Controller
      */
     public function index()
     {
+        if (!rolecheck(['unit'])) {
+            return abort(404);
+        }
         $units = Unit::with('relatedtodata:id,unit_name')->get();
         return view('units.index', compact('units'));
 
@@ -22,6 +25,9 @@ class UnitController extends Controller
      */
     public function create()
     {
+        if (!rolecheck(['unit'])) {
+            return abort(404);
+        }
         return view('units.create');
     }
 
@@ -32,13 +38,15 @@ class UnitController extends Controller
     {
 
         $unitdata = $unit->relatedtodatas()->exists();
+        $mainunitproducts = $unit->mainunitproducts()->exists();
+        $subunitproducts = $unit->subunitproducts()->exists();
 
-        if ($unitdata) {
+        if ($unitdata || $mainunitproducts || $subunitproducts) {
             return back()->with('warning', 'You can not delete');
         }
         $unit->delete();
 
 
-        return back()->with('message', 'Unit deleted successfull');
+        return back()->with('error', 'Unit deleted successfull');
     }
 }

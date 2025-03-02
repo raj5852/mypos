@@ -11,6 +11,9 @@ class ShowController extends Controller
 {
     function index(int $id)
     {
+        if (!rolecheck(['sales'])) {
+            return abort(404);
+        }
         $order = Order::query()
             ->where('id', $id)
             ->with(['histories', 'products:id,name,code,main_unit_related_value,main_unit_name,sub_unit_name', 'customer:id,name,phone,address'])

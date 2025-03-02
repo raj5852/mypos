@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+/**
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
 class Unit extends Model
 {
     use HasFactory;
@@ -17,8 +19,18 @@ class Unit extends Model
         ]);
     }
 
+
     function relatedtodatas()
     {
         return $this->hasMany(Unit::class, 'related_to_unit');
     }
+
+    function mainunitproducts(){
+        return $this->hasMany(Product::class,'main_unit');
+    }
+
+    function subunitproducts(){
+        return $this->hasMany(Product::class,'sub_unit');
+    }
+
 }

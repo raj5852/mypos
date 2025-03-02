@@ -33,7 +33,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered">
+                <table class="table table-bordered tableBottomGap">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -44,8 +44,8 @@
                             <th>Receivable</th>
                             <th>Paid</th>
                             <th>Sale Due</th>
-                            <th>Wallet Balance</th>
-                            <th>Total Due</th>
+                            {{-- <th>Wallet Balance</th>
+                            <th>Total Due</th> --}}
                             <th>#</th>
                         </tr>
                     </thead>
@@ -68,8 +68,8 @@
                                 <td>{{ formatBalance($receivable) }} TK </td>
                                 <td>{{ formatBalance($paid) }} TK </td>
                                 <td>{{ formatBalance($saleDue) }} TK </td>
-                                <td></td>
-                                <td></td>
+                                {{-- <td></td>
+                                <td></td> --}}
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-secondary dropdown-toggle btn-sm"
@@ -84,15 +84,22 @@
                                                         href="{{ route('customer.edit', $customer->id) }}">Edit</a>
                                                 </div>
                                             </li>
-
                                             <li>
                                                 <div class="d-flex">
-                                                    <i class="material-icons-two-tone mt-2">delete</i>
-                                                    <a class="dropdown-item delete"
-                                                        href="{{ route('customer.destroy', $customer->id) }}">Delete</a>
+                                                    <i class="material-icons-two-tone mt-2">list</i>
+                                                    <a class="dropdown-item "
+                                                        href="/sale?customer_id={{ $customer->id }}">Sales List</a>
                                                 </div>
                                             </li>
-
+                                            @if ($customer->is_default != 1)
+                                                <li>
+                                                    <div class="d-flex">
+                                                        <i class="material-icons-two-tone mt-2">delete</i>
+                                                        <a class="dropdown-item delete"
+                                                            href="{{ route('customer.destroy', $customer->id) }}">Delete</a>
+                                                    </div>
+                                                </li>
+                                            @endif
                                         </ul>
                                     </div>
 
@@ -123,9 +130,12 @@
                     @csrf
                     @method('delete')
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">No. Back
-                            !</button>
-                        <button type="submit" class="btn btn-primary">Yes, Delete</button>
+                        <div class="d-flex">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">No. Back
+                                !</button>
+                            <button type="submit" class="btn btn-primary" style="margin-left: 3px">Yes, Delete</button>
+                        </div>
+
                     </div>
                 </form>
             </div>

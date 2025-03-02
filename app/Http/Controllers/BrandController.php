@@ -12,6 +12,9 @@ class BrandController extends Controller
      */
     public function index()
     {
+        if (!rolecheck(['brand'])) {
+            return abort(404);
+        }
          $brands = Brand::with('image')
             ->withCount('products')
             ->get();
@@ -23,6 +26,9 @@ class BrandController extends Controller
      */
     public function create()
     {
+        if (!rolecheck(['brand'])) {
+            return abort(404);
+        }
         return view('brand.create');
     }
 
@@ -47,6 +53,9 @@ class BrandController extends Controller
      */
     public function edit(Brand $brand)
     {
+        if (!rolecheck(['brand'])) {
+            return abort(404);
+        }
         return view('brand.edit', compact('brand'));
     }
 
@@ -63,7 +72,10 @@ class BrandController extends Controller
      */
     public function destroy(Brand $brand)
     {
-
+        $productsExists = $brand->products()->exists();
+        if($productsExists){
+            return back()->with('error', 'You can not delete');
+        }
         filedelete($brand->image->image);
         $brand->image()->delete();
         $brand->delete();

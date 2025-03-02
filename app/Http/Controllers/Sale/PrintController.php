@@ -11,6 +11,10 @@ class PrintController extends Controller
 {
     function index(int $id)
     {
+        if (!rolecheck(['sales','product','pos'])) {
+            return abort(404);
+        }
+
         $order = Order::query()
             ->where('id', $id)
             ->with(['history', 'products:id,name,code,main_unit_related_value,main_unit_name,sub_unit_name', 'customer:id,name,phone,address'])

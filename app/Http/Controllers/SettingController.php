@@ -12,6 +12,9 @@ class SettingController extends Controller
      */
     public function index()
     {
+        if (!rolecheck(['setting'])) {
+            return abort(404);
+        }
         $setting = Setting::first();
         return view('setting.index',compact('setting'));
     }

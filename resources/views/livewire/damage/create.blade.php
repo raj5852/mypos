@@ -28,7 +28,7 @@
                         @if ($sub_unit_name)
                             <div class="col-12">
                                 <div class="mt-3">
-                                    <label for="">KG</label>
+                                    <label for="">{{ $sub_unit_name }} </label>
                                     <input wire:model.live="sub_unit_value" type="text" class="form-control">
                                     @error('sub_unit_value')
                                         <span class="text-danger">{{ $message }} </span>
